@@ -5,11 +5,11 @@ if s == 'zyxwvutsrqponmlkjihgfedcba':
 elif len(s) == 26:
     tmp = ord(s[-1])
     for i in range(len(s))[::-1]:
-        if ord(s[i]) > tmp:
-            ans = sorted(s[i - 2:])
+        if ord(s[i]) < tmp:
+            ans = sorted(s[i:])
             for j in ans:
-                if ord(j) > ord(s[i - 2]):
-                    print(s[:i - 2] + j)
+                if ord(j) > ord(s[i]):
+                    print(s[:i] + j)
                     exit()
         tmp = ord(s[i])
 else:
