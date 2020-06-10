@@ -34,7 +34,7 @@ def factorize(N):
     return PRIME
 
 
-def pre_cmb(N, MOD):  # cmbの前準備 #順列諸々にも使えそう
+def pre_cmb(N, MOD):  # cmbの前処理 #n<=10**6 #順列諸々にも使えそう
     FACT = [1, 1]  # 階乗
     INV = [0, 1]  # 各iの逆元
     FACTINV = [1, 1]  # 階乗の逆元
@@ -47,12 +47,23 @@ def pre_cmb(N, MOD):  # cmbの前準備 #順列諸々にも使えそう
     return PRELIST
 
 
-def cmbcount(N, R, MOD, PRELIST):  # nCr(mod p)
+def cmb(N, R, MOD, PRELIST):  # nCr(mod p) #n<=10**6 #前処理必要
     FACT, FACTINV = PRELIST
     if (R < 0) or (N < R):
         return 0
     R = min(R, N - R)
     return FACT[N] * FACTINV[R] * FACTINV[N-R] % MOD
+
+
+def bigcmb(N, R, MOD):  # nCr(mod p) #n>=10**7,r<=10**6 #前処理不要
+    if (R < 0) or (N < R):
+        return 0
+    R = min(R, N - R)
+    fact, inv = 1, 1
+    for i in range(1, R + 1):
+        fact = (fact * (N - i + 1)) % MOD
+        inv = (inv * i) % MOD
+    return fact * pow(inv, MOD - 2, MOD) % MOD
 
 
 def bitcount(N):  # 立ってるbitの数
