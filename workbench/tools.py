@@ -34,25 +34,22 @@ def factorize(N):
     return PRIME
 
 
-def pre_cmb(N, MOD):  # cmbの前処理 #n<=10**6 #順列諸々にも使えそう
-    FACT = [1, 1]  # 階乗
-    INV = [0, 1]  # 各iの逆元
-    FACTINV = [1, 1]  # 階乗の逆元
+class Combination():  # nCr(mod p) #n<=10**6
+    def __init__(self, N, MOD):  # cmbの前処理
+        self.mod = MOD
+        self.FACT = [1, 1]  # 階乗
+        self.INV = [0, 1]  # 各iの逆元
+        self.FACTINV = [1, 1]  # 階乗の逆元
+        for i in range(2, N + 1):
+            self.FACT.append((self.FACT[-1] * i) % self.mod)
+            self.INV.append(pow(i, self.mod - 2, self.mod))
+            self.FACTINV.append((self.FACTINV[-1] * self.INV[-1]) % self.mod)
 
-    for i in range(2, N + 1):
-        FACT.append((FACT[-1] * i) % MOD)
-        INV.append(pow(i, MOD-2, MOD))
-        FACTINV.append((FACTINV[-1] * INV[-1]) % MOD)
-    PRELIST = FACT, FACTINV
-    return PRELIST
-
-
-def cmb(N, R, MOD, PRELIST):  # nCr(mod p) #n<=10**6 #前処理必要
-    FACT, FACTINV = PRELIST
-    if (R < 0) or (N < R):
-        return 0
-    R = min(R, N - R)
-    return FACT[N] * FACTINV[R] * FACTINV[N-R] % MOD
+    def cmb(self, N, R):  # nCr(mod p) #前処理必要
+        if (R < 0) or (N < R):
+            return 0
+        R = min(R, N - R)
+        return self.FACT[N] * self.FACTINV[R] * self.FACTINV[N-R] % self.mod
 
 
 def bigcmb(N, R, MOD):  # nCr(mod p) #n>=10**7,r<=10**6 #前処理不要
@@ -155,3 +152,45 @@ def longestdist(N, XY):  # 有向グラフ最長路長 # メモ化再帰
         if dp[i] == -1:
             dp[i] = longdist(i, dp, output)
     return max(dp)
+
+
+class Unionfind():  # Unionfind
+    def __init__(self, n):
+        self.n = n
+        self.parents = [-1] * n
+
+    def find(self, x):  # グループの根
+        if self.parents[x] < 0:
+            return x
+        else:
+            self.parents[x] = self.find(self.parents[x])
+            return self.parents[x]
+
+    def union(self, x, y):  # グループの併合
+        x = self.find(x)
+        y = self.find(y)
+        if x == y:
+            return
+        if self.parents[x] > self.parents[y]:
+            x, y = y, x
+        self.parents[x] += self.parents[y]
+        self.parents[y] = x
+
+    def size(self, x):  # グループのサイズ
+        return -self.parents[self.find(x)]
+
+    def same(self, x, y):  # 同じグループか否か
+        return self.find(x) == self.find(y)
+
+    def members(self, x):  # グループの要素
+        root = self.find(x)
+        return [i for i in range(self.n) if self.find(i) == root]
+
+    def roots(self):  # 根のリスト
+        return [i for i, x in enumerate(self.parents) if x < 0]
+
+    def group_count(self):  # グループの数
+        return len(self.roots())
+
+    def all_group_members(self):  # グループごとの辞書
+        return {r: self.members(r) for r in self.roots()}
