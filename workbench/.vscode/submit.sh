@@ -6,8 +6,8 @@ url=https://atcoder.jp/contests/${base_url}/tasks/${problem_name}
 
 #oj s --wait=0 $url "${problem_name}.py"
 #oj s --wait=0 $url "${problem_name}.py" -l 4047 #PyPy3
-#oj s --wait=0 --yes $url "${problem_name}.py"
 #
-oj s --wait=0 --yes $url "${problem_name}.py" -l 3510 #oldPyPy3
+oj s --wait=0 --yes $url "${problem_name}.py"
+#oj s --wait=0 --yes $url "${problem_name}.py" -l 3510 #oldPyPy3
 #oj s --wait=0 --yes $url "${problem_name}.py" -l 4047 #newPyPy3
 #oj s --wait=0 --yes $url "${problem_name}.py" -l 4065 #Cython
