@@ -45,7 +45,7 @@ class Combination():  # nCr(mod p) #n<=10**6
             self.INV.append(pow(i, self.mod - 2, self.mod))
             self.FACTINV.append((self.FACTINV[-1] * self.INV[-1]) % self.mod)
 
-    def cmb(self, N, R):  # nCr(mod p) #前処理必要
+    def count(self, N, R):  # nCr(mod p) #前処理必要
         if (R < 0) or (N < R):
             return 0
         R = min(R, N - R)
