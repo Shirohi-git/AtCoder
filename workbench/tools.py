@@ -1,6 +1,7 @@
 # pypyは内包表記,再帰NG,dict.key()がゴミほど遅い
 
 # floatを使うときは大きい数に注意
+# in dict.values() はO(n)
 
 # 入力が多い時
 import sys
