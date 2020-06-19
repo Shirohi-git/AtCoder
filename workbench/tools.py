@@ -1,4 +1,4 @@
-# pypyは内包表記,再帰NG,dict.key()がゴミほど遅い
+# pypyは内包表記NG,再帰NG,dict.key()がゴミほど遅い
 
 # floatを使うときは大きい数に注意
 # in dict.values() はO(n)
