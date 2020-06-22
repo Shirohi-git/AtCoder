@@ -1,15 +1,13 @@
-import sys
 n, m = map(int, input().split())
 sc = [list(map(int, input().split())) for _ in range(m)]
 
 ans = [-1] * n
-for i in sc:
-    s, c = i
+for s, c in sc:
     if (ans[s-1] == c) | (ans[s-1] == -1):
         ans[s-1] = c
     else:
         print(-1)
-        sys.exit()
+        exit()
 
 for i in range(n):
     if ans[i] == -1:
@@ -18,9 +16,8 @@ for i in range(n):
         else:
             ans[i] = 0
 
-if n != 1:
-    if ans[0] == 0:
-        print(-1)
-        sys.exit()
+if n != 1 and ans[0] == 0:
+    print(-1)
+    exit()
 
 print(*ans, sep='')

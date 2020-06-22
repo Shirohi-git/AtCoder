@@ -1,13 +1,12 @@
 n = int(input())
 
-for i in range(1,3 * int(n ** 0.5)):
-    n -= i
-    if n < i + 1:
-        maximum = i + 1
-        no = i + 1 - n
+cnt = 0
+for i in range(1, n + 1):
+    cnt += i
+    if cnt >= n:
+        ans, exc = i, cnt - n
         break
 
-for i in range(maximum):
-    if i + 1 == no:
-        continue
-    print(i + 1)
+for j in range(1, ans + 1):
+    if exc != j:
+        print(j)
