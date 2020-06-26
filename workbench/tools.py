@@ -8,6 +8,7 @@ import sys
 input = sys.stdin.readline
 
 # 再帰の深さに注意
+import sys
 sys.setrecursionlimit(10 ** 7)
 
 # 冪乗 n ** m % mod == pow(n, m, mod)
@@ -132,27 +133,14 @@ def lcs(S, T):  # 最長共通部分列 # s,t:文字列
     return dp[ls][lt]
 
 
-def longdist(P, dp_l, out_l):  # メモ化再帰,再帰部分
-    # dp_l=dp:list out_l=output:list
-    if len(out_l[P]) == 0:
-        return 0
-    for q in out_l[P]:
-        if dp_l[q] == -1:
-            dp_l[q] = longdist(q, dp_l, out_l)
-        dp_l[P] = max(dp_l[P], dp_l[q]+1)
-    return dp_l[P]
-
-
-def longestdist(N, XY):  # 有向グラフ最長路長 # メモ化再帰
-    input, output = [[] for _ in range(N)], [[] for _ in range(N)]
-    for x, y in XY:
-        input[y - 1].append(x - 1)
-        output[x - 1].append(y - 1)
-    dp = [-1] * N
-    for i in range(N):
-        if dp[i] == -1:
-            dp[i] = longdist(i, dp, output)
-    return max(dp)
+def memodp(DP, NEAR, x):
+    if True : # 条件式
+        return DP[x]
+    else:
+        for i in NEAR[x]:
+            DP[x] += memodp(DP, NEAR, i)
+            # 漸化式
+        return DP[x]
 
 
 class Unionfind():  # Unionfind
