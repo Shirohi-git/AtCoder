@@ -89,8 +89,7 @@ def bfs(NEAR, S, N):  # 幅優先探索  # キュー
     dist = [-1 for _ in range(N)]  # 前処理
     pas = [-1 for _ in range(N)]
     dist[S], pas[S] = 0, 's'
-    frag = set([S])
-    que = deque([S])
+    que, frag = deque([S]), set([S])
 
     while len(que) > 0:
         q = que.popleft()
@@ -101,6 +100,42 @@ def bfs(NEAR, S, N):  # 幅優先探索  # キュー
             que.append(i)
             frag.add(i)
     return
+
+
+def dfs(NEAR, S, N):  # 深優先探索  # スタック
+    # 隣点リスト,始点,数
+
+    dist = [-1 for _ in range(N)]  # 前処理
+    pas = [-1 for _ in range(N)]
+    dist[S], pas[S] = 0, 's'
+    stack, frag = [S], set([S])
+
+    while len(stack) > 0:
+        q = stack.pop()
+        for i in NEAR[q]:  # 移動先の候補
+            if i in frag:  # 処理済みか否か
+                continue
+            # 処理を行う
+            stack.append(i)
+            frag.add(i)
+    return
+
+
+class Recursive_dfs():  # 深優先探索(再帰)  # スタック
+    # 隣点リスト,始点,数
+    
+    def __init__(self, NEAR, S, N):
+        # 前処理
+        self.frag = set([S])
+        self.near = NEAR
+
+    def recdfs(self, p):
+        for i in self.near[p]:  # 移動先の候補
+            if i in self.frag:  # 処理済みか否か
+                continue
+            # 処理を行う
+            self.frag.add(i)
+            self.recdfs(i)
 
 
 def knapsack(N, W, ITEM):  # ナップザック問題 # 典型dp
@@ -134,7 +169,7 @@ def lcs(S, T):  # 最長共通部分列 # s,t:文字列
 
 
 def memodp(DP, NEAR, x):
-    if True : # 条件式
+    if True:  # 条件式
         return DP[x]
     else:
         for i in NEAR[x]:
@@ -185,11 +220,11 @@ class Unionfind():  # Unionfind
         return {r: self.members(r) for r in self.roots()}
 
 
-class Segtree():  #Segtree
-    
+class Segtree():  # Segtree
+
     def segfunc(self, x, y):  # 区間にしたい操作
         return max(x, y)  # ex) max,min,gcd,lcm,sum,product
-    
+
     def __init__(self, LIST, ide_ele):  # LIST: 配列の初期値, ide_ele: 単位元
         n = len(LIST)
         self.ide_ele = ide_ele
