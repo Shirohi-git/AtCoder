@@ -82,6 +82,14 @@ def binary(N):  # 二分探索 # N:探索要素数
     return r + 1
 
 
+def nearlist(N,LIST):# 隣点リスト
+    NEAR = [[] for _ in range(N)]
+    for a, b in LIST:
+        NEAR[a - 1].append(b - 1)
+        NEAR[b - 1].append(a - 1)
+    return NEAR
+
+
 def bfs(NEAR, S, N):  # 幅優先探索  # キュー
     # 隣点リスト,始点,数
     from collections import deque
