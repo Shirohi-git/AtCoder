@@ -2,6 +2,7 @@ n, k = map(int, input().split())
 a = list(map(int, input().split()))
 mod = 10 ** 9 + 7
 
+# 解説AC
 mia = sorted([i for i in a if i < 0], reverse=True)
 pla = sorted([i for i in a if i >= 0])
 ans, num, cnt = 1, [], 0
