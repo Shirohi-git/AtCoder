@@ -1,5 +1,3 @@
-from collections import Counter
-
 s = input()
 
 for i in range(len(s) - 1):
