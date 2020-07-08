@@ -12,7 +12,7 @@ def bigcmb(N, R, MOD):  # nCr(mod p) #n>=10**7,r<=10**6 #前処理不要
 x, y = map(int, input().split())
 mod = 10 ** 9 + 7
 
-if (x + y) % 3 != 0 or (x > 2 * y) or (2 * x < y):
+if (x + y) % 3 != 0:
     print(0)
 else:
     cnt = (x + y) // 3
