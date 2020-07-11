@@ -82,7 +82,7 @@ def binary(N):  # 二分探索 # N:探索要素数
     return r + 1
 
 
-def nearlist(N,LIST):# 隣点リスト
+def nearlist(N,LIST):# 隣接リスト
     NEAR = [[] for _ in range(N)]
     for a, b in LIST:
         NEAR[a - 1].append(b - 1)
@@ -187,9 +187,9 @@ def memodp(DP, NEAR, x):
 
 
 class Unionfind():  # Unionfind
-    def __init__(self, n):
-        self.n = n
-        self.parents = [-1] * n
+    def __init__(self, N):
+        self.N = N
+        self.parents = [-1] * N
 
     def find(self, x):  # グループの根
         if self.parents[x] < 0:
@@ -216,7 +216,7 @@ class Unionfind():  # Unionfind
 
     def members(self, x):  # グループの要素
         root = self.find(x)
-        return [i for i in range(self.n) if self.find(i) == root]
+        return [i for i in range(self.N) if self.find(i) == root]
 
     def roots(self):  # 根のリスト
         return [i for i, x in enumerate(self.parents) if x < 0]
