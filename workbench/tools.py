@@ -17,9 +17,13 @@ sys.setrecursionlimit(10 ** 7)
 # 割り算するところを掛け算できるので先にmodが取れる
 
 
+def ceil(X, Y):  # 天井関数
+    return (X + Y - 1) // Y
+
+
 def lcm(X, Y):  # 最小公倍数
-    import math
-    return (X * Y) // math.gcd(X, Y)
+    from math import gcd
+    return (X * Y) // gcd(X, Y)
 
 
 def factorize(N):

@@ -14,13 +14,13 @@ for i in range(n):
     ans = 1
     if x[i] == '0':
         ctmp = cnt + 1
-        tmp = num0 + pow(2, n - (i + 1), cnt + 1)
+        tmp = num0 + pow(2, n - (i + 1), ctmp)
     elif x[i] == '1':
         if cnt == 1:
             print(0)
             continue
         ctmp = cnt - 1
-        tmp = num1 - pow(2, n - (i + 1), cnt - 1)
+        tmp = num1 - pow(2, n - (i + 1), ctmp)
     tmp %= ctmp
     ctmp = lbit[tmp]
     while tmp > 0:
