@@ -17,7 +17,7 @@ sys.setrecursionlimit(10 ** 7)
 # 割り算するところを掛け算できるので先にmodが取れる
 
 
-def ceil(X, Y):  # 天井関数
+def ceil(X, Y):  # 天井関数 ceil(X/Y) Y!=1
     return (X + Y - 1) // Y
 
 
@@ -109,8 +109,7 @@ def bfs(NEAR, S, N):  # 幅優先探索  # キュー
             if i in frag:  # 処理済みか否か
                 continue
             # 処理を行う
-            que.append(i)
-            frag.add(i)
+            que.append(i), frag.add(i)
     return
 
 
@@ -128,8 +127,7 @@ def dfs(NEAR, S, N):  # 深優先探索  # スタック
             if i in frag:  # 処理済みか否か
                 continue
             # 処理を行う
-            stack.append(i)
-            frag.add(i)
+            stack.append(i), frag.add(i)
     return
 
 
