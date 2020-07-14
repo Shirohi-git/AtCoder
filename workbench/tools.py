@@ -95,7 +95,7 @@ def nearlist(N,LIST):# 隣接リスト
 
 
 def bfs(NEAR, S, N):  # 幅優先探索  # キュー
-    # 隣点リスト,始点,数
+    # 隣接リスト,始点,数
     from collections import deque
 
     dist = [-1 for _ in range(N)]  # 前処理
@@ -114,7 +114,7 @@ def bfs(NEAR, S, N):  # 幅優先探索  # キュー
 
 
 def dfs(NEAR, S, N):  # 深優先探索  # スタック
-    # 隣点リスト,始点,数
+    # 隣接リスト,始点,数
 
     dist = [-1 for _ in range(N)]  # 前処理
     pas = [-1 for _ in range(N)]
@@ -132,9 +132,9 @@ def dfs(NEAR, S, N):  # 深優先探索  # スタック
 
 
 class Recursive_dfs():  # 深優先探索(再帰)  # スタック
-    # 隣点リスト,始点,数
     
     def __init__(self, NEAR, S, N):
+        # 隣接リスト,始点,数
         # 前処理
         self.frag = set([S])
         self.near = NEAR

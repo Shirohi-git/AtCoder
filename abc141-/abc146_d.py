@@ -1,5 +1,6 @@
 from collections import deque
 
+
 def nearlist(N, LIST):  # 隣接リスト
     NEAR = [[] for _ in range(N)]
     for a, b in LIST:
@@ -9,9 +10,7 @@ def nearlist(N, LIST):  # 隣接リスト
 
 
 def bfs(NEAR, S, COLOR, ANS):  # 幅優先探索  # キュー
-    # 隣点リスト,始点,数
     que, frag = deque([S]), set([S])
-
     while len(que) > 0:
         q = que.popleft()
         c, cnt = COLOR[q], 0
