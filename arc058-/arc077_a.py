@@ -2,14 +2,12 @@ from collections import deque
 
 n = int(input())
 a = list(map(int, input().split()))
-
 b = deque([])
-rev = 1
-for i in a:
-    if rev == 1:
-        b.append(i)
-    elif rev == -1:
-        b.appendleft(i)
-    rev *= -1
 
-print(*(b if rev == 1 else list(b)[::-1]))
+for i, ai in enumerate(a):
+    if i % 2 == 0:
+        b.append(ai)
+    elif i % 2 == 1:
+        b.appendleft(ai)
+b = list(b)
+print(*(b if n % 2 == 0 else b[::-1]))
