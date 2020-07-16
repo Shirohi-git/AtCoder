@@ -11,7 +11,7 @@ for i in d:
 
 for j in t:
     if ddict[j] >= 1:
-        ddict[j]-=1
+        ddict[j] -= 1
     else:
         print('NO')
         break

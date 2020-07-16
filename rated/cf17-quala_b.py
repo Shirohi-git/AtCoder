@@ -1,4 +1,5 @@
 from itertools import product
+
 n, m, k = map(int, input().split())
 
 for i, j in product(range(n + 1), range(m + 1)):

@@ -148,6 +148,15 @@ class Recursive_dfs():  # 深優先探索(再帰)  # スタック
             self.recdfs(i)
 
 
+def warshallfloyd(N, DIST):  # ワーシャルフロイド法:全頂点対最短経路 O(n**3)
+    # DIST:隣接行列
+    for k in range(N):
+        for i in range(N):
+            for j in range(N):
+                DIST[i][j] = min(DIST[i][j], DIST[i][k] + DIST[k][j])
+    return DIST
+
+
 def knapsack(N, W, ITEM):  # ナップザック問題 # 典型dp
     # 個数,上限重さ,itemリスト
     dp = [[0] + [0] * W] + [[-float("inf")] * (W + 1) for _ in range(N)]
