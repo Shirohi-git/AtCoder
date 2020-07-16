@@ -86,7 +86,7 @@ def binary(N):  # 二分探索 # N:探索要素数
     return r + 1
 
 
-def nearlist(N,LIST):# 隣接リスト
+def nearlist(N, LIST):  # 隣接リスト
     NEAR = [[] for _ in range(N)]
     for a, b in LIST:
         NEAR[a - 1].append(b - 1)
@@ -132,7 +132,7 @@ def dfs(NEAR, S, N):  # 深優先探索  # スタック
 
 
 class Recursive_dfs():  # 深優先探索(再帰)  # スタック
-    
+
     def __init__(self, NEAR, S, N):
         # 隣接リスト,始点,数
         # 前処理
@@ -148,8 +148,10 @@ class Recursive_dfs():  # 深優先探索(再帰)  # スタック
             self.recdfs(i)
 
 
-def warshallfloyd(N, DIST):  # ワーシャルフロイド法:全頂点対最短経路 O(n**3)
-    # DIST:隣接行列
+def warshallfloyd(N, LIST):  # ワーシャルフロイド法:全頂点対最短経路 O(n**3)
+    # LIST:隣接行列
+    from copy import deepcopy
+    DIST = LIST.deepcopy()
     for k in range(N):
         for i in range(N):
             for j in range(N):
