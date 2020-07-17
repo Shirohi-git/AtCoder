@@ -17,8 +17,8 @@ sys.setrecursionlimit(10 ** 7)
 # 割り算するところを掛け算できるので先にmodが取れる
 
 
-def ceil(X, Y):  # 天井関数 ceil(X/Y) Y!=1
-    return (X + Y - 1) // Y
+def ceil(X, Y):  # 天井関数 ceil(X/Y) Y>10**(-10)?
+    return (X + Y - 10 ** (-10)) // Y
 
 
 def lcm(X, Y):  # 最小公倍数
@@ -26,9 +26,8 @@ def lcm(X, Y):  # 最小公倍数
     return (X * Y) // gcd(X, Y)
 
 
-def factorize(N):
-    p = 2
-    PRIME = []
+def factorize(N):  # 素因数分解
+    p, PRIME = 2, []
     while p * p <= N:
         if N % p == 0:
             N //= p
@@ -131,7 +130,7 @@ def dfs(NEAR, S, N):  # 深優先探索  # スタック
     return
 
 
-class Recursive_dfs():  # 深優先探索(再帰)  # スタック
+class Recursive_dfs():  # 深優先探索(再帰)
 
     def __init__(self, NEAR, S, N):
         # 隣接リスト,始点,数
