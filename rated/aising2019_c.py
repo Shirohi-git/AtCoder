@@ -11,8 +11,7 @@ def bfs(S):  # 幅優先探索  # キュー
         for i, j in near[p][q]:  # 移動先の候補
             if (i, j) in frag:  # 処理済みか否か
                 continue
-            if s[i][j] != s[p][q]:
-                que.append((i, j)), frag.add((i, j))
+            que.append((i, j)), frag.add((i, j))
     return b * w
 
 
@@ -26,7 +25,7 @@ for i, si in enumerate(s):
             if 0 <= p < h and 0 <= q < w and s[p][q] != sij:
                 near[i][j].add((p, q))
 
-ans, frag = 0,set()
+ans, frag = 0, set()
 for i in range(h):
     for j in range(w):
         if (i, j) not in frag:
