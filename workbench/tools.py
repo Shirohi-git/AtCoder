@@ -86,10 +86,10 @@ def binary(N):  # 二分探索 # N:探索要素数
 
 
 def nearlist(N, LIST):  # 隣接リスト
-    NEAR = [[] for _ in range(N)]
+    NEAR = [set() for _ in range(N)]
     for a, b in LIST:
-        NEAR[a - 1].append(b - 1)
-        NEAR[b - 1].append(a - 1)
+        NEAR[a - 1].add(b - 1)
+        NEAR[b - 1].add(a - 1)
     return NEAR
 
 
