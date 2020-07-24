@@ -31,5 +31,5 @@ near = nearlist(n, ab)
 tkdist, akdist = bfs(near, u - 1, n), bfs(near, v - 1, n)
 
 node = [i for i in range(n) if tkdist[i] <= akdist[i]]
-ans = max((akdist[i], i) for i in node)
-print(ans[0] - 1)
+ans = max(akdist[i] for i in node)
+print(ans - 1)
