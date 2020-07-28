@@ -1,7 +1,8 @@
 read name
 {
     echo "s = input()"
-    echo "n = map(int, input().split())"
+    echo "n = int(input())"
+    echo "n, m = map(int, input().split())"
     echo "a = list(map(int, input().split()))"
     echo "ab = [list(map(int, input().split())) for _ in range(n)]"
 } >> ${name}_a.py
