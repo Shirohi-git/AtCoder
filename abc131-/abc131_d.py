@@ -1,13 +1,11 @@
-import sys
-input = sys.stdin.readline
-
 n = int(input())
-ab = sorted([list(map(int, input().split()))[::-1] for _ in range(n)])
+ab = [list(map(int, input().split())) for _ in range(n)]
+ab = sorted(ab, key=lambda x: x[1])
 
-cnt = 0
-for b, a in ab:
-    cnt += a
-    if cnt > b:
+t = 0
+for a, b in ab:
+    t += a
+    if t > b:
         print('No')
         break
 else:
