@@ -49,26 +49,26 @@
 		"prefix": "ceil",
 		"body": [
 			"def ceil(X, Y):",
-			"\treturn (X + Y - 1) // Y"
+				"\treturn (X + Y - 1) // Y"
 		],
 	},
-	"lcn": {
+	"lcm": {
 		"prefix": "lcm",
 		"body": [
 			"from math import gcd\n\n",
 			"def lcm(X, Y):",
-			"\treturn (X * Y) // gcd(X, Y)"
+				"\treturn (X * Y) // gcd(X, Y)"
 		],
 	},
 	"nearlist": {
 		"prefix": "nearlist",
 		"body": [
 			"def nearlist(N, LIST):",
-			"\tNEAR = [set() for _ in range(N)]",
-			"\tfor a, b in LIST:",
-			"\t\tNEAR[a - 1].add(b - 1)",
-			"\t\tNEAR[b - 1].add(a - 1)",
-			"\treturn NEAR"
+				"\tNEAR = [set() for _ in range(N)]",
+				"\tfor a, b in LIST:",
+					"\t\tNEAR[a - 1].add(b - 1)",
+					"\t\tNEAR[b - 1].add(a - 1)",
+				"\treturn NEAR"
 		],
 	},
 }
