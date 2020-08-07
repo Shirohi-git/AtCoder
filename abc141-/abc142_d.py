@@ -1,22 +1,17 @@
+def factorize(N):  # 素因数分解
+    p, PRIME = 2, set()
+    while p * p <= N:
+        if N % p == 0:
+            N //= p
+            PRIME.add(p)
+        else:
+            p += 1
+    if N > 1:
+        PRIME.add(N)
+    return PRIME
+
+
 a, b = map(int, input().split())
 
-
-def prime_factorize(n):
-    ans = []
-    while n % 2 == 0:
-        ans.append(2)
-        n //= 2
-    f = 3
-    while f * f <= n:
-        if n % f == 0:
-            ans.append(f)
-            n //= f
-        else:
-            f += 2
-    if n != 1:
-        ans.append(n)
-    return ans
-
-
-cnt = list(set(prime_factorize(a)) & set(prime_factorize(b)))
-print(len(cnt)+1)
+ans = factorize(a) & factorize(b)
+print(len(ans) + 1)

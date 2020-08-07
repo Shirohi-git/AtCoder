@@ -14,7 +14,6 @@ def factorize(N):  # 素因数分解
     return
 
 
-
 n = int(input())
 mod = 10 ** 9 + 7
 
