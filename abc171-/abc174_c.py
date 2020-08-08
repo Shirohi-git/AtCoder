@@ -5,10 +5,9 @@ if k % 2 == 0 or k % 5 == 0:
     print(-1)
     exit()
 
-ans, num = 1, 7
-while 1:
+num = 7
+for i in range(k):
     if num % k == 0:
-        print(ans)
+        print(i + 1)
         break
-    ans += 1
     num = (num % k) * 10 + 7

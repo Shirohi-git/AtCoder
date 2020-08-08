@@ -29,14 +29,37 @@ def lcm(X, Y):  # 最小公倍数
 def factorize(N):  # 素因数分解
     p, PRIME = 2, []
     while p * p <= N:
-        if N % p == 0:
+        while N % p == 0:
             N //= p
             PRIME.append(p)
-        else:
-            p += 1
+        p += 1
     if N > 1:
         PRIME.append(N)
     return PRIME
+
+
+def makedivisor(N):  # 約数列挙
+    p, upper, lower = 1, [], []
+    while p * p <= N:
+        if N % p == 0:
+            lower.append(p)
+            if p * p != N:
+                upper.append(N // p)
+        p += 1
+    return lower + upper[::-1]
+
+
+def totient(N):  # オイラーのトーシェント関数
+    p, phi = 2, N
+    while p * p <= N:
+        if N % p == 0:
+            phi = phi // p * (p - 1)
+        while N % p == 0:
+            N //= p
+        p += 1
+    if N > 1:
+        phi = phi // N * (N - 1)
+    return phi
 
 
 class Combination():  # nCr(mod p) #n<=10**6
