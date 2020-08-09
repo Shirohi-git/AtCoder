@@ -24,7 +24,7 @@ def totient(N):  # オイラーのトーシェント関数
 
 k = int(input()) * 9
 
-# 解説AC オイラーの定理 O(n**0.5)?
+# 解説AC オイラーの定理 O(n**0.5 * logn)
 if k % 2 == 0 or k % 5 == 0:
     print(-1)
     exit()
