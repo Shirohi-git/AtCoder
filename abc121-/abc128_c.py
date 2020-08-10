@@ -6,10 +6,10 @@ p = list(map(int, input().split()))
 
 cnt = 0
 for pat in product([0, 1], repeat=n):
-    for i in range(m):
-        if sum(pat[ks[i][j + 1] - 1] for j in range(ks[i][0])) % 2 != p[i]:
+    for ksi, pi in zip(ks, p):
+        tmp = sum(pat[sij - 1] for sij in ksi[1:])
+        if  tmp % 2 != pi:
             break
     else:
         cnt += 1
-
 print(cnt)
