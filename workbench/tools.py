@@ -121,8 +121,8 @@ def bfs(NEAR, S, N):  # 幅優先探索  # キュー
     from collections import deque
 
     dist = [-1 for _ in range(N)]  # 前処理
-    pas = [-1 for _ in range(N)]
-    dist[S], pas[S] = 0, 's'
+    path = [-1 for _ in range(N)]
+    dist[S], path[S] = 0, 's'
     que, frag = deque([S]), set([S])
 
     while len(que) > 0:
@@ -139,8 +139,8 @@ def dfs(NEAR, S, N):  # 深優先探索  # スタック
     # 隣接リスト,始点,数
 
     dist = [-1 for _ in range(N)]  # 前処理
-    pas = [-1 for _ in range(N)]
-    dist[S], pas[S] = 0, 's'
+    path = [-1 for _ in range(N)]
+    dist[S], path[S] = 0, 's'
     stack, frag = [S], set([S])
 
     while len(stack) > 0:

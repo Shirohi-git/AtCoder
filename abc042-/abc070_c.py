@@ -1,8 +1,7 @@
 from math import gcd
 
-def lcm(X, Y):  # 最小公倍数
+def lcm(X, Y):
     return (X * Y) // gcd(X, Y)
-
 
 n = int(input())
 t = [int(input()) for _ in range(n)]
