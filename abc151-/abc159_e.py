@@ -6,7 +6,7 @@ def makelist(BIT):
     for si, bi in zip(s[1:], BIT):
         if bi == 1:
             LIST.append(tmp)
-            tmp = si
+            tmp = si[:]
         elif bi == 0:
             tmp = [t + sij for t, sij in zip(tmp, si)]
     else:
