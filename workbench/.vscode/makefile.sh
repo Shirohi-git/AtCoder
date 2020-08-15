@@ -1,6 +1,5 @@
 read name
 {
-    echo "s = input()"
     echo "n = int(input())"
     echo "n, m = map(int, input().split())"
     echo "a = list(map(int, input().split()))"
@@ -13,7 +12,7 @@ cp ${name}_a.py ${name}_c.py
     echo "import sys"
     echo "input = sys.stdin.readline"
     echo
-    echo "s = input()"
+    echo "n = int(input())"
     echo "n = map(int, input().split())"
     echo "a = list(map(int, input().split()))"
     echo "ab = [list(map(int, input().split())) for _ in range(n)]"
