@@ -221,6 +221,28 @@ def memodp(DP, NEAR, x):
         return DP[x]
 
 
+def topological(N, LIST):  # トポロジカルソート:DAGに適用可
+    # 頂点数, 辺リスト
+    from collections import deque
+
+    incnt = [0] * N
+    CHILD = [set() for _ in range(N)]
+    for a, b in LIST:
+        CHILD[a - 1].add(b - 1)
+        incnt[b - 1] += 1
+
+    TPLGSORT = []
+    que = deque([i for i, num in enumerate(incnt) if num == 0])
+    while len(que) > 0:
+        q = que.popleft()
+        for i in CHILD[q]:
+            incnt[i] -= 1
+            if incnt[i] == 0:
+                que.append(i)
+        TPLGSORT.append(q)
+    return TPLGSORT
+
+
 class Unionfind():  # Unionfind
     def __init__(self, N):
         self.N = N
