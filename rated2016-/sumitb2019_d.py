@@ -1,6 +1,6 @@
 n, s = int(input()), str(input())
 
-num1, num2, num3 = set([]), set([]), set([])
+num1, num2, num3 = set(), set(), set()
 for i in range(n):
     if s[i] in num1:
         continue

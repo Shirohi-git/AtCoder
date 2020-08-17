@@ -1,7 +1,6 @@
 n = int(input())
 a = list(map(int, input().split()))
-mod = 1000000007
-
+mod = 10 ** 9 + 7
 
 ans, cnt = 1, [0, 0, 0]
 for i in a:
