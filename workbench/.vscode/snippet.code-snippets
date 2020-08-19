@@ -46,14 +46,14 @@
 		],
 	},
 	"ceil": {
-		"prefix": "ceil",
+		"prefix": "uceil",
 		"body": [
 			"def ceil(X, Y):",
 				"\treturn (X + Y - 1) // Y"
 		],
 	},
 	"lcm": {
-		"prefix": "lcm",
+		"prefix": "ulcm",
 		"body": [
 			"from math import gcd\n\n",
 			"def lcm(X, Y):",
@@ -61,7 +61,7 @@
 		],
 	},
 	"nearlist": {
-		"prefix": "nearlist",
+		"prefix": "unearlist",
 		"body": [
 			"def nearlist(N, LIST):",
 				"\tNEAR = [set() for _ in range(N)]",
