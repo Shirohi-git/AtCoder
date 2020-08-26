@@ -1,11 +1,11 @@
-strin = [input(), input(), input()]
+s = [input() for _ in range(3)]
 
-l = ['a','b','c']
-cnt, nxt = [0, 0, 0], 0
-while True:
-    lttr = strin[nxt][cnt[nxt]]
-    cnt[nxt] += 1
-    nxt = l.index(lttr)
-    if cnt[nxt] >= len(strin[nxt]):
-        print(l[nxt].upper())
+d = {'a': 0, 'b': 1, 'c': 2}
+nxt, cnt = 0, [0, 0, 0]
+for _ in range(sum(len(si) for si in s)):
+    now = nxt
+    nxt = d[s[now][cnt[now]]]
+    cnt[now] += 1
+    if len(s[nxt]) <= cnt[nxt]:
+        print(['A', 'B', 'C'][nxt])
         break
