@@ -1,11 +1,11 @@
 h, w = map(int, input().split())
-a = [list(map(int, input().split())) for _ in range(h)]
-for i in range(h):
-    a[i] = [aij % 2 for aij in a[i]]
+mod2 = lambda x: int(x) % 2
+a = [list(map(mod2, input().split())) for _ in range(h)]
 
-cnt, ans = 0, []
+cnt, ans, rvs = 0, [], -1
 for i, ai in enumerate(a):
-    for j in range(w)[::(i % 2) * (-2) + 1]:
+    rvs *= -1
+    for j in range(w)[::rvs]:
         if cnt == 1:
             ans.append([bi + 1, bj + 1, i + 1, j + 1])
             ai[j] += 1
