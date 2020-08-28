@@ -1,4 +1,3 @@
 k = int(input())
-s = str(input())
-
-print(s if k >= len(s) else s[:k]+'...')
+s = input()
+print(s if len(s) <= k else s[:k] + '...')

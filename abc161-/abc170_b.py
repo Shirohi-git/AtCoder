@@ -1,3 +1,4 @@
 x, y = map(int, input().split())
 
-print('Yes' if any(x * 2 + i * 2 == y for i in range(x + 1)) else 'No')
+ans = any(2 * i + 4 * (x - i) == y for i in range(x + 1))
+print('Yes' if ans else 'No')
