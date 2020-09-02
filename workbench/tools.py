@@ -62,6 +62,23 @@ def totient(N):  # オイラーのトーシェント関数
     return phi
 
 
+class Eratosthenes():  # エラトステネスの篩
+    def __init__(self, N):  # 素数リスト生成 O(n*log(log n))
+        self.fact = [i for i in range(N + 1)]
+        for i in range(2, int(N**0.5) + 1):
+            if self.fact[i] < i:
+                continue
+            for j in range(i ** 2, N + 1, i):
+                self.fact[j] = i
+
+    def factor(self, NUM):  # 高速素因数分解 O(log num)
+        PRIME = set()
+        while NUM > 1:
+            PRIME.add(self.fact[NUM])
+            NUM //= self.fact[NUM]
+        return PRIME
+
+
 class Combination():  # nCr(mod p) #n<=10**6
     def __init__(self, N, MOD):  # cmbの前処理
         self.mod = MOD
