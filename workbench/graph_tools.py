@@ -15,7 +15,7 @@ def bfs(NEAR, S, N):  # 幅優先探索  # キュー
     dist[S], path[S] = 0, 's'
     que, frag = deque([S]), set([S])
 
-    while len(que) > 0:
+    while que:
         q = que.popleft()
         for i in NEAR[q]:  # 移動先の候補
             if i in frag:  # 処理済みか否か
@@ -33,7 +33,7 @@ def dfs(NEAR, S, N):  # 深優先探索  # スタック
     dist[S], path[S] = 0, 's'
     stack, frag = [S], set([S])
 
-    while len(stack) > 0:
+    while stack:
         q = stack.pop()
         for i in NEAR[q]:  # 移動先の候補
             if i in frag:  # 処理済みか否か
@@ -85,7 +85,7 @@ def topological(N, LIST):  # トポロジカルソート:DAGに適用可
 
     TPLGSORT = []
     que = deque([i for i, num in enumerate(incnt) if num == 0])
-    while len(que) > 0:
+    while que:
         q = que.popleft()
         for i in CHILD[q]:
             incnt[i] -= 1
