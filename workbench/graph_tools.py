@@ -117,21 +117,24 @@ class Unionfind():  # Unionfind
         self.parents[x] += self.parents[y]
         self.parents[y] = x
 
+    def groups(self):  # 全てのグループごとの要素
+        group = {i: set() for i, x in enumerate(self.parents) if x < 0}
+        for i in range(self.N):
+            group[self.find(i)].add(i)
+        return group
+
     def size(self, x):  # グループのサイズ
         return -self.parents[self.find(x)]
 
     def same(self, x, y):  # 同じグループか否か
         return self.find(x) == self.find(y)
 
-    def members(self, x):  # グループの要素
+    def members(self, x):  # 特定のグループの要素
         root = self.find(x)
         return [i for i in range(self.N) if self.find(i) == root]
 
     def roots(self):  # 根のリスト
         return [i for i, x in enumerate(self.parents) if x < 0]
 
-    def group_count(self):  # グループの数
-        return len(self.roots())
-
-    def all_group_members(self):  # グループごとの辞書
-        return {r: self.members(r) for r in self.roots()}
+    def group_cnt(self):  # グループの数
+        return sum(x < 0 for x in self.parents)
