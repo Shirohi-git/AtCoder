@@ -1,7 +1,7 @@
-# pypyは内包表記NG,再帰NG,dict.key()NG
+# pypyは文字列結合NG,再帰NG
 
 # floatを使うときは大きい数に注意
-# in dict.values() はO(n)
+# if in dict.values() はO(n)
 
 # 入力が多い時
 import sys
@@ -65,11 +65,12 @@ def totient(N):  # オイラーのトーシェント関数
 class Eratosthenes():  # エラトステネスの篩
     def __init__(self, N):  # 素数リスト生成 O(n*log(log n))
         self.fact = [i for i in range(N + 1)]
-        for i in range(2, int(N**0.5) + 1):
+        for i in range(2, int(N ** 0.5) + 1):
             if self.fact[i] < i:
                 continue
             for j in range(i ** 2, N + 1, i):
                 self.fact[j] = i
+        self.prime = [i for i in range(2, N + 1) if i == self.fact[i]]
 
     def factor(self, NUM):  # 高速素因数分解 O(log num)
         PRIME = set()
