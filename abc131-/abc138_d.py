@@ -1,27 +1,33 @@
-import sys
-sys.setrecursionlimit(10**7)
-input=sys.stdin.readline
+from collections import deque
+
+
+def nearlist(N, LIST):
+    NEAR = [set() for _ in range(N)]
+    for a, b in LIST:
+        NEAR[a - 1].add(b - 1)
+        NEAR[b - 1].add(a - 1)
+    return NEAR
+
+
+def bfs(NEAR):
+    que, frag = deque([0]), set([0])
+    while que:
+        q = que.popleft()
+        for i in NEAR[q]:
+            if i in frag:
+                continue
+            ans[i] += ans[q]
+            que.append(i), frag.add(i)
+    return
 
 n, q = map(int, input().split())
+ab = [list(map(int, input().split())) for _ in range(n - 1)]
+px = [list(map(int, input().split())) for _ in range(q)]
 
-edge = [[] for _ in range(n)]
-for i in range(n-1):
-    a, b = map(int, input().split())
-    edge[a-1].append(b)
-    edge[b-1].append(a)
+ans = [0] * n
+for p, x in px:
+    ans[p - 1] += x
 
-cnt = [0 for _ in range(n)]
-for i in range(q):
-    p, x = map(int, input().split())
-    cnt[p-1] += x
-
-
-def dfs(now, bef):
-    for nxt in edge[now-1]:
-        if nxt != bef:
-            cnt[nxt-1] += cnt[now-1]
-            dfs(nxt, now)
-
-
-dfs(1, -1)
-print(*cnt)
+near = nearlist(n, ab)
+bfs(near)
+print(*ans, sep='\n')

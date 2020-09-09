@@ -36,7 +36,7 @@
 	"inputvector": {
 		"prefix": "uvec",
 		"body": [
-			"[int(input()) for _ in range(${1:n})]"
+			"[input() for _ in range(${1:n})]"
 		],
 	},
 	"inputmatrix": {
