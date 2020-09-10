@@ -1,7 +1,6 @@
 x = int(input())
-cnt = 100
-ans = 0
+cnt, ans = 100, 0
 while cnt < x:
     ans += 1
-    cnt = int(cnt*1.01)
+    cnt = cnt * 101 // 100
 print(ans)

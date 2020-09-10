@@ -1,13 +1,13 @@
 from itertools import product
 
 
-def solve(NUM, LIST):
-    lst = [l[i] for i, t in enumerate(LIST) if t == NUM]
-    if len(lst) == 0:
-        return 10 ** 5
-    ANS = (len(lst) - 1) * 10
-    ANS += abs(sum(lst) - tgt[NUM])
-    return ANS
+def solve(T, PTTN):
+    lst = [l[i] for i, t in enumerate(PTTN) if t == T]
+    if lst:
+        ANS = (len(lst) - 1) * 10
+        ANS += abs(sum(lst) - tgt[T])
+        return ANS
+    return 10 ** 5
 
 
 tgt = list(map(int, input().split()))

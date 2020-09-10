@@ -30,4 +30,4 @@ for p, x in px:
 
 near = nearlist(n, ab)
 bfs(near)
-print(*ans, sep='\n')
+print(*ans)
