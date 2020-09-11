@@ -3,11 +3,11 @@ from itertools import product
 
 def solve(T, PTTN):
     lst = [l[i] for i, t in enumerate(PTTN) if t == T]
+    ANS = 10 ** 5
     if lst:
         ANS = (len(lst) - 1) * 10
         ANS += abs(sum(lst) - tgt[T])
-        return ANS
-    return 10 ** 5
+    return ANS
 
 
 tgt = list(map(int, input().split()))
