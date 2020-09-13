@@ -1,15 +1,10 @@
-import sys
-input = sys.stdin.readline
-
-
 n = int(input())
 x = list(map(int, input().split()))
 
-x2 = [i ** 2 for i in x]
-ans = float('inf')
-sum1 = sum(x)
-sum2 = sum(x2)
-for p in range(1, 101):
-    cnt = sum2 + (sum(x) * (-1) * 2 * p) + (p**2*n)
-    ans = min(ans, cnt)
-print(ans)
+ave = sum(x) // n
+ans1 = sum((xi - ave)**2 for xi in x)
+ans2 = sum((xi - ave - 1)**2 for xi in x)
+print(min(ans1, ans2))
+
+if n == 2:
+    print(n)

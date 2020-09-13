@@ -1,9 +1,4 @@
-import sys
-input = sys.stdin.readline
-
 n, k = map(int, input().split())
-h = list(map(int, input().split()))
+h = sorted(map(int, input().split()))[::-1]
 
-h.sort(reverse=True)
-n_h = h[k:]
-print(sum(n_h))
+print(sum(h[k:]) if k != 1 else k)
