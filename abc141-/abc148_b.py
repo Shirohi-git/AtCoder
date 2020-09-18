@@ -1,8 +1,7 @@
 n = int(input())
-s, t = map(str, input().split())
+s, t = input().split()
 
-ans=''
-for i in range(n):
-    ans += s[i]
-    ans += t[i]
-print(ans)
+ans = []
+for si, ti in zip(s, t):
+    ans += [si, ti]
+print(*ans, sep='')
