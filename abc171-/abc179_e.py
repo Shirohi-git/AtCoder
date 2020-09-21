@@ -1,16 +1,16 @@
 n, x, m = map(int, input().split())
 
-lst, num = set(), []
-for i in range(1, n + 1):
-    lst.add(x), num.append(x)
+num, lst = set(), []
+for i in range(n):
+    num.add(x), lst.append(x)
     x = x ** 2 % m
-    if x in lst:
-        cnt, idx = i, num.index(x)
+    if x in num:
+        cnt, idx = i + 1, lst.index(x)
         break
 
 ans = sum(num)
-if x in lst:
-    div, mod = divmod(n - cnt, len(num) - idx)
-    ans += sum(num[idx:]) * div
-    ans += sum(num[idx:idx + mod])
+if x in num:
+    div, mod = divmod(n - cnt, len(lst) - idx)
+    ans += sum(lst[idx:]) * div
+    ans += sum(lst[idx:idx + mod])
 print(ans)
