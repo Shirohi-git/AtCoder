@@ -1,10 +1,8 @@
-from collections import deque
-
 n = int(input())
-a = sorted(map(int, input().split()), reverse=True)
+a = sorted(map(int, input().split()))[::-1]
 
-ans, cnt = 0, deque([a[0]])
-for i in a[1:]:
-    ans += cnt.popleft()
-    cnt.extend([i,i])
+ans, que = 0, [a[0]]
+for i, ai in enumerate(a[1:]):
+    ans += que[i]
+    que += [ai, ai]
 print(ans)

@@ -65,7 +65,7 @@ class Recursive_dfs():  # 深優先探索(再帰)
 def warshallfloyd(N, LIST):  # ワーシャルフロイド法:全頂点対最短経路 O(n**3)
     # LIST:隣接行列
     from copy import deepcopy
-    DIST = LIST.deepcopy()
+    DIST = deepcopy(LIST)
     for k in range(N):
         for i in range(N):
             for j in range(N):

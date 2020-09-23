@@ -33,7 +33,7 @@ for x, y in xy:
 # 解説AC O(n)
 uf = Unionfind(n)
 cnt, yflag = 0, [0] * n
-for x, y in enumerate(xysort[:n - 1]):
+for x, y in enumerate(xysort[:-1]):
     yflag[y] = 1
     cnt += yflag[n - x - 1] + (y > n - x - 1)
     if cnt < x + 1:
