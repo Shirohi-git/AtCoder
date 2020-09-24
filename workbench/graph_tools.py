@@ -6,12 +6,19 @@ def nearlist(N, LIST):  # 隣接リスト
     return NEAR
 
 
+def weighted_nearlist(N, LIST):  # 重み付き隣接リスト
+    NEAR = [set() for _ in range(N)]
+    for a, b, d in LIST:
+        NEAR[a - 1].add((b - 1, d))
+    return NEAR
+
+
 def bfs(NEAR, S, N):  # 幅優先探索  # キュー
     # 隣接リスト,始点,数
     from collections import deque
 
-    dist = [-1 for _ in range(N)]  # 前処理
-    path = [-1 for _ in range(N)]
+    dist = [-1] * N  # 前処理
+    path = [-1] * N
     dist[S], path[S] = 0, 's'
     que, frag = deque([S]), set([S])
 
@@ -28,8 +35,8 @@ def bfs(NEAR, S, N):  # 幅優先探索  # キュー
 def dfs(NEAR, S, N):  # 深優先探索  # スタック
     # 隣接リスト,始点,数
 
-    dist = [-1 for _ in range(N)]  # 前処理
-    path = [-1 for _ in range(N)]
+    dist = [-1] * N  # 前処理
+    path = [-1] * N
     dist[S], path[S] = 0, 's'
     stack, frag = [S], set([S])
 
@@ -60,6 +67,23 @@ class Recursive_dfs():  # 深優先探索(再帰)
             # 処理を行う
             self.frag.add(i)
             self.recdfs(i)
+
+
+def dijkstra(N, S, NEAR):  # ダイクストラ法:単一始点最短経路 O((n+e)*logn)
+    from heapq import heappop, heappush
+    DIST, prev = [pow(10, 10)] * N, [-1] * N
+    DIST[S], prev[S] = 0, 's'
+
+    que = [(DIST[S], S)]
+    while que:
+        d, q = heappop(que)
+        for i, d_qi in NEAR[q]:
+            tmp = d + d_qi
+            if DIST[i] > tmp:
+                DIST[i] = tmp
+                prev[i] = q
+                heappush(que, (tmp, i))
+    return DIST
 
 
 def warshallfloyd(N, LIST):  # ワーシャルフロイド法:全頂点対最短経路 O(n**3)
