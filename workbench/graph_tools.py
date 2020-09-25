@@ -19,16 +19,19 @@ def bfs(NEAR, S, N):  # 幅優先探索  # キュー
 
     dist = [-1] * N  # 前処理
     path = [-1] * N
+    flag = [0] * N
     dist[S], path[S] = 0, 's'
-    que, frag = deque([S]), set([S])
+    flag[S] = 1
+    que = deque([S])
 
     while que:
         q = que.popleft()
         for i in NEAR[q]:  # 移動先の候補
-            if i in frag:  # 処理済みか否か
+            if flag[i]:  # 処理済みか否か
                 continue
             # 処理を行う
-            que.append(i), frag.add(i)
+            flag[i] = 1
+            que.append(i)
     return
 
 
@@ -37,16 +40,19 @@ def dfs(NEAR, S, N):  # 深優先探索  # スタック
 
     dist = [-1] * N  # 前処理
     path = [-1] * N
+    flag = [0] * N
     dist[S], path[S] = 0, 's'
-    stack, frag = [S], set([S])
+    flag[S] = 1
+    stack = [S]
 
     while stack:
         q = stack.pop()
         for i in NEAR[q]:  # 移動先の候補
-            if i in frag:  # 処理済みか否か
+            if flag[i]:  # 処理済みか否か
                 continue
             # 処理を行う
-            stack.append(i), frag.add(i)
+            flag[i] = 1
+            stack.append(i)
     return
 
 
@@ -57,15 +63,15 @@ class Recursive_dfs():  # 深優先探索(再帰)
     def __init__(self, NEAR, S, N):
         # 隣接リスト,始点,数
         # 前処理
-        self.frag = set([S])
+        self.flag = set([S])
         self.near = NEAR
 
     def recdfs(self, p):
         for i in self.near[p]:  # 移動先の候補
-            if i in self.frag:  # 処理済みか否か
+            if i in self.flag:  # 処理済みか否か
                 continue
             # 処理を行う
-            self.frag.add(i)
+            self.flag.add(i)
             self.recdfs(i)
 
 

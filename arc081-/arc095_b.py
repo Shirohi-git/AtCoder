@@ -1,8 +1,9 @@
 n = int(input())
-a = sorted(map(int, input().split()))
+a = set(map(int, input().split()))
 
-ai, aj = a[-1], a[-2]
-for i in a[:-1]:
-    if abs(ai - 2 * aj) > abs(ai - 2 * i):
-        aj = i
-print(ai, aj)
+n, r = max(a), -pow(10, 9)
+a.remove(n)
+for ai in a:
+    if abs(n // 2 - r) > abs(n // 2 - ai):
+        r = ai
+print(n, r)
