@@ -171,11 +171,10 @@ class Segtree():  # Segtree
     def segfunc(self, x, y):  # 区間にしたい操作
         return max(x, y)  # ex) max,min,gcd,lcm,sum,product
 
-    def __init__(self, LIST, ide_ele):  # LIST: 配列の初期値, ide_ele: 単位元
-        n = len(LIST)
-        self.ide_ele = ide_ele
+    def __init__(self, LIST, ELE):  # LIST: 配列の初期値, ELE: 単位元
+        n, self.ide_ele = len(LIST), ELE
         self.num = 1 << (n - 1).bit_length()
-        self.tree = [ide_ele] * 2 * self.num
+        self.tree = [ELE] * 2 * self.num
         for i in range(n):  # 配列の値を葉にセット
             self.tree[self.num + i] = LIST[i]
         for i in range(self.num - 1, 0, -1):  # 構築していく

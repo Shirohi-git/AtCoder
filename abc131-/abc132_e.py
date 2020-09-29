@@ -1,7 +1,7 @@
 from collections import deque
 
 
-def nearlist(N):  # 隣接リスト
+def nearlist(N):
     NEAR = [set() for _ in range(3 * N)]
     for a, b in uv:
         a, b = 3 * (a - 1), 3 * (b - 1)
@@ -11,16 +11,16 @@ def nearlist(N):  # 隣接リスト
     return NEAR
 
 
-def bfs(S, T, N):  # 幅優先探索  # キュー
+def bfs(S, T, N):
     S, T = 3 * (S - 1), 3 * (T - 1)
-    dist, flag = [-3] * (3 * N), [0] * (3 * N)  # 前処理
+    dist, flag = [-3] * (3 * N), [0] * (3 * N)
     dist[S], flag[S] = 0, 1
     que = deque([S])
 
     while que:
         q = que.popleft()
-        for i in near[q]:  # 移動先の候補
-            if flag[i]:  # 処理済みか否か
+        for i in near[q]:
+            if flag[i]:
                 continue
             dist[i], flag[i] = dist[q] + 1, 1
             que.append(i)
