@@ -12,5 +12,6 @@ def bigcmb(N, R, MOD):
 n, a, b = map(int, input().split())
 mod = 10 ** 9 + 7
 
-exc = bigcmb(n, a, mod) + bigcmb(n, b, mod)
-print((pow(2, n, mod) - exc - 1) % mod)
+ans = pow(2, n, mod) - 1
+ans -= bigcmb(n, a, mod) + bigcmb(n, b, mod)
+print(ans % mod)

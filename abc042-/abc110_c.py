@@ -2,14 +2,12 @@ from collections import Counter
 
 s, t = input(), input()
 
-dict = {}
+d, TorF = {}, True
 for si, ti in zip(s, t):
-    if ti not in dict:
-        dict[ti] = si
-    elif dict[ti] != si:
-        print('No')
-        break
-else:
-    cnt = Counter(dict.values())
-    bool = all(cnt[i] <= 1 for i in cnt)
-    print('Yes' if bool else 'No')
+    if ti not in d:
+        d[ti] = si
+    elif d[ti] != si:
+        TorF = False
+cnt = Counter(d.values())
+TorF = (max(cnt.values()) < 2) & TorF
+print('Yes' if TorF else 'No')
