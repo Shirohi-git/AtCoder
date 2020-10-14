@@ -166,26 +166,26 @@ def memodp(DP, NEAR, x):
         return DP[x]
 
 
-class Fenwicktree():  # Fenwicktree # 1-indexed
+class Fenwicktree():  # Fenwicktree # 0-indexed
     def __init__(self, n):
         self.n = n
-        self.tree = [0] * (n + 1)
+        self.tree = [0] * n
 
     def accsum(self, i):  # 区間和[0, i]
-        res = 0
+        i, res = i + 1, 0
         while i > 0:
-            res += self.tree[i]
+            res += self.tree[i - 1]
             i -= i & -i
         return res
 
-    def update(self, i, x):  # lst[i] +=x
+    def update(self, i, x):  # lst[i] += x
+        i += 1
         while i <= self.n:
-            self.tree[i] += x
+            self.tree[i - 1] += x
             i += i & -i
 
     def query(self, i, j):  # 区間和[i ,j)
         return self.accsum(j - 1) - self.accsum(i - 1)
-
 
 
 class Segtree():  # Segtree
