@@ -159,11 +159,35 @@ def lcs(S, T):  # 最長共通部分列 # s,t:文字列
 def memodp(DP, NEAR, x):
     if True:  # 条件式
         return DP[x]
-    else:
-        for i in NEAR[x]:
-            DP[x] += memodp(DP, NEAR, i)
-            # 漸化式
-        return DP[x]
+
+    for i in NEAR[x]:
+        DP[x] += memodp(DP, NEAR, i)
+        # 漸化式
+    return DP[x]
+
+
+class TSP(): # 巡回セールスマン問題
+    def __init__(self, n):
+        self.n = n
+        self.memo = [[-1] * (1 << n) for _ in range(n)]
+        self.dist = [[0] * n for _ in range(n)]
+        # 頂点間の距離の入力
+    
+    def tspdp(self, s, bit): # s: 現在地, bit: 訪問済み
+        if bit == (1 << self.n) - 1:
+            self.memo[s][bit] = self.dist[s][0]
+            return self.dist[s][0]
+
+        res = float('inf')
+        for i in range(self.n):
+            if (bit >> i) & 1:
+                continue
+            t, nxt = i, bit + (1 << i)
+            if self.memo[t][bit] == -1:
+                self.memo[t][bit] = self.tspdp(t, nxt)
+            tmp = self.dist[s][t] + self.memo[t][bit]
+            res = min(res, tmp)
+        return res
 
 
 class Fenwicktree():  # Fenwicktree # 0-indexed

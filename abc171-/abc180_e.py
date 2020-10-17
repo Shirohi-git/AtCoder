@@ -1,29 +1,31 @@
-def TSP_DP(s, bit, t):
-    if bit == 0:
-        memo[s * n + t][bit] = dist[s][t]
-        return dist[s][t]
+class TSP():
+    def __init__(self, n, xyz):
+        self.n, self.v = n, xyz
+        self.memo = [[-1] * (1 << n) for _ in range(n)]
 
-    d_min = float('inf')
-    for i in range(n):
-        if (bit >> i) & 1 == 0:
-            continue
-        x, nxt = i, bit ^ (1 << i)
-        if memo[x * n + t][bit] == -1:
-            memo[x * n + t][bit] = TSP_DP(x, nxt, t)
-        d_tmp = dist[s][x] + memo[x * n + t][bit]
-        d_min = min(d_min, d_tmp)
-    return d_min
+    def dist(self, x, y):
+        (a, b, c), (p, q, r) = self.v[x], self.v[y]
+        return abs(p - a) + abs(b - q) + max(0, r - c)
+
+    def tspdp(self, s, bit):
+        if bit == (1 << self.n) - 1:
+            self.memo[s][bit] = self.dist(s, 0)
+            return self.dist(s, 0)
+
+        res = float('inf')
+        for i in range(self.n):
+            if (bit >> i) & 1:
+                continue
+            t, nxt = i, bit + (1 << i)
+            if self.memo[t][bit] == -1:
+                self.memo[t][bit] = self.tspdp(t, nxt)
+            tmp = self.dist(s, t) + self.memo[t][bit]
+            res = min(res, tmp)
+        return res
 
 
 n = int(input())
 xyz = [list(map(int, input().split())) for _ in range(n)]
 
-dist = [[0] * n for _ in range(n)]
-for i in range(n):
-    for j in range(n):
-        (a, b, c), (p, q, r) = xyz[i], xyz[j]
-        dist[i][j] = abs(p - a) + abs(b - q) + max(0, r - c)
-        dist[j][i] = abs(p - a) + abs(b - q) + max(0, c - r)
-
-memo = [[-1] * (1 << n) for _ in range(n ** 2)]
-print(TSP_DP(0, (1 << n) - 2, 0))
+tsp = TSP(n, xyz)
+print(tsp.tspdp(0, 1))
