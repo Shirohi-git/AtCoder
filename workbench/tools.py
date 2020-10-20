@@ -179,10 +179,10 @@ class TSP(): # 巡回セールスマン問題
             return self.dist[s][0]
 
         res = float('inf')
-        for i in range(self.n):
-            if (bit >> i) & 1:
+        for t in range(self.n):
+            if (bit >> t) & 1:
                 continue
-            t, nxt = i, bit + (1 << i)
+            nxt = bit + (1 << t)
             if self.memo[t][bit] == -1:
                 self.memo[t][bit] = self.tspdp(t, nxt)
             tmp = self.dist[s][t] + self.memo[t][bit]

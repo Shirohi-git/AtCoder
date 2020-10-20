@@ -13,8 +13,8 @@ def weighted_nearlist(N, LIST):  # 重み付き隣接リスト
     return NEAR
 
 
-def bfs(NEAR, S, N):  # 幅優先探索  # キュー
-    # 隣接リスト,始点,数
+def bfs(S, N, NEAR):  # 幅優先探索  # キュー 
+    # 始点, 頂点数, 隣接リスト
     from collections import deque
 
     dist = [-1] * N  # 前処理
@@ -35,9 +35,8 @@ def bfs(NEAR, S, N):  # 幅優先探索  # キュー
     return
 
 
-def dfs(NEAR, S, N):  # 深優先探索  # スタック
-    # 隣接リスト,始点,数
-
+def dfs(S, N, NEAR):  # 深優先探索  # スタック
+    # 始点, 頂点数, 隣接リスト
     dist = [-1] * N  # 前処理
     path = [-1] * N
     flag = [0] * N
@@ -60,22 +59,38 @@ class Recursive_dfs():  # 深優先探索(再帰)
     import sys
     sys.setrecursionlimit(10 ** 7)
 
-    def __init__(self, NEAR, S, N):
-        # 隣接リスト,始点,数
-        # 前処理
-        self.flag = set([S])
+    def __init__(self, S, N, NEAR):
+        # 始点, 頂点数, 隣接リスト
+        self.flag = [0] * N  # 前処理
+        self.flag[S] = 1
         self.near = NEAR
 
     def recdfs(self, p):
         for i in self.near[p]:  # 移動先の候補
-            if i in self.flag:  # 処理済みか否か
+            if self.flag[i]:  # 処理済みか否か
                 continue
             # 処理を行う
-            self.flag.add(i)
+            self.flag[i] = 1
             self.recdfs(i)
 
 
-def dijkstra(N, S, NEAR):  # ダイクストラ法:単一始点最短経路 O((n+e)*logn)
+def is_bipartite(S, N, NEAR):  # 二部グラフ判定
+    # 始点, 頂点数, 隣接リスト
+    color = [0 for i in range(N)]
+    stack = [(S, 1)]
+    while stack:
+        q, c = stack.pop()
+        for i in NEAR[q]:
+            if color[i] == c:
+                return False
+            if color[i] == 0:
+                color[i] = -c
+                stack.append((i, -c))
+    return True
+
+
+def dijkstra(S, N, NEAR):  # ダイクストラ法:単一始点最短経路 O((n+e)*logn)
+    # NEAR:隣接リスト
     from heapq import heappop, heappush
     DIST, prev = [pow(10, 10)] * N, [-1] * N
     DIST[S], prev[S] = 0, 's'
@@ -104,7 +119,7 @@ def warshallfloyd(N, LIST):  # ワーシャルフロイド法:全頂点対最短
 
 
 def topological(N, LIST):  # トポロジカルソート:DAGに適用可
-    # 頂点数, 辺リスト
+    # LIST:有向辺リスト
     from collections import deque
 
     incnt = [0] * N
