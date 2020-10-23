@@ -1,15 +1,13 @@
-from collections import Counter
-
-n = input()
+n = int(input())
 d = list(map(int, input().split()))
-mod = 998244353
+MOD = 998244353
 
-dcnt = Counter(d)
-if d[0] > 0 or dcnt[0] > 1:
-    print(0)
-else:
-    ans = 1
-    for i in dcnt:
-        if i > 0:
-            ans = ans * dcnt[i - 1]**dcnt[i] % mod
-    print(ans)
+cnt = [0] * n
+for di in d:
+    cnt[di] += 1
+
+ans = (d[0] == 0 and cnt[0] == 1)
+for i in range(1, n):
+    ans *= pow(cnt[i - 1], cnt[i], MOD)
+    ans %= MOD
+print(ans)
