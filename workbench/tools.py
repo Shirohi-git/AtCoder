@@ -128,19 +128,18 @@ def binary(N):  # 二分探索 # N:探索要素数
 
 def knapsack(N, W, ITEM):  # ナップザック問題 # 典型dp
     # 個数,上限重さ,itemリスト
-    dp = [[0] + [0] * W] + [[-float("inf")] * (W + 1) for _ in range(N)]
-    # dp初期値 必要に応じて変える
-    #dp = [[0] + [-float("inf")]*w] + [[-float("inf")]*(w+1) for _ in range(n)]
+    dp = [[0] * (W + 1)] + [[-float("inf")] * (W + 1) for _ in range(N)]
+    # dp = [[-float("inf")]*(W+1)] + [[-float("inf")]*(W+1) for _ in range(n)]
+    # dp[0][0] = 0
     # 重さwぴったり、を求めるとき
     wei, val = 0, 1
 
-    for i in range(N):  # i個目までのitemについて
-        for j in range(W+1):  # 重さjまでの最適総価値
+    for i in range(N):
+        for j in range(W + 1):
+            tmp = dp[i][j]
             if ITEM[i][wei] <= j:
-                dp[i + 1][j] = max(dp[i][j],
-                                   dp[i][j-ITEM[i][wei]] + ITEM[i][val])
-            else:
-                dp[i + 1][j] = dp[i][j]
+                tmp = dp[i][j - ITEM[i][wei]] + ITEM[i][val]
+            dp[i + 1][j] = max(dp[i][j], tmp)
     return dp[N][W]
 
 
