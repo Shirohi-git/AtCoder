@@ -1,7 +1,8 @@
 from itertools import combinations
 
 # 解説別ver.
-n = list(map(int, list(input())))
+n = list(map(int, input()))
+
 sumn, ans = sum(n), -1
 for i in range(len(n))[::-1]:
     for c in combinations(n, i):

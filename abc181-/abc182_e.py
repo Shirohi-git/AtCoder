@@ -1,5 +1,20 @@
+from itertools import product
 import sys
 input = sys.stdin.readline
+
+
+def solve():
+    res = 0
+    for i, j in product(range(h), range(w)):
+        if j - 1 >= 0:
+            grid[i][j] |= grid[i][j - 1] & 2
+        if i - 1 >= 0:
+            grid[i][j] |= grid[i - 1][j] & 1
+        if block[i][j]:
+            grid[i][j] = 0
+        res += (grid[i][j] > 0)
+    return res
+
 
 h, w, n, m = map(int, input().split())
 ab = [tuple(map(int, input().split())) for _ in range(n)]
@@ -11,23 +26,9 @@ for a, b in ab:
     grid[a - 1][b - 1] = 3
 for c, d in cd:
     block[c - 1][d - 1] = 1
+_ = solve()
 
-for i in range(h):
-    for j in range(w):
-        if j - 1 >= 0:
-            grid[i][j] |= grid[i][j - 1] & 2
-        if i - 1 >= 0:
-            grid[i][j] |= grid[i - 1][j] & 1
-        if block[i][j]:
-            grid[i][j] = 0
-for i in range(h)[::-1]:
-    for j in range(w)[::-1]:
-        if j + 1 < w:
-            grid[i][j] |= grid[i][j + 1] & 2
-        if i + 1 < h:
-            grid[i][j] |= grid[i + 1][j] & 1
-        if block[i][j]:
-            grid[i][j] = 0
-
-ans = sum(sum(gij > 0 for gij in gi) for gi in grid)
+grid = [gi[::-1] for gi in grid[::-1]]
+block = [bi[::-1] for bi in block[::-1]]
+ans = solve()
 print(ans)
