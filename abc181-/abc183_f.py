@@ -37,8 +37,8 @@ query = [list(map(int, input().split())) for _ in range(q)]
 uf = Unionfind(n)
 for i, ci in enumerate(c):
     uf.count[i] = Counter({ci: 1})
-for num, x, y in query:
+for num, a, b in query:
     if num == 1:
-        uf.union(x - 1, y - 1)
+        uf.union(a - 1, b - 1)
     if num == 2:
-        print(uf.size(x - 1, y))
+        print(uf.size(a - 1, b))
