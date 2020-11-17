@@ -26,6 +26,13 @@ def lcm(X, Y):  # 最小公倍数
     return (X * Y) // gcd(X, Y)
 
 
+def bitcount(N):  # 立ってるbitの数
+    bitcnt = [0]
+    for _ in range(N):
+        bitcnt += [i + 1 for i in bitcnt]
+    return bitcnt
+
+
 def factorize(N):  # 素因数分解
     p, PRIME = 2, []
     while p * p <= N:
@@ -109,13 +116,6 @@ def bigcmb(N, R, MOD):  # nCr(mod p) #n>=10**7,r<=10**6 #前処理不要
     return fact * pow(inv, MOD - 2, MOD) % MOD
 
 
-def bitcount(N):  # 立ってるbitの数
-    bitcnt = [0]
-    for _ in range(N):
-        bitcnt += [i + 1 for i in bitcnt]
-    return bitcnt
-
-
 def binary(N):  # 二分探索 # N:探索要素数
     l, r = -1, N
     while r - l > 1:
@@ -141,18 +141,6 @@ def knapsack(N, W, ITEM):  # ナップザック問題 # 典型dp
                 tmp = dp[i][j - ITEM[i][wei]] + ITEM[i][val]
             dp[i + 1][j] = max(dp[i][j], tmp)
     return dp[N][W]
-
-
-def lcs(S, T):  # 最長共通部分列 # s,t:文字列
-    ls, lt = len(S), len(T)
-    dp = [[0] * (lt + 1) for _ in range(ls + 1)]
-    dp[0][0], dp[1][0], dp[0][1] = 0, 0, 0
-    for i in range(ls):
-        for j in range(lt):
-            dp[i + 1][j + 1] = max(dp[i][j + 1], dp[i + 1][j])
-            if S[i] == T[j]:
-                dp[i + 1][j + 1] = max(dp[i][j] + 1, dp[i + 1][j + 1])
-    return dp[ls][lt]
 
 
 def memodp(DP, NEAR, x):
