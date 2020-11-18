@@ -2,18 +2,16 @@ from itertools import product
 
 n, s = int(input()), input()
 
+ans = [-1]
 for bfo2, bfo1 in product(['S', 'W'], repeat=2):
-    ans = [bfo2, bfo1]
-    for i in s:
-        if ((bfo1 == 'S' and i == 'o')
-                or (bfo1 == 'W' and i == 'x')):
-            ans.append(bfo2)
-        elif ((bfo1 == 'S' and i == 'x')
-                or (bfo1 == 'W' and i == 'o')):
-            ans.append(*({'S', 'W'} - {bfo2}))
-        bfo1, bfo2 = ans[-1], bfo1
-    if ans[:2] == ans[-2:]:
-        print(*ans[1:-1], sep='')
-        break
-else:
-    print(-1)
+    lst = [bfo2, bfo1]
+    for si in s:
+        tmp = bfo1 + si
+        if tmp in ['So', 'Wx']:
+            lst.append(bfo2)
+        if tmp in ['Sx', 'Wo']:
+            lst.append('SW'.replace(bfo2, ''))
+        bfo1, bfo2 = lst[-1], bfo1
+    if lst[:2] == lst[-2:]:
+        ans = lst[1:-1]
+print(*ans, sep='')

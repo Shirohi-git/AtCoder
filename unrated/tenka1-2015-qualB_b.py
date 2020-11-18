@@ -1,20 +1,8 @@
 s = input()
 
-brk = 0
-for i in s:
-    if i == '{':
-        brk += 1
-    elif i == '}':
-        brk -= 1
-    if brk == 1:
-        if i == ':':
-            print('dict')
-            exit()
-        elif i == ',':
-            print('set')
-            exit()
-else:
-    if s == '{}':
-        print('dict')
-    else:
-        print('set')
+ans, cnt = 0, 0
+for si in s:
+    if cnt == 1 and (si in [',', ':', '}']):
+        ans |= (si == ':') | (s == '{}')
+        exit(print('dict' if ans else 'set'))
+    cnt += (si == '{') - (si == '}')
