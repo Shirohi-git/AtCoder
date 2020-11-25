@@ -3,10 +3,9 @@ plus = [(1, 0, 0), (0, 1, 0), (0, 0, 1)]
 
 dp = [0] * (101 ** 3)
 for num in range(101 ** 3)[::-1]:
-    i, j, k = num % 101, num // 101 % 101, num // 10201
+    i, j, k = num // 10201, num // 101 % 101, num % 101
     if i > 99 or j > 99 or k > 99:
         continue
-    num = i * 10201 + j * 101 + k
     for cnt, (p, q, r) in zip((i, j, k), plus):
         if cnt > 0:
             nxt = (i + p) * 10201 + (j + q) * 101 + (k + r)
