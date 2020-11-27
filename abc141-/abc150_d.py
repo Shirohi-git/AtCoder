@@ -1,21 +1,15 @@
-from fractions import gcd
-import sys
+from math import gcd
 
 n, m = map(int, input().split())
-a = list(map(int, input().split()))
-a = [i // 2 for i in a]
+a = list(map(lambda x: int(x) // 2, input().split()))
 
-cnt = 1
-min_a = min(a)
+pow2, min_a = 1, min(a)
 while min_a % 2 == 0:
-    cnt *= 2
-    min_a = min_a // 2
+    pow2 *= 2
+    min_a //= 2
 
 ans = 1
-for i in a:
-    if (i // cnt) % 2 == 0:
-        print(0)
-        sys.exit()
-    ans = (ans * i) // gcd(ans, i)
-
-print((m//ans+1)//2)
+for ai in a:
+    ans *= (ai // pow2) % 2
+    ans = (ans * ai) // gcd(ans, ai)
+print((m // ans + 1) // 2 if ans > 0 else ans)
