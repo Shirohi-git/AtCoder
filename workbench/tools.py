@@ -116,14 +116,13 @@ def bigcmb(N, R, MOD):  # nCr(mod p) #n>=10**7,r<=10**6 #前処理不要
     return fact * pow(inv, MOD - 2, MOD) % MOD
 
 
-def binary(N):  # 二分探索 # N:探索要素数
-    l, r = -1, N
-    while r - l > 1:
-        if True:  # 条件式を代入
+def binary(l, r):  # 二分探索 # N:探索要素数 # lは不適, rは適合
+    while abs(r - l) > 1:
+        if True:  # 条件式
             r = (l + r) // 2
         else:
             l = (l + r) // 2
-    return r + 1
+    return r
 
 
 def knapsack(N, W, ITEM):  # ナップザック問題 # 典型dp
