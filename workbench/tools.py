@@ -235,7 +235,7 @@ class Segtree():  # Segtree
         return res
 
 
-class LazySegtree:  # 遅延Segtree
+class LazySegtree():  # 遅延Segtree
 
     def segfunc(self, x, y):  # 区間にしたい操作
         return max(x, y)  # ex) max,min,gcd,lcm,sum,product
@@ -252,27 +252,25 @@ class LazySegtree:  # 遅延Segtree
             self.data[i] = self.segfunc(self.data[2 * i], self.data[2 * i + 1])
 
     def gindex(self, l, r):  # 伝搬する対象の区間
-        """
-        lm: 伝搬する必要のある最大の左閉区間
-        rm: 伝搬する必要のある最大の右開区間
-        """
         l += self.num
         r += self.num
-        lm = l >> (l & -l).bit_length()
-        rm = r >> (r & -r).bit_length()
+        lm = l >> (l & -l).bit_length()  # 伝搬する必要のある最大の左閉区間
+        rm = r >> (r & -r).bit_length()  # 伝搬する必要のある最大の左閉区間
 
+        idx = []
         while r > l:
             if l <= lm:
-                yield l
+                idx.append(l)
             if r <= rm:
-                yield r
+                idx.append(r)
             r >>= 1
             l >>= 1
         while l:
-            yield l
+            idx.append(l)
             l >>= 1
+        return idx
 
-    def propagates(self, *ids):  # 遅延伝搬処理 ids: 伝搬する対象の区間
+    def propagates(self, ids):  # 遅延伝搬処理 ids: 伝搬する対象の区間
         for i in reversed(ids):
             v = self.lazy[i]
             if v is None:
@@ -284,8 +282,8 @@ class LazySegtree:  # 遅延Segtree
             self.lazy[i] = None
 
     def update(self, l, r, x):  # 区間[l, r)の値をxに更新
-        *ids, = self.gindex(l, r)
-        self.propagates(*ids)
+        ids = self.gindex(l, r)
+        self.propagates(ids)
         l += self.num
         r += self.num
         while l < r:
@@ -302,8 +300,8 @@ class LazySegtree:  # 遅延Segtree
             self.data[i] = self.segfunc(self.data[2 * i], self.data[2 * i + 1])
 
     def query(self, l, r):  # [l, r)のsegfuncしたものを得る
-        *ids, = self.gindex(l, r)
-        self.propagates(*ids)
+        ids = self.gindex(l, r)
+        self.propagates(ids)
         res = self.ide_ele
         l += self.num
         r += self.num
