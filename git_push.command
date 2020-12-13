@@ -1,5 +1,5 @@
 cd Documents/AtCoder
-git add *
+git add *.py
 git status
 read comment
 git commit -m "${comment}"
