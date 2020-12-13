@@ -235,10 +235,10 @@ class Segtree():  # Segtree
         return res
 
 
-class LazySegtree():  # 遅延Segtree
+class LazySegtree():  # 遅延Segtree RMQ and (RUQ or RAQ)
 
     def segfunc(self, x, y):  # 区間にしたい操作
-        return max(x, y)  # ex) max,min,gcd,lcm,sum,product
+        return min(x, y)  # ex) max,min
 
     def __init__(self, LIST, ELE):  # LIST: 配列の初期値, ELE: 単位元
         n = len(LIST)
@@ -270,7 +270,7 @@ class LazySegtree():  # 遅延Segtree
             l >>= 1
         return idx
 
-    def propagates(self, ids):  # 遅延伝搬処理 ids: 伝搬する対象の区間
+    def propagates_RUQ(self, ids):  # 遅延伝搬処理 ids: 伝搬する対象の区間
         for i in reversed(ids):
             v = self.lazy[i]
             if v is None:
@@ -281,9 +281,9 @@ class LazySegtree():  # 遅延Segtree
             self.data[2 * i + 1] = v
             self.lazy[i] = None
 
-    def update(self, l, r, x):  # 区間[l, r)の値をxに更新
+    def update_RUQ(self, l, r, x):  # 区間[l, r)の値をxに更新
         ids = self.gindex(l, r)
-        self.propagates(ids)
+        self.propagates_RUQ(ids)
         l += self.num
         r += self.num
         while l < r:
@@ -299,9 +299,9 @@ class LazySegtree():  # 遅延Segtree
         for i in ids:
             self.data[i] = self.segfunc(self.data[2 * i], self.data[2 * i + 1])
 
-    def query(self, l, r):  # [l, r)のsegfuncしたものを得る
+    def query_RUQ(self, l, r):  # [l, r)のsegfuncしたものを得る
         ids = self.gindex(l, r)
-        self.propagates(ids)
+        self.propagates_RUQ(ids)
         res = self.ide_ele
         l += self.num
         r += self.num
@@ -315,3 +315,47 @@ class LazySegtree():  # 遅延Segtree
             r >>= 1
         return res
 
+    def propagates_RAQ(self, ids):  # 遅延伝搬処理 ids: 伝搬する対象の区間
+        for i in reversed(ids):
+            v = self.lazy[i]
+            if v is None:
+                continue
+            self.lazy[2 * i] += v
+            self.lazy[2 * i + 1] += v
+            self.data[2 * i] += v
+            self.data[2 * i + 1] += v
+            self.lazy[i] = None
+
+    def update_RAQ(self, l, r, x):  # 区間[l, r)の値にxを追加
+        ids = self.gindex(l, r)
+        self.propagates_RAQ(ids)
+        l += self.num
+        r += self.num
+        while l < r:
+            if l & 1:
+                self.lazy[l] += x
+                self.data[l] += x
+                l += 1
+            if r & 1:
+                self.lazy[r - 1] += x
+                self.data[r - 1] += x
+            r >>= 1
+            l >>= 1
+        for i in ids:
+            self.data[i] = self.segfunc(self.data[2 * i], self.data[2 * i + 1])
+
+    def query_RAQ(self, l, r):  # [l, r)のsegfuncしたものを得る
+        ids = self.gindex(l, r)
+        self.propagates_RAQ(ids)
+        res = self.ide_ele
+        l += self.num
+        r += self.num
+        while l < r:
+            if l & 1:
+                res = self.segfunc(res, self.data[l])
+                l += 1
+            if r & 1:
+                res = self.segfunc(res, self.data[r - 1])
+            l >>= 1
+            r >>= 1
+        return res
