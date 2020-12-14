@@ -8,7 +8,7 @@ def levenshtein(S, T):
 
     for i in range(1, ls + 1):
         for j in range(1, lt + 1):
-            cost = 0 if S[i - 1] == T[j - 1] else 1
+            cost = (S[i - 1] != T[j - 1])
             dp[i][j] = min(dp[i - 1][j] + 1, dp[i][j - 1] + 1,
                            dp[i - 1][j - 1] + cost)
     return dp[ls][lt]
