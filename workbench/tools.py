@@ -240,9 +240,14 @@ class LazySegtree():  # 遅延Segtree RMQ and (RUQ or RAQ)
     def segfunc(self, x, y):  # 区間にしたい操作
         return min(x, y)  # ex) max,min
 
+    def ruq_or_raq(self, k, x):  # RUQ or RAQ
+        self.lazy[k] = x  # RUQ
+        self.data[k] = x
+        # self.lazy[k] += x # RAQ
+        # self.data[k] += x
+
     def __init__(self, LIST, ELE):  # LIST: 配列の初期値, ELE: 単位元
-        n = len(LIST)
-        self.ide_ele = ELE
+        n, self.ide_ele = len(LIST), ELE
         self.num = 1 << (n - 1).bit_length()
         self.data = [ELE] * 2 * self.num
         self.lazy = [None] * 2 * self.num
@@ -270,83 +275,34 @@ class LazySegtree():  # 遅延Segtree RMQ and (RUQ or RAQ)
             l >>= 1
         return idx
 
-    def propagates_RUQ(self, ids):  # 遅延伝搬処理 ids: 伝搬する対象の区間
+    def propagates(self, ids):  # 遅延伝搬処理 ids: 伝搬する対象の区間
         for i in reversed(ids):
             v = self.lazy[i]
             if v is None:
                 continue
-            self.lazy[2 * i] = v
-            self.lazy[2 * i + 1] = v
-            self.data[2 * i] = v
-            self.data[2 * i + 1] = v
+            self.ruq_or_raq(2 * i, v)
+            self.ruq_or_raq(2 * i + 1, v)
             self.lazy[i] = None
 
-    def update_RUQ(self, l, r, x):  # 区間[l, r)の値をxに更新
+    def update(self, l, r, x):  # 区間[l, r)の値をxに更新
         ids = self.gindex(l, r)
-        self.propagates_RUQ(ids)
+        self.propagates(ids)
         l += self.num
         r += self.num
         while l < r:
             if l & 1:
-                self.lazy[l] = x
-                self.data[l] = x
+                self.ruq_or_raq(l, x)
                 l += 1
             if r & 1:
-                self.lazy[r - 1] = x
-                self.data[r - 1] = x
+                self.ruq_or_raq(r - 1, x)
             r >>= 1
             l >>= 1
         for i in ids:
             self.data[i] = self.segfunc(self.data[2 * i], self.data[2 * i + 1])
 
-    def query_RUQ(self, l, r):  # [l, r)のsegfuncしたものを得る
+    def query(self, l, r):  # [l, r)のsegfuncしたものを得る
         ids = self.gindex(l, r)
-        self.propagates_RUQ(ids)
-        res = self.ide_ele
-        l += self.num
-        r += self.num
-        while l < r:
-            if l & 1:
-                res = self.segfunc(res, self.data[l])
-                l += 1
-            if r & 1:
-                res = self.segfunc(res, self.data[r - 1])
-            l >>= 1
-            r >>= 1
-        return res
-
-    def propagates_RAQ(self, ids):  # 遅延伝搬処理 ids: 伝搬する対象の区間
-        for i in reversed(ids):
-            v = self.lazy[i]
-            if v is None:
-                continue
-            self.lazy[2 * i] += v
-            self.lazy[2 * i + 1] += v
-            self.data[2 * i] += v
-            self.data[2 * i + 1] += v
-            self.lazy[i] = None
-
-    def update_RAQ(self, l, r, x):  # 区間[l, r)の値にxを追加
-        ids = self.gindex(l, r)
-        self.propagates_RAQ(ids)
-        l += self.num
-        r += self.num
-        while l < r:
-            if l & 1:
-                self.lazy[l] += x
-                self.data[l] += x
-                l += 1
-            if r & 1:
-                self.lazy[r - 1] += x
-                self.data[r - 1] += x
-            r >>= 1
-            l >>= 1
-        for i in ids:
-            self.data[i] = self.segfunc(self.data[2 * i], self.data[2 * i + 1])
-
-    def query_RAQ(self, l, r):  # [l, r)のsegfuncしたものを得る
-        ids = self.gindex(l, r)
-        self.propagates_RAQ(ids)
+        self.propagates(ids)
         res = self.ide_ele
         l += self.num
         r += self.num
