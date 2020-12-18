@@ -9,7 +9,7 @@ for i in range(n * m, 0, -1):
     ans *= (a[cnta] <= i and b[cntb] <= i)
     p, q = (a[cnta] == i), (b[cntb] == i)
     grid += cnta * q + cntb * p + p * q
-    ans *= max(grid * (1 - p - q), cnta * (q - p), cntb * (p - q), p * q)
+    ans *= [grid, cnta, cntb, 1][2 * p + q]
     ans, grid = ans % MOD, grid - 1
     cnta, cntb = cnta + p, cntb + q
 print(ans)
