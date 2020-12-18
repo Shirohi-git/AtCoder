@@ -1,11 +1,9 @@
-s = input()
-k = int(input())
+s, k = input(), int(input())
 
-ssort = sorted(set(s))
-cnt, ans = 0, set()
-while len(ans) < k:
+ans = set()
+for alp in sorted(set(s)):
     for i, si in enumerate(s):
-        if si == ssort[cnt]:
+        if si == alp:
             ans |= {s[i:i + j + 1] for j in range(k)}
-    cnt += 1
-print(sorted(ans)[k - 1])
+    if len(ans) >= k:
+        exit(print(sorted(ans)[k - 1]))
