@@ -8,8 +8,8 @@ def nearlist(N, LIST):  # 隣接リスト
 
 def weighted_nearlist(N, LIST):  # 重み付き隣接リスト
     NEAR = [set() for _ in range(N)]
-    for a, b, d in LIST:
-        NEAR[a - 1].add((b - 1, d))
+    for a, b, w in LIST:
+        NEAR[a - 1].add((b - 1, w))
     return NEAR
 
 
@@ -138,6 +138,26 @@ def topological(N, LIST):  # トポロジカルソート:DAGに適用可
                 que.append(i)
         TPLGSORT.append(q)
     return TPLGSORT
+
+
+def prim(N, NEAR):  #プリム法:最小全域木
+    from heapq import heappush, heappop, heapify
+
+    flag = [0] * N
+    flag[0] = 1
+    que = [(c, j, 0) for j, c in NEAR[0]]
+    heapify(que)
+
+    ans = []
+    while que:
+        c_pq, q, p = heappop(que)
+        if flag[q]:
+            continue
+        flag[q] = 1
+        ans.append((p, q, c_pq))
+        for r, c_qr in NEAR[q]:
+            heappush(que, (c_qr, r, q))
+    return ans
 
 
 class Unionfind():  # Unionfind
