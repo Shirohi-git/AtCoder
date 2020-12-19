@@ -12,8 +12,8 @@ import sys
 sys.setrecursionlimit(10 ** 7)
 
 # 冪乗 n ** m % mod == pow(n, m, mod)
-# フェルマーの小定理(mは素数, kはmと互いに素)
-# pow(a, mod-1, mod) == 1 (mod_p) <=> pow(a, mod-2, mod) == a**(-1) (mod_p)
+# フェルマーの小定理(pは素数, aはpと互いに素)
+# pow(a, p-1, p) == 1 (mod_p) <=> pow(a, p-2, p) == a**(-1) (mod_p)
 # 割り算するところを掛け算できるので先にmodが取れる
 
 
