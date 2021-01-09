@@ -1,13 +1,8 @@
-from itertools import product
-
 x, y, z, k = map(int, input().split())
-a = sorted(map(int, input().split()))[::-1]
-b = sorted(map(int, input().split()))[::-1]
-c = sorted(map(int, input().split()))[::-1]
+a = list(map(int, input().split()))
+b = list(map(int, input().split()))
+c = list(map(int, input().split()))
 
-ab = [ai + bi for ai, bi in product(a, b)]
-ab = sorted(ab)[:-k-1:-1]
-
-abc = [abi + ci for abi, ci in product(ab, c)]
-abc = sorted(abc)[:-k-1:-1]
-print(*abc, sep='\n')
+ab = sorted(ai + bj for ai in a for bj in b)[-k:]
+abc = sorted(abi + cj for abi in ab for cj in c)[-k:]
+print(*abc[::-1], sep='\n')
