@@ -33,6 +33,15 @@ def bitcount(N):  # 立ってるbitの数
     return bitcnt
 
 
+def extgcd(a, b):  # 拡張互除法
+    x, y, u, v = 1, 0, 0, 1
+    while b:
+        q, a, b = a // b, b, a % b
+        x, u = u, x - q * u
+        y, v = v, y - q * v
+    return a, x, y
+
+
 def factorize(N):  # 素因数分解
     p, PRIME = 2, []
     while p * p <= N:
