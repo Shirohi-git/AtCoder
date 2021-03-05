@@ -98,6 +98,8 @@ def dijkstra(S, N, NEAR):  # ダイクストラ法:単一始点最短経路 O((n
     que = [(DIST[S], S)]
     while que:
         d, q = heappop(que)
+        if DIST[q] < d:
+            continue
         for i, d_qi in NEAR[q]:
             tmp = d + d_qi
             if DIST[i] > tmp:
