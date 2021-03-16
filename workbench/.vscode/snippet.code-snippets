@@ -1,4 +1,16 @@
 {
+	"mod10**9+7": {
+		"prefix": "MOD1",
+		"body": [
+			"MOD1 = 10**9 + 7"
+		],
+	},
+	"mod998244353": {
+		"prefix": "MOD9",
+		"body": [
+			"MOD9 = 998244353"
+		],
+	},
 	"intinput": {
 		"prefix": "uint",
 		"body": [
@@ -29,11 +41,17 @@
 			"[list(map(int, input().split())) for _ in range(${1:n})]"
 		],
 	},
+	"printYesNo": {
+		"prefix": "uprint",
+		"body": [
+			"print('Yes' if res else 'No')"
+		],
+	},
 	"ceil": {
 		"prefix": "uceil",
 		"body": [
 			"def ceil(X, Y):",
-				"\treturn (X + Y - 1) // Y"
+			"\treturn (X + Y - 1) // Y"
 		],
 	},
 	"lcm": {
@@ -41,18 +59,18 @@
 		"body": [
 			"from math import gcd\n\n",
 			"def lcm(X, Y):",
-				"\treturn (X * Y) // gcd(X, Y)"
+			"\treturn (X * Y) // gcd(X, Y)"
 		],
 	},
 	"nearlist": {
 		"prefix": "unearlist",
 		"body": [
 			"def nearlist(N, LIST):",
-				"\tNEAR = [set() for _ in range(N)]",
-				"\tfor a, b in LIST:",
-					"\t\tNEAR[a - 1].add(b - 1)",
-					"\t\tNEAR[b - 1].add(a - 1)",
-				"\treturn NEAR"
+			"\tNEAR = [set() for _ in range(N)]",
+			"\tfor a, b in LIST:",
+			"\t\tNEAR[a - 1].add(b - 1)",
+			"\t\tNEAR[b - 1].add(a - 1)",
+			"\treturn NEAR"
 		],
 	},
 }
