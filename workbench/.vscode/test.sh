@@ -10,4 +10,4 @@ if [ ! -e ${test_dir} ]; then
     oj dl -d ${problem_name} $url
 fi
 
-oj test -c "python3 ${problem_name}.py" -d ${problem_name}
+oj t -c "python3 ${problem_name}.py" -d ${problem_name}
