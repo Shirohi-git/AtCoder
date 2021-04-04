@@ -127,10 +127,11 @@ def bigcmb(N, R, MOD):  # nCr(mod p) #n>=10**7,r<=10**6 #前処理不要
 
 def binary(l, r):  # 二分探索 # N:探索要素数 # lは不適, rは適合
     while abs(r - l) > 1:
+        mid = (l + r) // 2
         if True:  # 条件式
-            r = (l + r) // 2
+            r = mid
         else:
-            l = (l + r) // 2
+            l = mid
     return r
 
 
