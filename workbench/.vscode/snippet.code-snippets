@@ -1,12 +1,12 @@
 {
 	"mod10**9+7": {
-		"prefix": "MOD1",
+		"prefix": "u1mod",
 		"body": [
 			"MOD1 = 10**9 + 7"
 		],
 	},
 	"mod998244353": {
-		"prefix": "MOD9",
+		"prefix": "u9mod",
 		"body": [
 			"MOD9 = 998244353"
 		],
