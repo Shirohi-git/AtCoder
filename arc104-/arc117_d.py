@@ -29,24 +29,18 @@ class Recursive_dfs():
         self.ans = [0] * N
         self.ans[S] = 1
         self.cnt = 1
+        self.idx = -1
 
     def recdfs(self, p):
-        tmp = -1
         for i in near[p]:
-            if lst and i == lst[-1]:
-                tmp = lst.pop()
+            if i == lst[self.idx]:
+                self.idx -= 1
                 continue
-            if self.ans[i]:
-                continue
-            self.cnt += 1
-            self.ans[i] = self.cnt
-            self.recdfs(i)
-            self.cnt += 1
-        if tmp > -1:
-            self.cnt += 1
-            self.ans[tmp] = self.cnt
-            self.recdfs(tmp)
-            self.cnt += 1
+            if self.ans[i] == 0:
+                self.cnt += 1
+                self.ans[i] = self.cnt
+                self.recdfs(i)
+                self.cnt += 1
 
 
 n = int(input())
@@ -56,9 +50,10 @@ near = nearlist(n)
 u, _ = bfs(0, n)
 v, p = bfs(u, n)
 
-lst = []
+lst = [-1]
 while v > -1:
     lst.append(v)
+    near[p[v]].append(v)
     v = p[v]
 lst.pop()
 
