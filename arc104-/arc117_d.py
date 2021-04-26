@@ -3,7 +3,7 @@ sys.setrecursionlimit(10 ** 7)
 
 
 def nearlist(N):
-    NEAR = [[] for _ in range(N)]
+    NEAR = [[] for _ in range(N + 1)]
     for a, b in ab:
         NEAR[a - 1].append(b - 1)
         NEAR[b - 1].append(a - 1)
