@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "test_atcoder_sample",
+            "label": "test_cpp_atcoder_sample",
             "type": "shell",
             "group": {
                 "kind": "build",
@@ -10,12 +10,12 @@
             },
             "command": "sh",
             "args": [
-                "${workspaceFolder}/.vscode/test.sh",
+                "${workspaceFolder}/.vscode/test_cpp.sh",
                 "${fileBasenameNoExtension}"
             ]
         },
         {
-            "label": "submit_atcoder",
+            "label": "test_cpp_local",
             "type": "shell",
             "group": {
                 "kind": "build",
@@ -23,12 +23,28 @@
             },
             "command": "sh",
             "args": [
-                "${workspaceFolder}/.vscode/submit.sh",
+                "${workspaceFolder}/.vscode/comp_exe_cpp.sh",
+                "${fileBasenameNoExtension}"
+            ],
+            "presentation":{
+                
+            }
+        },
+        {
+            "label": "submit_cpp_atcoder",
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "command": "sh",
+            "args": [
+                "${workspaceFolder}/.vscode/submit_cpp.sh",
                 "${fileBasenameNoExtension}"
             ]
         },
         {
-            "label": "makefile_abc",
+            "label": "makefile_cpp_abc",
             "type": "shell",
             "group": {
                 "kind": "build",
@@ -36,7 +52,7 @@
             },
             "command": "sh",
             "args": [
-                "${workspaceFolder}/.vscode/makefile.sh"
+                "${workspaceFolder}/.vscode/makefile_cpp.sh"
             ]
         }
     ]

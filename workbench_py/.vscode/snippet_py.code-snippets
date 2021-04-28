@@ -1,61 +1,61 @@
 {
 	"mod10**9+7": {
-		"prefix": "u1mod",
+		"prefix": "p1mod",
 		"body": [
 			"MOD1 = 10**9 + 7"
 		],
 	},
 	"mod998244353": {
-		"prefix": "u9mod",
+		"prefix": "p9mod",
 		"body": [
 			"MOD9 = 998244353"
 		],
 	},
 	"intinput": {
-		"prefix": "uint",
+		"prefix": "pint",
 		"body": [
 			"int(input())"
 		],
 	},
 	"inputtuple": {
-		"prefix": "utuple",
+		"prefix": "ptuple",
 		"body": [
 			"map(int, input().split())"
 		],
 	},
 	"inputlist": {
-		"prefix": "ulist",
+		"prefix": "plist",
 		"body": [
 			"list(map(int, input().split()))"
 		],
 	},
 	"inputvector": {
-		"prefix": "uvec",
+		"prefix": "pvec",
 		"body": [
 			"[input() for _ in range(${1:n})]"
 		],
 	},
 	"inputmatrix": {
-		"prefix": "umat",
+		"prefix": "pmat",
 		"body": [
 			"[list(map(int, input().split())) for _ in range(${1:n})]"
 		],
 	},
 	"printYesNo": {
-		"prefix": "uprint",
+		"prefix": "pprint",
 		"body": [
 			"print('Yes' if res else 'No')"
 		],
 	},
 	"ceil": {
-		"prefix": "uceil",
+		"prefix": "pceil",
 		"body": [
 			"def ceil(X, Y):",
 			"\treturn (X + Y - 1) // Y"
 		],
 	},
 	"lcm": {
-		"prefix": "ulcm",
+		"prefix": "plcm",
 		"body": [
 			"from math import gcd\n\n",
 			"def lcm(X, Y):",
@@ -63,7 +63,7 @@
 		],
 	},
 	"nearlist": {
-		"prefix": "unearlist",
+		"prefix": "pnearlist",
 		"body": [
 			"def nearlist(N, LIST):",
 			"\tNEAR = [set() for _ in range(N)]",

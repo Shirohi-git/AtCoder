@@ -1,0 +1,43 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "test_py_atcoder_sample",
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "command": "sh",
+            "args": [
+                "${workspaceFolder}/.vscode/test_py.sh",
+                "${fileBasenameNoExtension}"
+            ]
+        },
+        {
+            "label": "submit_py_atcoder",
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "command": "sh",
+            "args": [
+                "${workspaceFolder}/.vscode/submit_py.sh",
+                "${fileBasenameNoExtension}"
+            ]
+        },
+        {
+            "label": "makefile_py_abc",
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "command": "sh",
+            "args": [
+                "${workspaceFolder}/.vscode/makefile_py.sh"
+            ]
+        }
+    ]
+}
