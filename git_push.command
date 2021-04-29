@@ -1,5 +1,6 @@
 cd Documents/AtCoder
 git add *.py
+git add *.cpp
 git status
 read comment
 if [ -z "$comment" ]; then

@@ -1,0 +1,32 @@
+{
+    "mod10**9+7": {
+        "prefix": "c1mod",
+        "body": [
+            "const ll MOD1 = 10**9 + 7;"
+        ],
+    },
+    "mod998244353": {
+        "prefix": "c9mod",
+        "body": [
+            "const ll MOD9 = 998244353;"
+        ],
+    },
+    "definevector": {
+        "prefix": "cdvec",
+        "body": [
+            "vector<ll> ${1:a}(pow(10, 6));"
+        ],
+    },
+    "inputvector": {
+        "prefix": "cvec",
+        "body": [
+            "rep(i, ${1:n}) { cin >> ${2:a}[i]; }"
+        ],
+    },
+    "print": {
+        "prefix": "cprint",
+        "body": [
+            "cout << ${1:ans} << '\n';"
+        ],
+    },
+}
