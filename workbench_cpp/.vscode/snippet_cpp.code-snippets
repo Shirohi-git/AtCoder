@@ -23,6 +23,18 @@
             "rep(i, ${1:n}) { cin >> ${2:a}[i]; }"
         ],
     },
+    "definematrix": {
+        "prefix": "cdmat",
+        "body": [
+            "vector<vector<ll>> ${1:a}(2000, vector<ll>(2000));"
+        ],
+    },
+    "inputmatrix": {
+        "prefix": "cmat",
+        "body": [
+            "rep(i, ${2:n}) { rep(j, ${3:n}) cin >> ${1:a}[i][j]; }"
+        ],
+    },
     "print": {
         "prefix": "cprint",
         "body": [

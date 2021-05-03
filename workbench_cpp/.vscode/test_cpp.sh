@@ -10,5 +10,5 @@ if [ ! -e ${test_dir} ]; then
     oj dl -d ${problem_name} $url
 fi
 
-g++-10 ${problem_name}.cpp -o ${problem_name}.out
+g++-10 -std=gnu++17 ${problem_name}.cpp -o ${problem_name}.out
 oj t -c "./${problem_name}.out" -d ${problem_name}
