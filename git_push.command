@@ -2,9 +2,9 @@ cd Documents/AtCoder
 git add *.py
 git add *.cpp
 git status
-read res
+read -p "y/n? -> " res
 if [ "$res" = "y" ]; then
-	read comment
+	read -p "if U have comment -> " comment
 	if [ -z "$comment" ]; then
 	    comment="daily mission"
 	fi
