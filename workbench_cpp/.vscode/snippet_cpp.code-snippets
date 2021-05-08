@@ -2,7 +2,7 @@
     "mod10**9+7": {
         "prefix": "c1mod",
         "body": [
-            "const ll MOD1 = 10**9 + 7;"
+            "const ll MOD1 = 1e9 + 7;"
         ],
     },
     "mod998244353": {
@@ -26,7 +26,7 @@
     "definematrix": {
         "prefix": "cdmat",
         "body": [
-            "vector<vector<ll>> ${1:a}(2000, vector<ll>(2000));"
+            "matll ${1:a}(2000, vector<ll>(2000));"
         ],
     },
     "inputmatrix": {
@@ -38,7 +38,7 @@
     "print": {
         "prefix": "cprint",
         "body": [
-            "cout << ${1:ans} << '\n';"
+            "cout << ${1:ans} << '\\n';"
         ],
     },
 }
