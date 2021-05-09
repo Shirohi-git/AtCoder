@@ -13,7 +13,7 @@ def weighted_nearlist(N, LIST):  # 重み付き隣接リスト
     return NEAR
 
 
-def bfs(S, N, NEAR):  # 幅優先探索  # キュー 
+def bfs(S, N, NEAR):  # 幅優先探索  # キュー
     # 始点, 頂点数, 隣接リスト
     from collections import deque
 
@@ -142,7 +142,7 @@ def topological(N, LIST):  # トポロジカルソート:DAGに適用可
     return TPLGSORT
 
 
-def prim(N, NEAR):  #プリム法:最小全域木
+def prim(N, NEAR):  # プリム法:最小全域木
     from heapq import heappush, heappop, heapify
 
     flag = [0] * N
@@ -158,7 +158,8 @@ def prim(N, NEAR):  #プリム法:最小全域木
         flag[q] = 1
         ans.append((p, q, c_pq))
         for r, c_qr in NEAR[q]:
-            heappush(que, (c_qr, r, q))
+            if 1 - flag[r]:
+                heappush(que, (c_qr, r, q))
     return ans
 
 
