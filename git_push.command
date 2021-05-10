@@ -4,7 +4,7 @@ git add *.cpp
 git status
 read -p "y/n? -> " res
 if [ "$res" = "y" ]; then
-	read -p "if U have comment -> " comment
+	read -p "if U have a comment -> " comment
 	if [ -z "$comment" ]; then
 	    comment="daily mission"
 	fi

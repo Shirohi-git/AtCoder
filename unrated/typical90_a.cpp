@@ -5,17 +5,6 @@ using namespace std;
 
 long long n, l, k;
 vector<long long> a(pow(10, 6));
-bool isOK(int, int);
-int binary_search();
-
-int main() {
-    int ans;
-    cin >> n >> l >> k;
-    rep(i, n) { cin >> a[i]; }
-    ans = binary_search();
-    cout << ans << endl;
-    return 0;
-}
 
 bool isOK(int res) {
     int cnt = 0, bfo = 0;
@@ -42,3 +31,13 @@ int binary_search() {
     }
     return left;
 }
+
+int main() {
+    int ans;
+    cin >> n >> l >> k;
+    rep(i, n) { cin >> a[i]; }
+    ans = binary_search();
+    cout << ans << endl;
+    return 0;
+}
+
