@@ -54,7 +54,7 @@ int binary_search(ll l, ll r) {
     int left = l, right = r + 1;
     while (right - left > 1) {
         int mid = left + (right - left) / 2;
-        if (isOK(mid) == false)
+        if (isOK(mid))
             right = mid;
         else
             left = mid;

@@ -3,7 +3,7 @@ using namespace std;
 using ll = long long;
 using matll = vector<vector<ll>>;
 
-#define sum(v) accumulate(v.begin(), v.end(), 0)
+#define sum(v) accumulate(v.begin(), v.end(), ll(0))
 #define rep(i, n) for (ll i = 0; i < ll(n); i++)
 #define for_itr(id, itr) for (auto& id : itr)
 
