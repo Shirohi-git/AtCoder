@@ -17,7 +17,7 @@ int main() {
     ll n;
     cin >> n;
     vector<ll> a(n);
-    rep(i, n) { cin >> a[i]; }
+    rep(i, n) cin >> a[i];
 
     return 0;
 }

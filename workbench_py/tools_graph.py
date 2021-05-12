@@ -197,14 +197,14 @@ class Unionfind():  # Unionfind
     def size(self, x):  # 特定のグループのサイズ
         return - self.parents[self.find(x)]
 
-    def sizes(self):  # 全てのグループのサイズ
+    def all_sizes(self):  # 全てのグループのサイズ
         return {i: -x for i, x in enumerate(self.parents) if x < 0}
 
     def member(self, x):  # 特定のグループの要素
         root = self.find(x)
         return [i for i in range(self.N) if self.find(i) == root]
 
-    def members(self):  # 全てのグループごとの要素
+    def all_members(self):  # 全てのグループごとの要素
         group = {i: set() for i, x in enumerate(self.parents) if x < 0}
         for i in range(self.N):
             group[self.find(i)].add(i)
