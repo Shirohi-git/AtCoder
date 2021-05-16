@@ -12,6 +12,9 @@ using matll = vector<vector<ll>>;
 #define repi(i, a, b) for (ll i = ll(a); i < ll(b); i++)
 #define for_itr(id, itr) for (auto& id : itr)
 #define for_dic(key, val, dic) for (const auto& [key, val] : dic)
+#define deg_to_rad(deg) (((deg) / 360) * 2 * M_PI)
+#define rad_to_deg(rad) (((rad) / 2 / M_PI) * 360)
+#define coutdeci cout << fixed << setprecision(15)
 
 int main() {
     ll n;
