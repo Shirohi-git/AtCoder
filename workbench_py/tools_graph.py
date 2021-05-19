@@ -175,7 +175,7 @@ class Unionfind():  # Unionfind
             self.parents[x] = self.find(self.parents[x])
             return self.parents[x]
 
-    def union(self, x, y):  # グループの併合
+    def unite(self, x, y):  # グループの併合
         x = self.find(x)
         y = self.find(y)
         if x == y:

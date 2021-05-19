@@ -16,8 +16,8 @@ int main() {
 
     sort_all(dcs);
     vector<ll> dp(10000, 0);
-    for_itr(tpl, dcs) {
-        ll d = tpl[0], c = tpl[1], s = tpl[2];
+    for_itr(vec, dcs) {
+        ll d = vec[0], c = vec[1], s = vec[2];
         rep(tmp, d - c + 1) {
             ll i = (d - c) - tmp;
             dp[i + c] = max(dp[i + c], dp[i] + s);
