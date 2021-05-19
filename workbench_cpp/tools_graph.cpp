@@ -73,9 +73,9 @@ class Unionfind {
         if (parents[x] > parents[y]) {
             ll tmp = x;
             x = y, y = tmp;
-            parents[x] += parents[y];
-            parents[y] = x;
         }
+        parents[x] += parents[y];
+        parents[y] = x;
     }
 
     bool same(ll x, ll y) { return (find(x) == find(y)); }
