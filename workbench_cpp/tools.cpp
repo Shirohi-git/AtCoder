@@ -6,39 +6,15 @@ using matll = vector<vector<ll>>;
 #define all(v) v.begin(), v.end()
 #define min_itr(v) *min_element(v.begin(), v.end())
 #define max_itr(v) *max_element(v.begin(), v.end())
+#define sum(v) accumulate(v.begin(), v.end(), ll(0))
 #define sort_all(v) sort(v.begin(), v.end())
 #define rep(i, n) for (ll i = 0; i < ll(n); i++)
 #define repi(i, a, b) for (ll i = ll(a); i < ll(b); i++)
 #define for_itr(id, itr) for (auto& id : itr)
 #define for_dic(key, val, dic) for (const auto& [key, val] : dic)
-
-//隣接リスト
-int nearlist(const matll& lst, matll& res) {
-    for_itr(id, lst) {
-        res[id[0] - 1].push_back(id[1] - 1);
-        res[id[1] - 1].push_back(id[0] - 1);
-    }
-    return 0;
-}
-
-//幅優先探索
-int bfs(const int& s, const matll& lst, vector<ll>& res) {
-    res[s] = 0;
-    deque<ll> que;
-    que.push_back(s);
-
-    while (!que.empty()) {
-        ll q;
-        q = que.front();
-        que.pop_front();
-        for_itr(id, lst[q]) {
-            if (res[id] > 0) continue;
-            res[id] = res[q] + 1;
-            que.push_back(id);
-        }
-    }
-    return 0;
-}
+#define deg_to_rad(deg) (((deg) / 360) * 2 * M_PI)
+#define rad_to_deg(rad) (((rad) / 2 / M_PI) * 360)
+#define coutdeci cout << fixed << setprecision(15)
 
 //二分探索判定
 bool isOK(ll mid) {
@@ -77,5 +53,12 @@ int mat_product(matll a, matll b, matll& res) {
 int mat_powlst(ll cnt, matll mat, vector<matll>& res) {
     res[0] = mat;
     rep(p, cnt) mat_product(res[p], res[p], res[p + 1]);
+    return 0;
+}
+
+int main() {
+    ll n;
+    cin >> n;
+
     return 0;
 }

@@ -1,0 +1,123 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using matll = vector<vector<ll>>;
+
+#define all(v) v.begin(), v.end()
+#define min_itr(v) *min_element(v.begin(), v.end())
+#define max_itr(v) *max_element(v.begin(), v.end())
+#define sum(v) accumulate(v.begin(), v.end(), ll(0))
+#define sort_all(v) sort(v.begin(), v.end())
+#define rep(i, n) for (ll i = 0; i < ll(n); i++)
+#define repi(i, a, b) for (ll i = ll(a); i < ll(b); i++)
+#define for_itr(id, itr) for (auto& id : itr)
+#define for_dic(key, val, dic) for (const auto& [key, val] : dic)
+#define deg_to_rad(deg) (((deg) / 360) * 2 * M_PI)
+#define rad_to_deg(rad) (((rad) / 2 / M_PI) * 360)
+#define coutdeci cout << fixed << setprecision(15)
+
+//隣接リスト
+int nearlist(const matll& lst, matll& res) {
+    for_itr(id, lst) {
+        res[id[0] - 1].push_back(id[1] - 1);
+        res[id[1] - 1].push_back(id[0] - 1);
+    }
+    return 0;
+}
+
+//幅優先探索
+int bfs(const int& s, const matll& lst, vector<ll>& res) {
+    res[s] = 0;
+    deque<ll> que;
+    que.push_back(s);
+    while (!que.empty()) {
+        ll q;
+        q = que.front();
+        que.pop_front();
+        for_itr(id, lst[q]) {
+            if (res[id] > 0) continue;
+            res[id] = res[q] + 1;
+            que.push_back(id);
+        }
+    }
+    return 0;
+}
+
+// Unionfind
+class Unionfind {
+   private:
+    vector<ll> res;
+    map<ll, vector<ll>> group;
+
+   public:
+    ll N;
+    vector<ll> parents;
+
+    Unionfind(ll n0) {
+        N = n0;
+        parents = vector<ll>(N, -1);
+    }
+
+    ll find(ll x) {
+        if (parents[x] < 0)
+            return x;
+        else {
+            parents[x] = find(parents[x]);
+            return parents[x];
+        }
+    }
+
+    void unite(ll x, ll y) {
+        x = find(x), y = find(y);
+        if (x == y) return;
+        if (parents[x] > parents[y]) {
+            ll tmp = x;
+            x = y, y = tmp;
+            parents[x] += parents[y];
+            parents[y] = x;
+        }
+    }
+
+    bool same(ll x, ll y) { return (find(x) == find(y)); }
+
+    ll roots_cnt() {
+        ll cnt = 0;
+        for_itr(pi, parents) if (pi < 0) cnt++;
+        return cnt;
+    }
+
+    vector<ll>& roots() {
+        res = vector<ll>(0);
+        rep(i, N) if (parents[i] < 0) res.push_back(i);
+        return res;
+    }
+
+    ll size(ll x) { return -parents[find(x)]; }
+
+    vector<ll>& all_sizes() {
+        res = vector<ll>(0);
+        for_itr(pi, parents) if (pi < 0) res.push_back(-pi);
+        return res;
+    }
+
+    vector<ll>& member(ll x) {
+        res = vector<ll>(0);
+        ll root = find(x);
+        rep(i, N) if (find(i) == root) res.push_back(i);
+        return res;
+    }
+
+    map<ll, vector<ll>>& all_members() {
+        group = {};
+        rep(i, N) if (parents[i] < 0) group[i] = vector<ll>(0);
+        rep(i, N) group[find(i)].push_back(i);
+        return group;
+    }
+};
+
+int main() {
+    ll n;
+    cin >> n;
+
+    return 0;
+}
