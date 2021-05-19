@@ -16,17 +16,17 @@ using matll = vector<vector<ll>>;
 #define rad_to_deg(rad) (((rad) / 2 / M_PI) * 360)
 #define coutdeci cout << fixed << setprecision(15)
 
-//隣接リスト
-int nearlist(const matll& lst, matll& res) {
+//隣接リスト push_backすると参照壊れるから中身だけコピペ
+int nearlist(const matll& lst, matll& near) {
     for_itr(id, lst) {
-        res[id[0] - 1].push_back(id[1] - 1);
-        res[id[1] - 1].push_back(id[0] - 1);
+        near[id[0] - 1].push_back(id[1] - 1);
+        naer[id[1] - 1].push_back(id[0] - 1);
     }
     return 0;
 }
 
 //幅優先探索
-int bfs(const int& s, const matll& lst, vector<ll>& res) {
+int bfs(const int& s, const matll& near, vector<ll>& res) {
     res[s] = 0;
     deque<ll> que;
     que.push_back(s);
@@ -34,10 +34,30 @@ int bfs(const int& s, const matll& lst, vector<ll>& res) {
         ll q;
         q = que.front();
         que.pop_front();
-        for_itr(id, lst[q]) {
+        for_itr(id, near[q]) {
             if (res[id] > 0) continue;
             res[id] = res[q] + 1;
             que.push_back(id);
+        }
+    }
+    return 0;
+}
+
+//ダイクストラ法
+int dijkstra(const int& s, const vector<matll>& w_near, vector<ll>& dist) {
+    dist[s] = 0;
+    priority_queue<vector<ll>> que;
+    que.push({0, s});
+    while (que.size() > 0) {
+        ll d = que.top()[0], q = que.top()[1];
+        que.pop();
+        if (dist[q] < d) continue;
+        for_itr(nq, w_near[q]) {
+            ll nxt = nq[0], tmp = d + nq[1];
+            if (dist[nxt] > tmp) {
+                dist[nxt] = tmp;
+                que.push({tmp, nxt});
+            }
         }
     }
     return 0;
