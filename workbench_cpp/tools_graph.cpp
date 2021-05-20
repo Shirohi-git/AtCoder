@@ -20,7 +20,7 @@ using matll = vector<vector<ll>>;
 int nearlist(const matll& lst, matll& near) {
     for_itr(id, lst) {
         near[id[0] - 1].push_back(id[1] - 1);
-        naer[id[1] - 1].push_back(id[0] - 1);
+        near[id[1] - 1].push_back(id[0] - 1);
     }
     return 0;
 }
@@ -35,7 +35,7 @@ int bfs(const int& s, const matll& near, vector<ll>& res) {
         q = que.front();
         que.pop_front();
         for_itr(id, near[q]) {
-            if (res[id] > 0) continue;
+            if (res[id] > -1) continue;
             res[id] = res[q] + 1;
             que.push_back(id);
         }
@@ -51,12 +51,12 @@ int dijkstra(const int& s, const vector<matll>& w_near, vector<ll>& dist) {
     while (que.size() > 0) {
         ll d = que.top()[0], q = que.top()[1];
         que.pop();
-        if (dist[q] < d) continue;
+        if (dist[q] < -d) continue;
         for_itr(nq, w_near[q]) {
-            ll nxt = nq[0], tmp = d + nq[1];
+            ll nxt = nq[0], tmp = -d + nq[1];
             if (dist[nxt] > tmp) {
                 dist[nxt] = tmp;
-                que.push({tmp, nxt});
+                que.push({-tmp, nxt});
             }
         }
     }
