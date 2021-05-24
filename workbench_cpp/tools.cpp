@@ -38,6 +38,50 @@ int binary_search(ll l, ll r) {
     return left;
 }
 
+//累乗(mod)
+ll mod_pow(ll x, ll y, const ll& mod) {
+    ll res = 1;
+    while (y > 0) {
+        if (y & 1) res = (res * x) % mod;
+        x = (x * x) % mod;
+        y >>= 1;
+    }
+    return res;
+}
+
+//組合せ数
+class Combination {
+   private:
+    vector<ll> fact, inv, factinv;
+
+   public:
+    ll N, MOD;
+
+    Combination(ll n0, ll mod) {
+        N = n0, MOD = mod;
+        fact = vector<ll>(N + 1, -1);
+        inv = vector<ll>(N + 1, -1);
+        factinv = vector<ll>(N + 1, -1);
+
+        fact[0] = 1, fact[1] = 1;
+        inv[0] = 0, inv[1] = 1;
+        factinv[0] = 1, factinv[1] = 1;
+        repi(i, 2, N + 1) {
+            fact[i] = (fact[i - 1] * i) % MOD;
+            inv[i] = mod_pow(i, MOD - 2, MOD);
+            factinv[i] = (factinv[i - 1] * inv[i]) % MOD;
+        }
+    }
+
+    ll count(ll cn, ll cr) {
+        if ((cr < 0) || (cn < cr)) return 0;
+        cr = min(cr, cn - cr);
+        ll res = fact[cn] * factinv[cr] % MOD;
+        res = res * factinv[cn - cr] % MOD;
+        return (res % MOD + MOD) % MOD;
+    }
+};
+
 //行列積
 int mat_product(matll a, matll b, matll& res) {
     ll n = a.size(), m = b.size(), l = b[0].size();

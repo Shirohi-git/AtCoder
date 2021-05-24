@@ -97,11 +97,13 @@ class Eratosthenes():  # エラトステネスの篩
 
 
 class Combination():  # nCr(mod p) #n<=10**6
-    def __init__(self, N, MOD):  # cmbの前処理
+    # cmbの前処理(階乗, 各iの逆元, 階乗の逆元)
+    def __init__(self, N, MOD):  
         self.mod = MOD
-        self.FACT = [1, 1]  # 階乗
-        self.INV = [0, 1]  # 各iの逆元
-        self.FACTINV = [1, 1]  # 階乗の逆元
+        
+        self.FACT = [1, 1]
+        self.INV = [0, 1]
+        self.FACTINV = [1, 1]
         for i in range(2, N + 1):
             self.FACT.append((self.FACT[-1] * i) % self.mod)
             self.INV.append(pow(i, self.mod - 2, self.mod))
