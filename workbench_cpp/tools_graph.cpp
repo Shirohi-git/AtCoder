@@ -6,7 +6,7 @@ using matll = vector<vector<ll>>;
 #define all(v) v.begin(), v.end()
 #define min_itr(v) *min_element(v.begin(), v.end())
 #define max_itr(v) *max_element(v.begin(), v.end())
-#define sum(v) accumulate(v.begin(), v.end(), ll(0))
+#define sum(v) accumulate(v.begin(), v.end(), 0LL)
 #define sort_all(v) sort(v.begin(), v.end())
 #define rep(i, n) for (ll i = 0; i < ll(n); i++)
 #define repi(i, a, b) for (ll i = ll(a); i < ll(b); i++)

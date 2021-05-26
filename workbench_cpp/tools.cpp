@@ -6,7 +6,7 @@ using matll = vector<vector<ll>>;
 #define all(v) v.begin(), v.end()
 #define min_itr(v) *min_element(v.begin(), v.end())
 #define max_itr(v) *max_element(v.begin(), v.end())
-#define sum(v) accumulate(v.begin(), v.end(), ll(0))
+#define sum(v) accumulate(v.begin(), v.end(), 0LL)
 #define sort_all(v) sort(v.begin(), v.end())
 #define rep(i, n) for (ll i = 0; i < ll(n); i++)
 #define repi(i, a, b) for (ll i = ll(a); i < ll(b); i++)
@@ -27,7 +27,7 @@ bool isOK(ll mid) {
 
 //二分探索
 int binary_search(ll l, ll r) {
-    int left = l, right = r + 1;
+    ll left = l, right = r + 1;
     while (right - left > 1) {
         int mid = left + (right - left) / 2;
         if (isOK(mid))
@@ -80,6 +80,43 @@ class Combination {
         res = res * factinv[cn - cr] % MOD;
         return (res % MOD + MOD) % MOD;
     }
+};
+
+// Fenwicktree(BinaryIndexedTree) 0-indexed
+class Fenwicktree {
+   private:
+    vector<ll> tree;
+
+   public:
+    ll N;
+    Fenwicktree(int n0) {
+        N = n0;
+        tree = vector<ll>(N, 0);
+    }
+
+    // RSQ[0,r]
+    ll accsum(int r) {
+        ll res = 0;
+        r++;
+        while (r > 0) {
+            res += tree[r - 1];
+            r -= r & -r;
+        }
+        return res;
+    }
+
+    // update vec[idx] += x
+    void update(ll idx, ll x) {
+        idx++;
+        while (idx <= N) {
+            tree[idx - 1] += x;
+            idx += idx & -idx;
+        }
+        return;
+    }
+
+    // RSQ[l,r)
+    ll query(ll l, ll r) { return accsum(r - 1) - accsum(l - 1); }
 };
 
 //行列積

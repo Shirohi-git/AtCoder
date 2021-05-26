@@ -78,8 +78,10 @@ def totient(N):  # オイラーのトーシェント関数
     return phi
 
 
-class Eratosthenes():  # エラトステネスの篩
-    def __init__(self, N):  # 素数リスト生成 O(n*log(log n))
+# エラトステネスの篩
+class Eratosthenes():
+    # 素数リスト生成 O(n*log(log n))
+    def __init__(self, N):
         self.fact = [i for i in range(N + 1)]
         for i in range(2, int(N ** 0.5) + 1):
             if self.fact[i] < i:
@@ -87,8 +89,8 @@ class Eratosthenes():  # エラトステネスの篩
             for j in range(i ** 2, N + 1, i):
                 self.fact[j] = i
         self.prime = [i for i in range(2, N + 1) if i == self.fact[i]]
-
-    def factor(self, NUM):  # 高速素因数分解 O(log num)
+    # 高速素因数分解 O(log num)
+    def factor(self, NUM):
         PRIME = set()
         while NUM > 1:
             PRIME.add(self.fact[NUM])
@@ -188,26 +190,30 @@ class TSP(): # 巡回セールスマン問題
         return res
 
 
-class Fenwicktree():  # Fenwicktree # 0-indexed
+# Fenwicktree # 0-indexed
+class Fenwicktree():
     
     def __init__(self, n):
         self.n = n
         self.tree = [0] * n
 
-    def accsum(self, i):  # 区間和[0, i]
+    # 区間和[0, i]
+    def accsum(self, i):
         i, res = i + 1, 0
         while i > 0:
             res += self.tree[i - 1]
             i -= i & -i
         return res
 
-    def update(self, i, x):  # lst[i] += x
+    # lst[i] += x
+    def update(self, i, x):
         i += 1
         while i <= self.n:
             self.tree[i - 1] += x
             i += i & -i
 
-    def query(self, i, j):  # 区間和[i ,j)
+    # 区間和[i ,j)
+    def query(self, i, j):
         return self.accsum(j - 1) - self.accsum(i - 1)
 
 
