@@ -97,8 +97,8 @@ class Eratosthenes():
             NUM //= self.fact[NUM]
         return PRIME
 
-
-class Combination():  # nCr(mod p) #n<=10**6
+# nCr(mod p) #n<=10**6
+class Combination():
     # cmbの前処理(階乗, 各iの逆元, 階乗の逆元)
     def __init__(self, N, MOD):  
         self.mod = MOD
@@ -110,8 +110,9 @@ class Combination():  # nCr(mod p) #n<=10**6
             self.FACT.append((self.FACT[-1] * i) % self.mod)
             self.INV.append(pow(i, self.mod - 2, self.mod))
             self.FACTINV.append((self.FACTINV[-1] * self.INV[-1]) % self.mod)
-
-    def count(self, N, R):  # nCr(mod p) #前処理必要
+    
+    # nCr(mod p) #前処理必要
+    def count(self, N, R):  
         if (R < 0) or (N < R):
             return 0
         R = min(R, N - R)
@@ -166,14 +167,16 @@ def memodp(DP, NEAR, x):
     return DP[x]
 
 
-class TSP(): # 巡回セールスマン問題
+# 巡回セールスマン問題
+class TSP():
     def __init__(self, n):
         self.n = n
         self.memo = [[-1] * (1 << n) for _ in range(n)]
         self.dist = [[0] * n for _ in range(n)]
         # 頂点間の距離の入力
     
-    def tspdp(self, s, bit): # s: 現在地, bit: 訪問済み
+    # s: 現在地, bit: 訪問済み
+    def tspdp(self, s, bit):
         if bit == (1 << self.n) - 1:
             self.memo[s][bit] = self.dist[s][0]
             return self.dist[s][0]
@@ -217,12 +220,15 @@ class Fenwicktree():
         return self.accsum(j - 1) - self.accsum(i - 1)
 
 
-class Segtree():  # Segtree
+# Segtree
+class Segtree():
 
-    def segfunc(self, x, y):  # 区間にしたい操作
-        return max(x, y)  # ex) max,min,gcd,lcm,sum,product
+    # 区間にしたい操作 ex) max,min,gcd,lcm,sum,product
+    def segfunc(self, x, y):
+        return max(x, y)
 
-    def __init__(self, LIST, ELE):  # LIST: 配列の初期値, ELE: 単位元
+    # LIST: 配列の初期値, ELE: 単位元
+    def __init__(self, LIST, ELE):
         n, self.ide_ele = len(LIST), ELE
         self.num = 1 << (n - 1).bit_length()
         self.tree = [ELE] * 2 * self.num
@@ -231,14 +237,16 @@ class Segtree():  # Segtree
         for i in range(self.num - 1, 0, -1):
             self.tree[i] = self.segfunc(self.tree[2 * i], self.tree[2 * i + 1])
 
-    def update(self, k, x):  # k番目の値をxに更新
+    # k番目の値をxに更新
+    def update(self, k, x):
         k += self.num
         self.tree[k] = x
         while k > 1:
             self.tree[k >> 1] = self.segfunc(self.tree[k], self.tree[k ^ 1])
             k >>= 1
 
-    def query(self, l, r):  # [l, r)のsegfuncしたものを得る
+    # [l, r)のsegfuncしたものを得る
+    def query(self, l, r):
         res = self.ide_ele
         l += self.num
         r += self.num
@@ -253,18 +261,24 @@ class Segtree():  # Segtree
         return res
 
 
-class LazySegtree():  # 遅延Segtree RMQ and (RUQ or RAQ)
+# 遅延Segtree RMQ and (RUQ or RAQ)
+class LazySegtree():
 
-    def segfunc(self, x, y):  # 区間にしたい操作
-        return min(x, y)  # ex) max,min
+    # 区間にしたい操作 ex) max,min
+    def segfunc(self, x, y):
+        return min(x, y)
 
-    def ruq_or_raq(self, k, x):  # RUQ or RAQ
-        self.lazy[k] = x  # RUQ
+    # RUQ or RAQ
+    def ruq_or_raq(self, k, x):
+        # RUQ
+        self.lazy[k] = x
         self.data[k] = x
-        # self.lazy[k] += x # RAQ
+        # RAQ
+        # self.lazy[k] += x
         # self.data[k] += x
 
-    def __init__(self, LIST, ELE):  # LIST: 配列の初期値, ELE: 単位元
+    # LIST: 配列の初期値, ELE: 単位元
+    def __init__(self, LIST, ELE):
         n, self.ide_ele = len(LIST), ELE
         self.num = 1 << (n - 1).bit_length()
         self.data = [ELE] * 2 * self.num
@@ -274,11 +288,13 @@ class LazySegtree():  # 遅延Segtree RMQ and (RUQ or RAQ)
         for i in range(self.num - 1, 0, -1):
             self.data[i] = self.segfunc(self.data[2 * i], self.data[2 * i + 1])
 
-    def gindex(self, l, r):  # 伝搬する対象の区間
+    # 伝搬する対象の区間
+    def gindex(self, l, r):
         l += self.num
         r += self.num
-        lm = l >> (l & -l).bit_length()  # 伝搬する必要のある最大の左閉区間
-        rm = r >> (r & -r).bit_length()  # 伝搬する必要のある最大の左閉区間
+        # 伝搬する必要のある最大の左閉区間と右閉区間
+        lm = l >> (l & -l).bit_length()
+        rm = r >> (r & -r).bit_length()
 
         idx = []
         while r > l:
@@ -293,7 +309,8 @@ class LazySegtree():  # 遅延Segtree RMQ and (RUQ or RAQ)
             l >>= 1
         return idx
 
-    def propagates(self, ids):  # 遅延伝搬処理 ids: 伝搬する対象の区間
+    # 遅延伝搬処理 ids: 伝搬する対象の区間
+    def propagates(self, ids):
         for i in reversed(ids):
             v = self.lazy[i]
             if v is None:
@@ -302,7 +319,8 @@ class LazySegtree():  # 遅延Segtree RMQ and (RUQ or RAQ)
             self.ruq_or_raq(2 * i + 1, v)
             self.lazy[i] = None
 
-    def update(self, l, r, x):  # 区間[l, r)の値をxに更新
+    # 区間[l, r)の値をxに更新
+    def update(self, l, r, x):
         ids = self.gindex(l, r)
         self.propagates(ids)
         l += self.num
@@ -318,7 +336,8 @@ class LazySegtree():  # 遅延Segtree RMQ and (RUQ or RAQ)
         for i in ids:
             self.data[i] = self.segfunc(self.data[2 * i], self.data[2 * i + 1])
 
-    def query(self, l, r):  # [l, r)のsegfuncしたものを得る
+    # [l, r)のsegfuncしたものを得る
+    def query(self, l, r):
         ids = self.gindex(l, r)
         self.propagates(ids)
         res = self.ide_ele
@@ -333,3 +352,24 @@ class LazySegtree():  # 遅延Segtree RMQ and (RUQ or RAQ)
             l >>= 1
             r >>= 1
         return res
+
+
+# 行列積
+def mat_product(a, b):
+    n, m, l = len(a), len(b), len(b[0])
+    res = [[0] * l for _ in range(n)]
+    for i in range(n):
+        for j in range(l):
+            for k in range(m):
+                res[i][j] += a[i][k] * b[k][j]
+    return res
+
+
+# 行列累乗 res[i] = mat**(2**i)
+def mat_powlst(cnt, mat):
+    n = len(mat)
+    res = [[[0] * n for _ in range(n)] for _ in range(cnt+1)]
+    res[0] = [[matij for matij in mati] for mati in mat]
+    for i in range(cnt):
+        res[i+1] = mat_product(res[i], res[i])
+    return res
