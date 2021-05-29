@@ -41,4 +41,13 @@
             "cout << ${1:ans} << '\\n';"
         ],
     },
+    "printmatrix": {
+        "prefix": "cpmat",
+        "body": [    
+            "for_itr(dpi, dp) {",
+            "\tfor_itr(dpij, dpi) cout << dpij << ' ';",
+            "\tcout << endl;",
+            "}",
+        ],
+    },
 }
