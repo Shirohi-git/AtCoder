@@ -9,13 +9,11 @@ using ld = long double;
 #define coutdeci cout << fixed << setprecision(15)
 
 ld solve(ll t, ll l, ll x, ll y, ll now) {
-    vector<ld> p(3, 0);
-    long double theta = 2 * M_PI * (now % t) / double(t);
-    long double l2 = ld(l) / 2;
-    p[1] = -l2 * cos(theta - M_PI_2);
-    p[2] = l2 * sin(theta - M_PI_2) + l2;
-    ld dist = pow(pow(x - p[0], 2) + pow(y - p[1], 2), 0.5);
-    return rad_to_deg(atan2(p[2], dist));
+    ld theta = 2 * M_PI * (now % t) / ld(t), l2 = ld(l) / 2;
+    ld px = 0, py = -l2 * cos(theta - M_PI_2);
+    ld pz = l2 * sin(theta - M_PI_2) + l2;
+    ld dist = pow(pow(x - px, 2) + pow(y - py, 2), 0.5);
+    return rad_to_deg(atan2(pz, dist));
 }
 
 int main() {
