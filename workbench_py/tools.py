@@ -373,3 +373,8 @@ def mat_powlst(cnt, mat):
     for i in range(cnt):
         res[i+1] = mat_product(res[i], res[i])
     return res
+
+
+def rad_to_deg(rad):
+    from math import pi as PI
+    return (((rad) / 2 / PI) * 360)

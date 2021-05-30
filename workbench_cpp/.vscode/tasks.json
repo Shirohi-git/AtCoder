@@ -44,7 +44,7 @@
             ]
         },
         {
-            "label": "makefile_cpp_abc",
+            "label": "makefile_cpp",
             "type": "shell",
             "group": {
                 "kind": "build",

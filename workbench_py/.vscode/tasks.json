@@ -28,7 +28,7 @@
             ]
         },
         {
-            "label": "makefile_py_abc",
+            "label": "makefile_py",
             "type": "shell",
             "group": {
                 "kind": "build",
