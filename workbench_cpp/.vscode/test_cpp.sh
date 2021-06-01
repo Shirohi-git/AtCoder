@@ -1,14 +1,14 @@
 sh ../../secret/s_AtCoder/login.sh
 
 problem_name=$1
-test_dir=${problem_name}
+test_dir=../w_sample_test
 base_url=${problem_name%_*}
 url=https://atcoder.jp/contests/${base_url}/tasks/${problem_name}
 
 # make test directory
-if [ ! -e ${test_dir} ]; then
-    oj dl -d ${problem_name} $url
+if [ ! -e ${test_dir}/${problem_name} ]; then
+    oj dl -d ${test_dir}/${problem_name} $url
 fi
 
-g++-10 -std=gnu++17 ${problem_name}.cpp -o ${problem_name}.out
-oj t -c "./${problem_name}.out" -d ${problem_name}
+g++-10 -std=gnu++17 ${problem_name}.cpp -o ${test_dir}/${problem_name}.out
+oj t -c "${test_dir}/${problem_name}.out" -d ${test_dir}/${problem_name}
