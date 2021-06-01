@@ -1,16 +1,16 @@
-def nearlist(N, LIST):  # 隣接リスト
-    NEAR = [set() for _ in range(N)]
-    for a, b in LIST:
-        NEAR[a - 1].add(b - 1)
-        NEAR[b - 1].add(a - 1)
-    return NEAR
+def nearlist(n0, lst0):  # 隣接リスト
+    res = [set() for _ in range(n0)]
+    for a, b in lst0:
+        res[a - 1].add(b - 1)
+        res[b - 1].add(a - 1)
+    return res
 
 
-def weighted_nearlist(N, LIST):  # 重み付き隣接リスト
-    NEAR = [set() for _ in range(N)]
-    for a, b, w in LIST:
-        NEAR[a - 1].add((b - 1, w))
-    return NEAR
+def weighted_nearlist(n0, lst0):  # 重み付き隣接リスト
+    res = [set() for _ in range(n0)]
+    for a, b, w in lst0:
+        res[a - 1].add((b - 1, w))
+    return res
 
 
 def bfs(S, N, NEAR):  # 幅優先探索  # キュー
@@ -164,9 +164,9 @@ def prim(N, NEAR):  # プリム法:最小全域木
 
 
 class Unionfind():  # Unionfind
-    def __init__(self, N):
-        self.N = N
-        self.parents = [-1] * N
+    def __init__(self, n0):
+        self.n = n0
+        self.parents = [-1] * n0
 
     def find(self, x):  # グループの根
         if self.parents[x] < 0:
@@ -202,10 +202,81 @@ class Unionfind():  # Unionfind
 
     def member(self, x):  # 特定のグループの要素
         root = self.find(x)
-        return [i for i in range(self.N) if self.find(i) == root]
+        return [i for i in range(self.n) if self.find(i) == root]
 
     def all_members(self):  # 全てのグループごとの要素
         group = {i: set() for i, x in enumerate(self.parents) if x < 0}
-        for i in range(self.N):
+        for i in range(self.n):
             group[self.find(i)].add(i)
         return group
+
+
+# 強連結成分分解
+class strongly_conected_component():
+
+    # rv_near: 逆向き枝, order: 帰りがけ順
+    def __init__(self, n0, near0):
+        self.n = n0
+        self.near = [ni[:] for ni in near0]
+        self.nm_near = [iter(ni) for ni in near0]
+        self.rv_near = [[] for _ in range(self.n)]
+        for i in range(self.n):
+            for j in near0[i]:
+                self.rv_near[j].append(i)
+
+        self.flag_dfs = [0] * self.n
+        self.order = []
+        for i in range(self.n):
+            if not self.flag_dfs[i]:
+                self.dfs(i)
+
+        self.cnt = 0
+        self.flag_rdfs = [0] * self.n
+        self.idx = [-1] * self.n
+        for i in self.order[::-1]:
+            if not self.flag_rdfs[i]:
+                self.rdfs(i)
+                self.cnt += 1
+        return
+
+    def dfs(self, v):
+        self.flag_dfs[v] = 1
+        stack = [v]
+
+        while stack:
+            now = stack[-1]
+            for nxt in self.nm_near[now]:
+                if not self.flag_dfs[nxt]:
+                    self.flag_dfs[nxt] = 1
+                    stack.append(nxt)
+                    break
+            else:
+                stack.pop()
+                self.order.append(now)
+        return
+
+    def rdfs(self, v):
+        self.idx[v] = self.cnt
+        stack = [v]
+
+        while stack:
+            now = stack.pop()
+            if self.flag_rdfs[now]:
+                continue
+            self.flag_rdfs[now] = 1
+            for nxt in self.rv_near[now]:
+                if not self.flag_rdfs[nxt]:
+                    self.idx[nxt] = self.cnt
+                    stack.append(nxt)
+        return
+
+    # グラフ縮約
+    def construct(self):
+        graph = [set() for _ in range(self.cnt)]
+        for v in range(self.n):
+            v_id = self.idx[v]
+            for w in self.near[v]:
+                w_id = self.idx[w]
+                if v_id != w_id:
+                    graph[v_id].add(w_id)
+        return graph
