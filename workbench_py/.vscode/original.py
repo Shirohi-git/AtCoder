@@ -1,11 +1,11 @@
 def main():
-    return None
+    return print()
 
 
 if __name__ == '__main__':
-    n = int(input())
-    n, m = map(int, input().split())
-    a = list(map(int, input().split()))
-    ab = [list(map(int, input().split())) for _ in range(n)]
+    N = int(input())
+    N, M = map(int, input().split())
+    A = list(map(int, input().split()))
+    AB = [list(map(int, input().split())) for _ in range(N)]
 
     main()

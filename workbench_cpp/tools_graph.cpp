@@ -135,6 +135,85 @@ class Unionfind {
     }
 };
 
+// 強連結成分分解 rv_near: 逆向き枝, order: 帰りがけ順
+class Strongly_Conected_Component {
+   private:
+    ll n;
+    vector<ll> order, flag_dfs, flag_rdfs;
+    matll near, nm_near, rv_near;
+
+   public:
+    ll cnt = 0;
+    vector<ll> idx;
+
+    Strongly_Conected_Component(ll n0, matll near0) {
+        n = n0;
+        near = near0;
+        nm_near = near0;
+        rv_near = matll(n, vector<ll>(0));
+        rep(i, n) for_itr(j, near0[i]) rv_near[j].push_back(i);
+
+        flag_dfs = vector<ll>(n, 0), order = vector<ll>(0);
+        rep(i, n) if (!flag_dfs[i]) dfs(i);
+
+        reverse(all(order));
+        flag_rdfs = vector<ll>(n, 0), idx = vector<ll>(n, -1);
+        for_itr(i, order) if (!flag_rdfs[i]) rdfs(i, cnt), cnt++;
+    }
+
+    void dfs(ll v) {
+        flag_dfs[v] = 1;
+        vector<ll> stack = {v};
+
+        while (!stack.empty()) {
+            ll now = stack.back();
+            if (nm_near[now].empty()) {
+                stack.pop_back();
+                order.push_back(now);
+            }
+            while (!nm_near[now].empty()) {
+                ll nxt = nm_near[now].back();
+                nm_near[now].pop_back();
+                if (!flag_dfs[nxt]) {
+                    flag_dfs[nxt] = 1;
+                    stack.push_back(nxt);
+                    break;
+                }
+            }
+        }
+        return;
+    }
+
+    void rdfs(ll v, ll c) {
+        idx[v] = c;
+        vector<ll> stack = {v};
+
+        while (!stack.empty()) {
+            ll now = stack.back();
+            stack.pop_back();
+            if (flag_rdfs[now]) continue;
+            flag_rdfs[now] = 1;
+            for_itr(nxt, rv_near[now]) if (!flag_rdfs[nxt]) {
+                idx[nxt] = c;
+                stack.push_back(nxt);
+            }
+        }
+        return;
+    }
+    // グラフ縮約
+    matll construct() {
+        matll graph(cnt, vector<ll>(0));
+        rep(v, n) {
+            ll v_id = idx[v];
+            for_itr(w, near[v]) {
+                ll w_id = idx[w];
+                if (v_id != w_id) graph[v_id].push_back(w_id);
+            }
+        }
+        return graph;
+    }
+};
+
 int main() {
     ll n;
     cin >> n;
