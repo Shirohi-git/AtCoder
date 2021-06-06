@@ -122,6 +122,108 @@ class Fenwicktree {
     ll query(ll l, ll r) { return accsum(r - 1) - accsum(l - 1); }
 };
 
+// 遅延Segtree RMQ and (RUQ or RAQ)
+class LazySegtree {
+   private:
+    // 区間にしたい操作 ex) max, min
+    ll segfunc(ll x, ll y) { return max(x, y); }
+
+    // RUQ or RAQ
+    void ruq_or_raq(ll k, ll x) {
+        if (lazy[k].empty()) lazy[k].push_back(0);
+        // RUQ
+        lazy[k][0] = x, data[k] = x;
+        // RAQ
+        // lazy[k][0] += x, data[k] += x;
+        return;
+    }
+
+    ll bit_length(ll x) {
+        ll cnt = 0;
+        while (x) cnt++, x >>= 1;
+        return cnt;
+    }
+
+    // 伝搬する対象の区間, 伝搬する必要のある最大の左閉区間 lm と右閉区間 rm
+    vecll gindex(ll l, ll r) {
+        l += num, r += num;
+        ll lm = l >> bit_length(l & (~l + 1));
+        ll rm = r >> bit_length(r & (~r + 1));
+
+        vecll idx(0);
+        while (r > l) {
+            if (l <= lm) idx.push_back(l);
+            if (r <= rm) idx.push_back(r);
+            l >>= 1, r >>= 1;
+        }
+        while (l) {
+            idx.push_back(l);
+            l >>= 1;
+        }
+        return idx;
+    }
+
+    // 遅延伝搬処理 ids: 伝搬する対象の区間
+    void propagates(vecll ids) {
+        reverse(all(ids));
+        repitr(i, ids) {
+            if (lazy[i].empty()) continue;
+            ll v = lazy[i].back();
+            lazy[i].pop_back();
+            ruq_or_raq(2 * i, v);
+            ruq_or_raq(2 * i + 1, v);
+        }
+        return;
+    }
+
+   public:
+    ll ele, num;
+    vecll data;
+    matll lazy;
+
+    // ini: 配列の初期値, ele: 単位元, 遅延初期化注意
+    LazySegtree(vecll ini, ll ele0) {
+        ll n = ini.size();
+        ele = ele0;
+        num = 1 << bit_length(n - 1);
+        data = vecll(num * 2, ele);
+        lazy = matll(num * 2, vecll(0));
+        rep(i, n) data[num + i] = ini[i];
+        for (ll i = num - 1; i > 0; i--)
+            data[i] = segfunc(data[i * 2], data[i * 2 + 1]);
+    }
+
+    // 区間[l, r)の値をxに更新
+    void update(ll l, ll r, ll x) {
+        vecll ids = gindex(l, r);
+        propagates(ids);
+
+        l += num, r += num;
+        while (l < r) {
+            if (l & 1) ruq_or_raq(l, x), l++;
+            if (r & 1) ruq_or_raq(r - 1, x);
+            l >>= 1, r >>= 1;
+        }
+        repitr(i, ids) data[i] = segfunc(data[i * 2], data[i * 2 + 1]);
+        return;
+    }
+
+    // [l, r)のsegfuncしたものを得る
+    ll query(ll l, ll r) {
+        vecll ids = gindex(l, r);
+        propagates(ids);
+
+        ll res = ele;
+        l += num, r += num;
+        while (l < r) {
+            if (l & 1) res = segfunc(res, data[l]), l++;
+            if (r & 1) res = segfunc(res, data[r - 1]);
+            l >>= 1, r >>= 1;
+        }
+        return res;
+    }
+};
+
 //行列積
 int mat_product(matll a, matll b, matll& res) {
     ll n = a.size(), m = b.size(), l = b[0].size();

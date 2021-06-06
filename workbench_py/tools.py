@@ -277,22 +277,10 @@ class LazySegtree():
         # self.lazy[k] += x
         # self.data[k] += x
 
-    # LIST: 配列の初期値, ELE: 単位元
-    def __init__(self, LIST, ELE):
-        n, self.ide_ele = len(LIST), ELE
-        self.num = 1 << (n - 1).bit_length()
-        self.data = [ELE] * 2 * self.num
-        self.lazy = [None] * 2 * self.num
-        for i in range(n):
-            self.data[self.num + i] = LIST[i]
-        for i in range(self.num - 1, 0, -1):
-            self.data[i] = self.segfunc(self.data[2 * i], self.data[2 * i + 1])
-
-    # 伝搬する対象の区間
+    # 伝搬する対象の区間 伝搬する対象の区間, 伝搬する必要のある最大の左閉区間 lm と右閉区間 rm
     def gindex(self, l, r):
         l += self.num
         r += self.num
-        # 伝搬する必要のある最大の左閉区間と右閉区間
         lm = l >> (l & -l).bit_length()
         rm = r >> (r & -r).bit_length()
 
@@ -302,8 +290,8 @@ class LazySegtree():
                 idx.append(l)
             if r <= rm:
                 idx.append(r)
-            r >>= 1
             l >>= 1
+            r >>= 1
         while l:
             idx.append(l)
             l >>= 1
@@ -319,6 +307,17 @@ class LazySegtree():
             self.ruq_or_raq(2 * i + 1, v)
             self.lazy[i] = None
 
+    # LIST: 配列の初期値, ELE: 単位元
+    def __init__(self, LIST, ELE):
+        n, self.ide_ele = len(LIST), ELE
+        self.num = 1 << (n - 1).bit_length()
+        self.data = [ELE] * 2 * self.num
+        self.lazy = [None] * 2 * self.num
+        for i in range(n):
+            self.data[self.num + i] = LIST[i]
+        for i in range(self.num - 1, 0, -1):
+            self.data[i] = self.segfunc(self.data[2 * i], self.data[2 * i + 1])
+
     # 区間[l, r)の値をxに更新
     def update(self, l, r, x):
         ids = self.gindex(l, r)
@@ -331,8 +330,8 @@ class LazySegtree():
                 l += 1
             if r & 1:
                 self.ruq_or_raq(r - 1, x)
-            r >>= 1
             l >>= 1
+            r >>= 1
         for i in ids:
             self.data[i] = self.segfunc(self.data[2 * i], self.data[2 * i + 1])
 
