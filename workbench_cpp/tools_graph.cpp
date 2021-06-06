@@ -1,24 +1,28 @@
 #include <bits/stdc++.h>
 using namespace std;
 using ll = long long;
+using vecll = vector<ll>;
 using matll = vector<vector<ll>>;
 
 #define all(v) v.begin(), v.end()
-#define min_itr(v) *min_element(v.begin(), v.end())
-#define max_itr(v) *max_element(v.begin(), v.end())
+#define min_val(v) *min_element(v.begin(), v.end())
+#define max_val(v) *max_element(v.begin(), v.end())
+#define max_idx(v) distance(v.begin(), max_element(v.begin(), v.end()))
 #define sum(v) accumulate(v.begin(), v.end(), 0LL)
 #define sort_all(v) sort(v.begin(), v.end())
 #define rep(i, n) for (ll i = 0; i < ll(n); i++)
-#define repi(i, a, b) for (ll i = ll(a); i < ll(b); i++)
-#define for_itr(id, itr) for (auto& id : itr)
-#define for_dic(key, val, dic) for (const auto& [key, val] : dic)
+#define repitr(id, itr) for (auto& id : itr)
+#define repr(i, a, b) for (ll i = ll(a); i < ll(b); i++)
+#define reprs(i, a, b, s) for (ll i = ll(a); i < ll(b); i += s)
+#define repdic(key, val, dic) for (const auto& [key, val] : dic)
 #define deg_to_rad(deg) (((deg) / 360) * 2 * M_PI)
 #define rad_to_deg(rad) (((rad) / 2 / M_PI) * 360)
 #define coutdeci cout << fixed << setprecision(15)
 
 //隣接リスト push_backすると参照壊れるから中身だけコピペ
-int nearlist(const matll& lst, matll& near) {
-    for_itr(id, lst) {
+int nearlist(const matll& lst, const ll n) {
+    matll near(n, vector<ll>(0));
+    repitr(id, lst) {
         near[id[0] - 1].push_back(id[1] - 1);
         near[id[1] - 1].push_back(id[0] - 1);
     }
@@ -26,7 +30,7 @@ int nearlist(const matll& lst, matll& near) {
 }
 
 //幅優先探索
-int bfs(const int& s, const matll& near, vector<ll>& res) {
+int bfs(const int& s, const matll& near0, vector<ll>& res) {
     res[s] = 0;
     deque<ll> que;
     que.push_back(s);
@@ -34,7 +38,7 @@ int bfs(const int& s, const matll& near, vector<ll>& res) {
         ll q;
         q = que.front();
         que.pop_front();
-        for_itr(id, near[q]) {
+        repitr(id, near0[q]) {
             if (res[id] > -1) continue;
             res[id] = res[q] + 1;
             que.push_back(id);
@@ -52,7 +56,7 @@ int dijkstra(const int& s, const vector<matll>& w_near, vector<ll>& dist) {
         ll d = que.top()[0], q = que.top()[1];
         que.pop();
         if (dist[q] < -d) continue;
-        for_itr(nq, w_near[q]) {
+        repitr(nq, w_near[q]) {
             ll nxt = nq[0], tmp = -d + nq[1];
             if (dist[nxt] > tmp) {
                 dist[nxt] = tmp;
@@ -102,7 +106,7 @@ class Unionfind {
 
     ll roots_cnt() {
         ll cnt = 0;
-        for_itr(pi, parents) if (pi < 0) cnt++;
+        repitr(pi, parents) if (pi < 0) cnt++;
         return cnt;
     }
 
@@ -116,7 +120,7 @@ class Unionfind {
 
     vector<ll>& all_sizes() {
         res = vector<ll>(0);
-        for_itr(pi, parents) if (pi < 0) res.push_back(-pi);
+        repitr(pi, parents) if (pi < 0) res.push_back(-pi);
         return res;
     }
 
@@ -151,14 +155,14 @@ class Strongly_Conected_Component {
         near = near0;
         nm_near = near0;
         rv_near = matll(n, vector<ll>(0));
-        rep(i, n) for_itr(j, near0[i]) rv_near[j].push_back(i);
+        rep(i, n) repitr(j, near0[i]) rv_near[j].push_back(i);
 
         flag_dfs = vector<ll>(n, 0), order = vector<ll>(0);
         rep(i, n) if (!flag_dfs[i]) dfs(i);
 
         reverse(all(order));
         flag_rdfs = vector<ll>(n, 0), idx = vector<ll>(n, -1);
-        for_itr(i, order) if (!flag_rdfs[i]) rdfs(i, cnt), cnt++;
+        repitr(i, order) if (!flag_rdfs[i]) rdfs(i, cnt), cnt++;
     }
 
     void dfs(ll v) {
@@ -193,7 +197,7 @@ class Strongly_Conected_Component {
             stack.pop_back();
             if (flag_rdfs[now]) continue;
             flag_rdfs[now] = 1;
-            for_itr(nxt, rv_near[now]) if (!flag_rdfs[nxt]) {
+            repitr(nxt, rv_near[now]) if (!flag_rdfs[nxt]) {
                 idx[nxt] = c;
                 stack.push_back(nxt);
             }
@@ -205,7 +209,7 @@ class Strongly_Conected_Component {
         matll graph(cnt, vector<ll>(0));
         rep(v, n) {
             ll v_id = idx[v];
-            for_itr(w, near[v]) {
+            repitr(w, near[v]) {
                 ll w_id = idx[w];
                 if (v_id != w_id) graph[v_id].push_back(w_id);
             }

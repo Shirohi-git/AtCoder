@@ -13,21 +13,20 @@ def weighted_nearlist(n0, lst0):  # 重み付き隣接リスト
     return res
 
 
-def bfs(S, N, NEAR):  # 幅優先探索  # キュー
+def bfs(s0, n0, near0):  # 幅優先探索  # キュー
     # 始点, 頂点数, 隣接リスト
     from collections import deque
 
-    dist = [-1] * N  # 前処理
-    path = [-1] * N
-    flag = [0] * N
-    dist[S], path[S] = 0, 's'
-    flag[S] = 1
-    que = deque([S])
+    dist = [-1] * n0
+    path = [-1] * n0
+    flag = [0] * n0
+    dist[s0], path[s0], flag[s0] = 0, 's', 1
+    que = deque([s0])
 
     while que:
         q = que.popleft()
-        for i in NEAR[q]:  # 移動先の候補
-            if flag[i]:  # 処理済みか否か
+        for i in near0[q]:
+            if flag[i]:
                 continue
             # 処理を行う
             flag[i] = 1
