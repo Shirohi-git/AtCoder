@@ -19,7 +19,7 @@ using matll = vector<vector<ll>>;
 #define rad_to_deg(rad) (((rad) / 2 / M_PI) * 360)
 #define coutdeci cout << fixed << setprecision(15)
 
-//二分探索判定
+// 二分探索判定
 bool isOK(ll mid) {
     bool res;
     if (res)
@@ -28,8 +28,8 @@ bool isOK(ll mid) {
         return false;
 }
 
-//二分探索
-int binary_search(ll l, ll r) {
+// 二分探索
+ll binary_search(ll l, ll r) {
     ll left = l, right = r + 1;
     while (right - left > 1) {
         int mid = left + (right - left) / 2;
@@ -41,21 +41,20 @@ int binary_search(ll l, ll r) {
     return left;
 }
 
-//累乗(mod)
-ll mod_pow(ll x, ll y, const ll& mod) {
-    ll res = 1;
-    while (y > 0) {
-        if (y & 1) res = (res * x) % mod;
-        x = (x * x) % mod;
-        y >>= 1;
-    }
-    return res;
-}
-
-//組合せ数
+// 組合せ数
 class Combination {
    private:
     vector<ll> fact, inv, factinv;
+
+    ll mod_pow(ll x, ll y, const ll& mod) {
+        ll res = 1;
+        while (y > 0) {
+            if (y & 1) res = (res * x) % mod;
+            x = (x * x) % mod;
+            y >>= 1;
+        }
+        return res;
+    }
 
    public:
     ll N, MOD;
@@ -224,7 +223,7 @@ class LazySegtree {
     }
 };
 
-//行列積
+// 行列積
 int mat_product(matll a, matll b, matll& res) {
     ll n = a.size(), m = b.size(), l = b[0].size();
     if (m != a[0].size()) {
@@ -235,7 +234,7 @@ int mat_product(matll a, matll b, matll& res) {
     return 0;
 }
 
-//行列累乗 res[i] = mat**(2**i)
+// 行列累乗 res[i] = mat**(2**i)
 int mat_powlst(ll cnt, matll mat, vector<matll>& res) {
     res[0] = mat;
     rep(p, cnt) mat_product(res[p], res[p], res[p + 1]);
