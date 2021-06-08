@@ -119,34 +119,35 @@ def warshallfloyd(N, LIST):  # ワーシャルフロイド法:全頂点対最短
     return DIST
 
 
-def topological(N, LIST):  # トポロジカルソート:DAGに適用可
-    # LIST:有向辺リスト
+# トポロジカルソート:DAGに適用可, near0:有向辺隣接リスト
+def topological(N, near0):
     from collections import deque
 
     incnt = [0] * N
-    CHILD = [set() for _ in range(N)]
-    for a, b in LIST:
-        CHILD[a - 1].add(b - 1)
+    child = [set() for _ in range(N)]
+    for a, b in near0:
+        child[a - 1].add(b - 1)
         incnt[b - 1] += 1
 
-    TPLGSORT = []
+    tprg = []
     que = deque([i for i, num in enumerate(incnt) if num == 0])
     while que:
         q = que.popleft()
-        for i in CHILD[q]:
+        for i in child[q]:
             incnt[i] -= 1
             if incnt[i] == 0:
                 que.append(i)
-        TPLGSORT.append(q)
-    return TPLGSORT
+        tprg.append(q)
+    return tprg
 
 
-def prim(N, NEAR):  # プリム法:最小全域木
+# プリム法:最小全域木
+def prim(n0, near0):
     from heapq import heappush, heappop, heapify
 
-    flag = [0] * N
+    flag = [0] * n0
     flag[0] = 1
-    que = [(c, j, 0) for j, c in NEAR[0]]
+    que = [(c, j, 0) for j, c in near0[0]]
     heapify(que)
 
     ans = []
@@ -156,25 +157,42 @@ def prim(N, NEAR):  # プリム法:最小全域木
             continue
         flag[q] = 1
         ans.append((p, q, c_pq))
-        for r, c_qr in NEAR[q]:
+        for r, c_qr in near0[q]:
             if 1 - flag[r]:
                 heappush(que, (c_qr, r, q))
     return ans
 
 
-class Unionfind():  # Unionfind
+# クラスカル法:最小全域木, UF木が必要
+def kruskal(k_uf, near0):
+    edge = []
+    for i, ni in enumerate(near0):
+        edge += [(c, i, j) for j, c in ni if i < j]
+    edge = sorted(edge)
+
+    res = 0
+    for w, i, j in edge:
+        if not k_uf.same(i, j):
+            res += w
+            k_uf.unite(i, j)
+    return res
+
+
+# Unionfind
+class Unionfind():
+    # find:グループの根, unite:グループの併合, same:同じグループか否か
     def __init__(self, n0):
         self.n = n0
         self.parents = [-1] * n0
 
-    def find(self, x):  # グループの根
+    def find(self, x):
         if self.parents[x] < 0:
             return x
         else:
             self.parents[x] = self.find(self.parents[x])
             return self.parents[x]
 
-    def unite(self, x, y):  # グループの併合
+    def unite(self, x, y):
         x = self.find(x)
         y = self.find(y)
         if x == y:
@@ -184,26 +202,29 @@ class Unionfind():  # Unionfind
         self.parents[x] += self.parents[y]
         self.parents[y] = x
 
-    def same(self, x, y):  # 同じグループか否か
+    def same(self, x, y):
         return self.find(x) == self.find(y)
 
-    def roots_cnt(self):  # 根の数
+    # roots_cnt:根の数, roots:根のリスト
+    def roots_cnt(self):
         return sum(x < 0 for x in self.parents)
 
-    def roots(self):  # 根のリスト
+    def roots(self):
         return [i for i, x in enumerate(self.parents) if x < 0]
 
-    def size(self, x):  # 特定のグループのサイズ
+    # size:特定のグループのサイズ, all_sizes:全てのグループのサイズ
+    def size(self, x):
         return - self.parents[self.find(x)]
 
-    def all_sizes(self):  # 全てのグループのサイズ
+    def all_sizes(self):
         return {i: -x for i, x in enumerate(self.parents) if x < 0}
 
-    def member(self, x):  # 特定のグループの要素
+    # member:特定のグループの要素, all_members:全てのグループごとの要素
+    def member(self, x):
         root = self.find(x)
         return [i for i in range(self.n) if self.find(i) == root]
 
-    def all_members(self):  # 全てのグループごとの要素
+    def all_members(self):
         group = {i: set() for i, x in enumerate(self.parents) if x < 0}
         for i in range(self.n):
             group[self.find(i)].add(i)
@@ -213,7 +234,7 @@ class Unionfind():  # Unionfind
 # 強連結成分分解
 class strongly_conected_component():
 
-    # rv_near: 逆向き枝, order: 帰りがけ順
+    # near0:有向辺隣接リスト, rv_near: 逆向き枝, order: 帰りがけ順
     def __init__(self, n0, near0):
         self.n = n0
         self.near = [ni[:] for ni in near0]
