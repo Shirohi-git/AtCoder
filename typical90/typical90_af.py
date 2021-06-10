@@ -8,12 +8,14 @@ def main():
         bad[y - 1][x - 1] = 1
 
     ans = 10001
-    for lst in permutations(list(range(N))):
-        lst = list(lst)
-        if any(bad[lst[i]][lst[i+1]] for i in range(N-1)):
-            continue
-        time = sum(A[li][i] for i, li in enumerate(lst))
-        ans = min(ans,time)
+    for lst in permutations(range(N)):
+        time = 0
+        for i, li in enumerate(lst):
+            if i > 0 and bad[lst[i-1]][li]:
+                break
+            time += A[li][i]
+        else:
+            ans = min(ans, time)
     return print(ans if ans < 10001 else -1)
 
 
