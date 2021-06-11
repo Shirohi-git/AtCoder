@@ -19,11 +19,13 @@ using matll = vector<vector<ll>>;
 #define rad_to_deg(rad) (((rad) / 2 / M_PI) * 360)
 #define coutdeci cout << fixed << setprecision(15)
 
+ll N;
+vecll A;
+
 int main() {
-    ll n;
-    cin >> n;
-    vecll a(n);
-    rep(i, n) cin >> a[i];
+    cin >> N;
+    A = vecll(N);
+    rep(i, N) cin >> A[i];
 
     return 0;
 }

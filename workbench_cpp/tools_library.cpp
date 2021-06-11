@@ -64,18 +64,17 @@ ll mod_pow(ll x, ll y, const ll& mod) {
     return res;
 }
 
-// 重複組合せ
-matll cmb_multi(const vecll& vec0, ll r) {
+// 組合せ no_mul = 0(重複有), = 1(重複無)
+matll combi_itr(const ll& no_mul, const vecll& vec0, ll r) {
     ll n = vec0.size();
     matll now(n, vecll(0));
     rep(i, n) now[i].push_back(i);
-
     rep(i, r - 1) {
         matll nxt(0, vecll(0));
         repitr(com, now) {
             ll num = com.back(), last = com.size();
             com.push_back(num);
-            repr(j, num, n) {
+            repr(j, num + no_mul, n) {
                 com[last] = j;
                 nxt.push_back(com);
             }

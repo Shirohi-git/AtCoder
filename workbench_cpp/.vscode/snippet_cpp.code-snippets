@@ -14,7 +14,7 @@
     "definevector": {
         "prefix": "cdvec",
         "body": [
-            "vector<ll> ${1:a}(pow(10, 6));"
+            "vecll ${1:a}(pow(10, 6));"
         ],
     },
     "inputvector": {
@@ -26,13 +26,13 @@
     "definematrix": {
         "prefix": "cdmat",
         "body": [
-            "matll ${1:a}(2000, vector<ll>(2000));"
+            "matll ${1:a}(${2:h}, vecll(${3:w},-1));"
         ],
     },
     "inputmatrix": {
         "prefix": "cmat",
         "body": [
-            "rep(i, ${2:n}) { rep(j, ${3:n}) cin >> ${1:a}[i][j]; }"
+            "rep(i, ${2:n}) rep(j, ${3:n}) cin >> ${1:a}[i][j];"
         ],
     },
     "print": {
@@ -44,8 +44,8 @@
     "printmatrix": {
         "prefix": "cpmat",
         "body": [    
-            "for_itr(dpi, dp) {",
-            "\tfor_itr(dpij, dpi) cout << dpij << ' ';",
+            "repitr(dpi, dp) {",
+            "\trepitr(dpij, dpi) cout << dpij << ' ';",
             "\tcout << endl;",
             "}",
         ],
