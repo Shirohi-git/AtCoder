@@ -8,6 +8,7 @@ using matll = vector<vector<ll>>;
 #define repitr(id, itr) for (auto& id : itr)
 #define repr(i, a, b) for (ll i = ll(a); i < ll(b); i++)
 #define reprs(i, a, b, s) for (ll i = ll(a); i < ll(b); i += s)
+#define reprms(i, a, b, s) for (ll i = ll(a); i > ll(b); i += s)
 #define repdic(key, val, dic) for (const auto& [key, val] : dic)
 #define sort_all(v) sort(v.begin(), v.end())
 #define min_val(v) *min_element(v.begin(), v.end())

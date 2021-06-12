@@ -4,17 +4,18 @@ using ll = long long;
 using vecll = vector<ll>;
 using matll = vector<vector<ll>>;
 
-#define all(v) v.begin(), v.end()
-#define min_val(v) *min_element(v.begin(), v.end())
-#define max_val(v) *max_element(v.begin(), v.end())
-#define max_idx(v) distance(v.begin(), max_element(v.begin(), v.end()))
-#define sum(v) accumulate(v.begin(), v.end(), 0LL)
-#define sort_all(v) sort(v.begin(), v.end())
 #define rep(i, n) for (ll i = 0; i < ll(n); i++)
 #define repitr(id, itr) for (auto& id : itr)
 #define repr(i, a, b) for (ll i = ll(a); i < ll(b); i++)
 #define reprs(i, a, b, s) for (ll i = ll(a); i < ll(b); i += s)
+#define reprms(i, a, b, s) for (ll i = ll(a); i > ll(b); i += s)
 #define repdic(key, val, dic) for (const auto& [key, val] : dic)
+#define sort_all(v) sort(v.begin(), v.end())
+#define min_val(v) *min_element(v.begin(), v.end())
+#define max_val(v) *max_element(v.begin(), v.end())
+#define max_idx(v) distance(v.begin(), max_element(v.begin(), v.end()))
+#define sum(v) accumulate(v.begin(), v.end(), 0LL)
+#define all(v) v.begin(), v.end()
 #define deg_to_rad(deg) (((deg) / 360) * 2 * M_PI)
 #define rad_to_deg(rad) (((rad) / 2 / M_PI) * 360)
 #define coutdeci cout << fixed << setprecision(15)
@@ -119,6 +120,77 @@ class Fenwicktree {
 
     // RSQ[l,r)
     ll query(ll l, ll r) { return accsum(r - 1) - accsum(l - 1); }
+};
+
+// Segtree
+class Segtree {
+   private:
+    // 区間にしたい操作 ex) max,min,gcd,lcm,sum,product
+    ll segfunc(ll x, ll y) { return max(x, y); }
+
+    // x のbit長
+    ll bit_length(ll x) {
+        ll cnt = 0;
+        while (x) cnt++, x >>= 1;
+        return cnt;
+    }
+
+   public:
+    ll ide_ele, num;
+    vecll tree;
+
+    // vec0: 配列の初期値, ele0: 単位元
+    Segtree(const vecll& vec0, const ll ele0) {
+        ll n = vec0.size();
+        ide_ele = ele0, num = 1 << bit_length(n - 1);
+        tree = vecll(2 * num, ele0);
+        rep(i, n) tree[i + num] = vec0[i];
+        reprms(i, num - 1, 0, -1) {
+            tree[i] = segfunc(tree[i * 2], tree[i * 2 + 1]);
+        }
+    }
+
+    // k番目の値をxに更新
+    void update(ll k, ll x) {
+        k += num;
+        tree[k] = x;
+        while (k > 1) {
+            tree[k >> 1] = segfunc(tree[k], tree[k ^ 1]);
+            k >>= 1;
+        }
+        return;
+    }
+
+    // [l, r)のsegfuncしたものを得る
+    ll query(ll l, ll r) {
+        ll res = ide_ele;
+        l += num, r += num;
+        while (l < r) {
+            if (l & 1) {
+                res = segfunc(res, tree[l]);
+                l++;
+            }
+            if (r & 1) res = segfunc(res, tree[r - 1]);
+            l >>= 1, r >>= 1;
+        }
+        return res;
+    }
+
+    // k番目の値を返す
+    ll getval(ll k) { return tree[num + k]; }
+
+    // 2つ同時に使う 点更新が多い、かつ、まとめて更新してもいい場合 O(N)
+    void point_update(ll k, ll x) {
+        tree[num + k] = x;
+        return;
+    }
+
+    void all_update(void) {
+        reprms(i, num - 1, 0, -1) {
+            tree[i] = segfunc(tree[i * 2], tree[i * 2 + 1]);
+        }
+        return;
+    }
 };
 
 // 遅延Segtree RMQ and (RUQ or RAQ)

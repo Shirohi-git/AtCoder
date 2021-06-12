@@ -260,6 +260,20 @@ class Segtree():
             r >>= 1
         return res
 
+    # k番目の値を返す
+    def getval(self, k):
+        return self.tree[self.num + k]
+
+    
+    # 2つ同時に使う # 点更新が多い、かつ、まとめて更新してもいい場合 O(N)
+    def point_update(self, k, x):
+        self.tree[self.num + k] = x
+
+    def all_update(self):
+        for i in range(self.num - 1, 0, -1):
+            self.tree[i] = self.segfunc(self.tree[2 * i], self.tree[2 * i + 1])
+
+
 
 # 遅延Segtree RMQ and (RUQ or RAQ)
 class LazySegtree():
