@@ -22,7 +22,7 @@ using matll = vector<vector<ll>>;
 
 //隣接リスト push_backすると参照壊れるから中身だけコピペ
 int nearlist(const matll& lst, const ll n) {
-    matll near(n, vector<ll>(0));
+    matll near(n, vecll(0));
     repitr(id, lst) {
         near[id[0] - 1].push_back(id[1] - 1);
         near[id[1] - 1].push_back(id[0] - 1);
@@ -31,10 +31,12 @@ int nearlist(const matll& lst, const ll n) {
 }
 
 //幅優先探索
-int bfs(const int& s, const matll& near0, vector<ll>& res) {
-    res[s] = 0;
+vecll bfs(const int &s0, const ll &n0, const matll &near0) {
+    vecll res(n0, -1);
+    res[s0] = 0;
     deque<ll> que;
-    que.push_back(s);
+    que.push_back(s0);
+
     while (!que.empty()) {
         ll q;
         q = que.front();
@@ -45,7 +47,7 @@ int bfs(const int& s, const matll& near0, vector<ll>& res) {
             que.push_back(id);
         }
     }
-    return 0;
+    return res;
 }
 
 //ダイクストラ法
