@@ -30,16 +30,15 @@ int nearlist(const matll& lst, const ll n) {
     return 0;
 }
 
-//幅優先探索
-vecll bfs(const int &s0, const ll &n0, const matll &near0) {
+// 幅優先探索
+vecll bfs(const ll& s0, const ll& n0, const matll& near0) {
     vecll res(n0, -1);
     res[s0] = 0;
     deque<ll> que;
     que.push_back(s0);
 
     while (!que.empty()) {
-        ll q;
-        q = que.front();
+        ll q = que.front();
         que.pop_front();
         repitr(id, near0[q]) {
             if (res[id] > -1) continue;
@@ -48,6 +47,25 @@ vecll bfs(const int &s0, const ll &n0, const matll &near0) {
         }
     }
     return res;
+}
+
+// 深さ優先探索
+void dfs(const ll& s0, const ll& n0, const matll& near0) {
+    vecll flag(n0, 0);
+    flag[s0] = 1;
+    vecll stack = {s0};
+
+    while (!stack.empty()) {
+        ll q = stack.back();
+        stack.pop_back();
+        repitr(i, near0[q]) {
+            if (!flag[i]) {
+                flag[i] = 1;
+                stack.push_back(i);
+            }
+        }
+    }
+    return;
 }
 
 //ダイクストラ法

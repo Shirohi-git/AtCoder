@@ -122,6 +122,46 @@ class Fenwicktree {
     ll query(ll l, ll r) { return accsum(r - 1) - accsum(l - 1); }
 };
 
+// SparseTable
+class SparseTable {
+   private:
+    ll num;
+
+    // x のbit長
+    ll bit_length(ll x) {
+        ll cnt = 0;
+        while (x) cnt++, x >>= 1;
+        return cnt;
+    }
+
+    // 区間にしたい操作 ex) max,min,gcd,lcm
+    ll stfunc(ll x, ll y) { return min(x, y); }
+
+   public:
+    ll n;
+    matll table;
+
+    SparseTable(vecll vec0) {
+        n = vec0.size();
+        num = bit_length(n);
+        table = matll(num, vecll(n, -1));
+        table[0] = vec0;
+        repr(i, 1, num) {
+            ll pow2 = (1 << (i - 1));
+            vecll& bfo = table[i - 1];
+            rep(j, n - (1 << i) + 1) {
+                table[i][j] = stfunc(bfo[j], bfo[j + pow2]);
+            }
+        }
+    }
+
+    // [l, r)のstfuncしたものを得る
+    ll query(ll l, ll r) {
+        ll i = bit_length(r - l) - 1;
+        return stfunc(table[i][l], table[i][r - (1 << i)]);
+    }
+};
+
 // Segtree
 class Segtree {
    private:

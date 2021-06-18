@@ -13,8 +13,8 @@ def weighted_nearlist(n0, lst0):  # 重み付き隣接リスト
     return res
 
 
-def bfs(s0, n0, near0):  # 幅優先探索  # キュー
-    # 始点, 頂点数, 隣接リスト
+# 幅優先探索 # キュー # 始点, 頂点数, 隣接リスト
+def bfs(s0, n0, near0):
     from collections import deque
 
     dist = [-1] * n0
@@ -28,53 +28,51 @@ def bfs(s0, n0, near0):  # 幅優先探索  # キュー
         for i in near0[q]:
             if flag[i]:
                 continue
-            # 処理を行う
             flag[i] = 1
             que.append(i)
     return
 
 
-def dfs(S, N, NEAR):  # 深優先探索  # スタック
-    # 始点, 頂点数, 隣接リスト
-    dist = [-1] * N  # 前処理
-    path = [-1] * N
-    flag = [0] * N
-    dist[S], path[S] = 0, 's'
-    flag[S] = 1
-    stack = [S]
+# 深優先探索  # スタック # 始点, 頂点数, 隣接リスト
+def dfs(s0, n0, near0):
+    dist = [-1] * n0
+    path = [-1] * n0
+    flag = [0] * n0
+    dist[s0], path[s0] = 0, 's'
+    flag[s0] = 1
+    stack = [s0]
 
     while stack:
         q = stack.pop()
-        for i in NEAR[q]:  # 移動先の候補
-            if flag[i]:  # 処理済みか否か
+        for i in near0[q]:
+            if flag[i]:
                 continue
-            # 処理を行う
             flag[i] = 1
             stack.append(i)
     return
 
 
-class Recursive_dfs():  # 深優先探索(再帰)
+# 深優先探索(再帰)
+class Recursive_dfs():
     import sys
     sys.setrecursionlimit(10 ** 7)
 
+    # 始点, 頂点数, 隣接リスト
     def __init__(self, S, N, NEAR):
-        # 始点, 頂点数, 隣接リスト
-        self.flag = [0] * N  # 前処理
+        self.flag = [0] * N
         self.flag[S] = 1
         self.near = NEAR
 
     def recdfs(self, p):
-        for i in self.near[p]:  # 移動先の候補
-            if self.flag[i]:  # 処理済みか否か
+        for i in self.near[p]:
+            if self.flag[i]:
                 continue
-            # 処理を行う
             self.flag[i] = 1
             self.recdfs(i)
 
 
-def is_bipartite(S, N, NEAR):  # 二部グラフ判定
-    # 始点, 頂点数, 隣接リスト
+# 二部グラフ判定 # 始点, 頂点数, 隣接リスト
+def is_bipartite(S, N, NEAR):
     color = [0 for i in range(N)]
     stack = [(S, 1)]
     while stack:
@@ -88,8 +86,8 @@ def is_bipartite(S, N, NEAR):  # 二部グラフ判定
     return True
 
 
-def dijkstra(S, N, NEAR):  # ダイクストラ法:単一始点最短経路 O((n+e)*logn)
-    # NEAR:隣接リスト
+# ダイクストラ法:単一始点最短経路 O((n+e)*logn) # NEAR:隣接リスト
+def dijkstra(S, N, NEAR):
     from heapq import heappop, heappush
     DIST, prev = [pow(10, 10)] * N, [-1] * N
     DIST[S], prev[S] = 0, 's'
@@ -108,8 +106,8 @@ def dijkstra(S, N, NEAR):  # ダイクストラ法:単一始点最短経路 O((n
     return DIST
 
 
-def warshallfloyd(N, LIST):  # ワーシャルフロイド法:全頂点対最短経路 O(n**3)
-    # LIST:隣接行列
+# ワーシャルフロイド法:全頂点対最短経路 O(n**3) # LIST:隣接行列
+def warshallfloyd(N, LIST):
     from copy import deepcopy
     DIST = deepcopy(LIST)
     for k in range(N):

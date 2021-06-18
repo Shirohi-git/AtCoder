@@ -89,6 +89,7 @@ class Eratosthenes():
             for j in range(i ** 2, N + 1, i):
                 self.fact[j] = i
         self.prime = [i for i in range(2, N + 1) if i == self.fact[i]]
+
     # 高速素因数分解 O(log num)
     def factor(self, NUM):
         PRIME = set()
@@ -100,9 +101,8 @@ class Eratosthenes():
 # nCr(mod p) #n<=10**6
 class Combination():
     # cmbの前処理(階乗, 各iの逆元, 階乗の逆元)
-    def __init__(self, N, MOD):  
+    def __init__(self, N, MOD):
         self.mod = MOD
-        
         self.FACT = [1, 1]
         self.INV = [0, 1]
         self.FACTINV = [1, 1]
@@ -110,9 +110,9 @@ class Combination():
             self.FACT.append((self.FACT[-1] * i) % self.mod)
             self.INV.append(pow(i, self.mod - 2, self.mod))
             self.FACTINV.append((self.FACTINV[-1] * self.INV[-1]) % self.mod)
-    
+
     # nCr(mod p) #前処理必要
-    def count(self, N, R):  
+    def count(self, N, R):
         if (R < 0) or (N < R):
             return 0
         R = min(R, N - R)
@@ -174,7 +174,7 @@ class TSP():
         self.memo = [[-1] * (1 << n) for _ in range(n)]
         self.dist = [[0] * n for _ in range(n)]
         # 頂点間の距離の入力
-    
+
     # s: 現在地, bit: 訪問済み
     def tspdp(self, s, bit):
         if bit == (1 << self.n) - 1:
@@ -195,7 +195,7 @@ class TSP():
 
 # Fenwicktree # 0-indexed
 class Fenwicktree():
-    
+
     def __init__(self, n):
         self.n = n
         self.tree = [0] * n
@@ -264,7 +264,6 @@ class Segtree():
     def getval(self, k):
         return self.tree[self.num + k]
 
-    
     # 2つ同時に使う # 点更新が多い、かつ、まとめて更新してもいい場合 O(N)
     def point_update(self, k, x):
         self.tree[self.num + k] = x
@@ -273,6 +272,30 @@ class Segtree():
         for i in range(self.num - 1, 0, -1):
             self.tree[i] = self.segfunc(self.tree[2 * i], self.tree[2 * i + 1])
 
+
+# SparseTable # 構築 O(nlogn) クエリ O(1)
+class SparseTable():
+
+    # 区間にしたい操作 ex) max, min, gcd,lcm
+    def stfunc(self, x, y):
+        return min(x, y)
+
+    def __init__(self, lst0):
+        n = len(lst0)
+        num = n.bit_length()
+        table = [lst0] + [[-1] * n for _ in range(num - 1)]
+        bfo = table[0]
+        for i in range(1, num):
+            pow2 = (1 << (i - 1))
+            for j in range(n - (1 << i) + 1):
+                table[i][j] = self.stfunc(bfo[j], bfo[j + pow2])
+            bfo = table[i][:]
+        self.table = table
+
+    # [l, r)のstfuncしたものを得る
+    def query(self, l, r):
+        i = (r - l).bit_length() - 1
+        return self.stfunc(self.table[i][l], self.table[i][r - (1 << i)])
 
 
 # 遅延Segtree RMQ and (RUQ or RAQ)
