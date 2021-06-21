@@ -11,6 +11,17 @@ using matll = vector<vector<ll>>;
 ll N, K, P;
 vecll A1, A2;
 
+matll cost_lst(vecll& vec) {
+    matll res(N + 1, vecll(0));
+    rep(bit, (1 << vec.size())) {
+        ll cnt = 0, cost = 0;
+        rep(i, vec.size()) if ((bit >> i) & 1) cnt++, cost += vec[i];
+        res[cnt].push_back(cost);
+    }
+    rep(i, N + 1) sort(all(res[i]));
+    return res;
+}
+
 int main() {
     cin >> N >> K >> P;
     A1 = vecll(N / 2), A2 = vecll(N - N / 2);
@@ -21,20 +32,7 @@ int main() {
             cin >> A2[i - N / 2];
     }
 
-    matll lst1(N + 1, vecll(0));
-    rep(bit, (1 << A1.size())) {
-        ll cnt = 0, cost = 0;
-        rep(i, A1.size()) if ((bit >> i) & 1) cnt++, cost += A1[i];
-        lst1[cnt].push_back(cost);
-    }
-    matll lst2(N + 1, vecll(0));
-    rep(bit, (1 << A2.size())) {
-        ll cnt = 0, cost = 0;
-        rep(i, A2.size()) if ((bit >> i) & 1) cnt++, cost += A2[i];
-        lst2[cnt].push_back(cost);
-    }
-    rep(i, N + 1) sort(all(lst2[i]));
-
+    matll lst1 = cost_lst(A1), lst2 = cost_lst(A2);
     ll ans = 0;
     rep(i, N + 1) repitr(y1, lst1[i]) {
         if (K - i >= 0) {

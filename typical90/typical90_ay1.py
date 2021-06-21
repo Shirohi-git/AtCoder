@@ -2,24 +2,21 @@ from itertools import product
 from bisect import bisect
 
 
+def cost_lst(lst):
+    res = [[] for _ in range(N+1)]
+    for bit in product([0, 1], repeat=len(lst)):
+        cost, cnt = 0, 0
+        for ai, bi in zip(lst, bit):
+            cnt += bi
+            cost += ai*bi
+        res[cnt].append(cost)
+    return [sorted(ri) for ri in res]
+
+
 def main():
     a1, a2 = A[:N//2], A[N//2:]
-    lst1 = [[] for _ in range(N+1)]
-    for bit in product([0, 1], repeat=len(a1)):
-        cost, cnt = 0, 0
-        for ai, bi in zip(a1, bit):
-            cnt += bi
-            cost += ai*bi
-        lst1[cnt].append(cost)
-    lst2 = [[] for _ in range(N+1)]
-    for bit in product([0, 1], repeat=len(a2)):
-        cost, cnt = 0, 0
-        for ai, bi in zip(a2, bit):
-            cnt += bi
-            cost += ai*bi
-        lst2[cnt].append(cost)
+    lst1, lst2 = cost_lst(a1), cost_lst(a2)
 
-    lst2 = [sorted(l2i) for l2i in lst2]
     ans = 0
     for i in range(N+1):
         if (K-i >= 0):
