@@ -98,6 +98,7 @@ class Eratosthenes():
             NUM //= self.fact[NUM]
         return PRIME
 
+
 # nCr(mod p) #n<=10**6
 class Combination():
     # cmbの前処理(階乗, 各iの逆元, 階乗の逆元)
@@ -116,7 +117,8 @@ class Combination():
         if (R < 0) or (N < R):
             return 0
         R = min(R, N - R)
-        return self.FACT[N] * self.FACTINV[R] * self.FACTINV[N-R] % self.mod
+        div = self.FACTINV[R] * self.FACTINV[N-R] % self.mod
+        return self.FACT[N] * div % self.mod
 
 
 def bigcmb(N, R, MOD):  # nCr(mod p) #n>=10**7,r<=10**6 #前処理不要
@@ -414,3 +416,117 @@ def mat_powlst(cnt, mat):
 def rad_to_deg(rad):
     from math import pi as PI
     return (((rad) / 2 / PI) * 360)
+
+
+# 凸包
+def convex_hull(point_lst):
+    
+    # 時計回りか # 一直線上で高々2点の場合 ">="
+    def is_CW(ax, ay, bx, by, cx=0, cy=0):
+        res = (bx-cx) * (ay-cy) - (by-cy) * (ax-cx)
+        return res > 0
+
+    # 半分凸包
+    def half_hull(lst):
+        res = []
+        for pi in lst:
+            while len(res) > 1 and is_CW(*pi, *res[-2], *res[-1]):
+                res.pop()
+            res.append(pi)
+        return res
+
+    point_lst = sorted(point_lst)
+    res1 = half_hull(point_lst)
+    res2 = half_hull(point_lst[::-1])
+    return res1 + res2[1:]
+
+
+# 畳み込み
+def convolve(a, b):
+    
+    from math import pi as PI, cos, sin
+
+    # 高速フーリエ変換 O(nlogn)
+    def FFT(lst, inv=False):
+        n = len(lst)
+        num = (n-1).bit_length()
+
+        res = lst[:]
+        for i in range(n):
+            j = 0
+            for k in range(num):
+                j |= ((i >> k) & 1) << (num - 1 - k)
+            if (i < j):
+                res[i], res[j] = res[j], res[i]
+
+        for i in range(num):
+            i = (1 << i)
+            for j in range(i):
+                x = (2*inv - 1) * (2*PI*j) / (2*i)
+                w = complex(cos(x), sin(x))
+                for k in range(0, n, i*2):
+                    s, t = res[j+k], res[i+j+k] * w
+                    res[j+k], res[i+j+k] = s+t, s-t
+        if (inv):
+            res = [ri / n for ri in res]
+        return res
+
+    len_ab = len(a) + len(b) - 1
+    n = 1 << len_ab.bit_length()
+
+    a += [0] * (n-len(a))
+    b += [0] * (n-len(b))
+
+    res = [ai * bi for ai, bi in zip(FFT(a), FFT(b))]
+    res = [int(fi.real + 0.1) for fi in FFT(res, True)[:len_ab]]
+    return res
+
+
+# 畳み込み(MOD)
+def convolve_MOD(a, b):
+    mod = 998244353
+    g, e = pow(3, 119, mod), 24
+    ginv = pow(g, mod-2, mod)
+    # 998244353 = 119 * 2**23 + 1
+
+    # 高速剰余変換 O(nlogn)
+    def FMT(lst, inv=False):
+        res = lst[:]
+        for i in range(n):
+            j = 0
+            for k in range(n_lenbit):
+                j |= ((i >> k) & 1) << (n_lenbit - 1 - k)
+            if (i < j):
+                res[i], res[j] = res[j], res[i]
+
+        for i in range(n_lenbit):
+            w =1
+            wp = Winv[e-2-i] if inv else W[e-2-i]
+            pow2i = (1 << i)
+            
+            for j in range(pow2i):
+                for k in range(1 << (n_lenbit-i-1)):
+                    idx = k * pow2i*2 + j
+                    s, t = res[idx], res[idx + pow2i] * w
+                    res[idx], res[idx + pow2i] = (s + t) % mod, (s - t) % mod
+                w = (w * wp) % mod
+
+        if (inv):
+            n_inv = pow(n, mod-2, mod)
+            res = [ri * n_inv % mod for ri in res]
+        return res
+
+
+    W, Winv = [g], [ginv]
+    for _ in range(e):
+        W.append(W[-1]**2 % mod)
+        Winv.append(Winv[-1]**2 % mod)
+    len_ab = len(a) + len(b) - 1
+    n = 1 << len_ab.bit_length()
+    n_lenbit = (n-1).bit_length()
+    a += [0] * (n-len(a))
+    b += [0] * (n-len(b))
+
+    res = [ai * bi % mod for ai, bi in zip(FMT(a), FMT(b))]
+    res = FMT(res, inv=True)[:len_ab]
+    return res
