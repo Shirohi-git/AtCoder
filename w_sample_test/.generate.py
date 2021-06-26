@@ -17,3 +17,6 @@ def tree():
         j = choice(flag)
         flag.append(i)
         print(j, i)
+
+if __name__ == '__main__':
+    pass
