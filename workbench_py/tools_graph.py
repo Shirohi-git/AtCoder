@@ -298,3 +298,72 @@ class strongly_conected_component():
                 if v_id != w_id:
                     graph[v_id].add(w_id)
         return graph
+
+
+# Dinic法:最大流問題, 最小カット問題
+class Dinic():
+    def __init__(self, n0):
+        self.N, self.INF = n0, 10**10
+        self.edge_cnt = 0
+        self.edge = []
+        self.near_edge = [[] for _ in range(n0)]
+
+    # 順向き枝:偶数, 逆向き枝:奇数
+    def add__edge(self, v1, v2, cap1, cap2=0):
+        self.edge += [[v2, cap1], [v1, cap2]]
+        self.near_edge[v1].append(self.edge_cnt)
+        self.near_edge[v2].append(self.edge_cnt + 1)
+        self.edge_cnt += 2
+
+    # 残余グラフでの接続判定+ランク付(BFS)
+    def is_connect(self, s, t):
+        self.level = level = [-1] * self.N
+        que = [s]
+        level[s] = 0
+
+        for v in que:
+            for e_idx in self.near_edge[v]:
+                w, cap = self.edge[e_idx]
+                if cap and level[w] < 0:
+                    level[w] = level[v] + 1
+                    que.append(w)
+        return (level[t] >= 0)
+
+    # 残余グラフで流せるだけ流す(DFS) # s==tで壊れる
+    def add_flow(self, s, t):
+        goal = 0
+        edge = self.edge
+        stack = [(s, self.INF, -1)]
+        while stack:
+            v, bfo_cap, bfo_idx = stack[-1]
+
+            if v == t:
+                goal, res = 1, bfo_cap
+
+            if goal:
+                if v == s:
+                    return res
+                edge[bfo_idx][1] -= res
+                edge[bfo_idx ^ 1][1] += res
+                stack.pop()
+                continue
+
+            for e_idx in self.ne_iter[v]:
+                w, cap = edge[e_idx]
+                if cap and self.level[v] < self.level[w]:
+                    stack.append((w, min(bfo_cap, cap), e_idx))
+                    break
+            else:
+                stack.pop()
+        return 0
+
+    # s==tで壊れる
+    def flow(self, s, t):
+        flow = 0
+        while self.is_connect(s, t):
+            self.ne_iter = list(map(iter, self.near_edge))
+            f = self.INF
+            while f:
+                f = self.add_flow(s, t)
+                flow += f
+        return flow

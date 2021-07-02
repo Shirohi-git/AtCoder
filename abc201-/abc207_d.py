@@ -1,29 +1,26 @@
 from math import sin, cos, atan2
 
 
-def dist(a, b):
-    return (a[0]-b[0])**2 + (a[1]-b[1])**2
-
-
 def move(a, b, c, d):
     q, r = c[0] - a[0], c[1] - a[1]
     rad = atan2(d[1]-c[1], d[0]-c[0])
     rad -= atan2(b[1]-a[1], b[0]-a[0])
     cd = set(CD)
     for xi, yi in AB:
-        xi, yi = xi+q, yi+r
-        xm = cos(rad) * (xi-c[0]) - sin(rad) * (yi-c[1]) + c[0]
-        ym = sin(rad) * (xi-c[0]) + cos(rad) * (yi-c[1]) + c[1]
-        if abs(xm-round(xm)) > EPS or abs(ym-round(ym)) > EPS:
+        xi, yi = xi + q - c[0], yi + r - c[1]
+        xm = cos(rad) * xi - sin(rad) * yi + c[0]
+        ym = sin(rad) * xi + cos(rad) * yi + c[1]
+        xr, yr = round(xm), round(ym)
+        if abs(xm-xr) > EPS or abs(ym-yr) > EPS or (xr, yr) not in cd:
             return False
-        xm, ym = round(xm), round(ym)
-        if (xm, ym) not in cd:
-            return False
-        cd.remove((xm, ym))
+        cd.remove((xr, yr))
     return True
 
 
 def main():
+    def dist(a, b):
+        return (a[0]-b[0])**2 + (a[1]-b[1])**2
+
     if N == 1:
         return print("Yes")
 
