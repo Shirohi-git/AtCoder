@@ -169,6 +169,18 @@ def memodp(DP, NEAR, x):
     return DP[x]
 
 
+# 最長部分増加列 長さidxの最小の数を保存
+def LIS(L):
+    from bisect import bisect_left
+
+    dp = []
+    for ai in L:
+        idx = bisect_left(dp, ai)
+        if len(dp) <= idx:
+            dp.append(ai)
+        dp[idx] = ai
+    return len(dp)
+
 # 巡回セールスマン問題
 class TSP():
     def __init__(self, n):
