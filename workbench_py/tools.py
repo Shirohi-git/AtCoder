@@ -54,13 +54,13 @@ def factorize(N):  # 素因数分解
     return PRIME
 
 
-def makedivisor(N):  # 約数列挙
+def makedivisor(n0):  # 約数列挙
     p, upper, lower = 1, [], []
-    while p * p <= N:
-        if N % p == 0:
+    while p * p <= n0:
+        if n0 % p == 0:
             lower.append(p)
-            if p * p != N:
-                upper.append(N // p)
+            if p * p != n0:
+                upper.append(n0 // p)
         p += 1
     return lower + upper[::-1]
 
@@ -132,14 +132,18 @@ def bigcmb(N, R, MOD):  # nCr(mod p) #n>=10**7,r<=10**6 #前処理不要
     return fact * pow(inv, MOD - 2, MOD) % MOD
 
 
-def binary(l, r):  # 二分探索 # N:探索要素数 # lは不適, rは適合
-    while abs(r - l) > 1:
-        mid = (l + r) // 2
-        if True:  # 条件式
-            r = mid
+# 二分探索
+def binary(ok, ng):
+    def is_OK():
+        return True
+
+    while abs(ng - ok) > 1:
+        mid = (ok + ng) // 2
+        if is_OK(mid):
+            ok = mid
         else:
-            l = mid
-    return r
+            ng = mid
+    return ok
 
 
 def knapsack(N, W, ITEM):  # ナップザック問題 # 典型dp
@@ -180,6 +184,7 @@ def LIS(L):
             dp.append(ai)
         dp[idx] = ai
     return len(dp)
+
 
 # 巡回セールスマン問題
 class TSP():

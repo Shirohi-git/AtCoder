@@ -1,8 +1,8 @@
 def nearlist(n0, lst0):  # 隣接リスト
-    res = [set() for _ in range(n0)]
+    res = [[] for _ in range(n0)]
     for a, b in lst0:
-        res[a - 1].add(b - 1)
-        res[b - 1].add(a - 1)
+        res[a - 1].append(b - 1)
+        res[b - 1].append(a - 1)
     return res
 
 
@@ -106,15 +106,14 @@ def dijkstra(S, N, NEAR):
     return DIST
 
 
-# ワーシャルフロイド法:全頂点対最短経路 O(n**3) # LIST:隣接行列
-def warshallfloyd(N, LIST):
-    from copy import deepcopy
-    DIST = deepcopy(LIST)
-    for k in range(N):
-        for i in range(N):
-            for j in range(N):
-                DIST[i][j] = min(DIST[i][j], DIST[i][k] + DIST[k][j])
-    return DIST
+# ワーシャルフロイド法:全頂点対最短経路 O(n**3) # lst0:隣接行列
+def warshallfloyd(n0, lst0):
+    res = [li[:] for li in lst0]
+    for k in range(n0):
+        for i in range(n0):
+            for j in range(n0):
+                res[i][j] = min(res[i][j], res[i][k] + res[k][j])
+    return res
 
 
 # トポロジカルソート:DAGに適用可, near0:有向辺隣接リスト

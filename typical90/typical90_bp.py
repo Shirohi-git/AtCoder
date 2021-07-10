@@ -25,7 +25,7 @@ def main():
     flag = Fenwicktree(N-1)
     diff = Fenwicktree(N-1)
     for t, x, y, v in TXYV:
-        if t == 0:
+        if t == 0 and flag.query(x-1, x) == 0:
             flag.update(x-1, 1)
             diff.update(x-1, (v if x % 2 else -v))
         if t == 1:
