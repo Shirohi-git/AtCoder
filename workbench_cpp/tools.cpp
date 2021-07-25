@@ -3,6 +3,7 @@ using namespace std;
 using ll = long long;
 using vecll = vector<ll>;
 using matll = vector<vector<ll>>;
+using ld = long double;
 using vecs = vector<string>;
 
 #define rep(i, n) for (ll i = 0; i < ll(n); i++)

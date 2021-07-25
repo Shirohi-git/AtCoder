@@ -3,6 +3,7 @@ using namespace std;
 using ll = long long;
 using vecll = vector<ll>;
 using matll = vector<vector<ll>>;
+using ld = long double;
 using vecs = vector<string>;
 
 #define rep(i, n) for (ll i = 0; i < ll(n); i++)
@@ -28,6 +29,15 @@ bool f_all(const vecll vec0, const vecll vec1) {
     ll n = vec0.size();
     rep(i, n) if (vec0[i] != vec1[i]) return false;
     return true;
+}
+
+// bool print
+void bool_print(bool res) {
+    if (res)
+        cout << "No" << endl;
+    else
+        cout << "Yes" << endl;
+    return;
 }
 
 // 数値桁分け
