@@ -11,7 +11,7 @@ function main(input) {
     for (let i = 0; i < M; i++){
         let [p, x] = PX[i];
         let ans = sum_t - T[p-1] + x;
-        console.log(ans)
+        console.log(ans);
     }
     return 0;
 }

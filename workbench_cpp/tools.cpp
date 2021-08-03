@@ -48,6 +48,29 @@ ll binary_search(ll l, ll r) {
 
 // 組合せ数
 class Combination {
+   public:
+    matll cnt;
+    ll N;
+
+    Combination(ll n0) {
+        N = n0;
+        cnt = matll(N + 1, vector<ll>(N + 1, 0));
+
+        cnt[0][0] = 1;
+        repr(i, 1, N + 1) {
+            cnt[i][0] = 1;
+            repr(j, 1, N + 1) {
+                cnt[i][j] = cnt[i - 1][j - 1];
+                cnt[i][j] += cnt[i - 1][j];
+            }
+        }
+    }
+
+    ll count(ll cn, ll cr) { return cnt[cn][cr]; }
+};
+
+// mod組合せ数
+class mod_Combination {
    private:
     vector<ll> fact, inv, factinv;
 
@@ -64,7 +87,7 @@ class Combination {
    public:
     ll N, MOD;
 
-    Combination(ll n0, ll mod) {
+    mod_Combination(ll n0, ll mod) {
         N = n0, MOD = mod;
         fact = vector<ll>(N + 1, -1);
         inv = vector<ll>(N + 1, -1);

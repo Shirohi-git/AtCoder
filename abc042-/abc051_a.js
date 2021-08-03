@@ -1,6 +1,6 @@
 function main(input) {
     let s = input;
-    s = s.split(',').join(' ')
+    s = s.split(',').join(' ');
     console.log(s);
     return 0;
 }
