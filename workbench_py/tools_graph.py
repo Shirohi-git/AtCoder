@@ -183,11 +183,13 @@ class Unionfind():
         self.parents = [-1] * n0
 
     def find(self, x):
-        if self.parents[x] < 0:
-            return x
-        else:
-            self.parents[x] = self.find(self.parents[x])
-            return self.parents[x]
+        stack = []
+        while self.parents[x] >= 0:
+            stack.append(x)
+            x = self.parents[x]
+        for i in stack:
+            self.parents[i] = x
+        return x
 
     def unite(self, x, y):
         x = self.find(x)
