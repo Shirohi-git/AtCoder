@@ -53,22 +53,26 @@ def dfs(s0, n0, near0):
 
 
 # 深優先探索(再帰)
-class Recursive_dfs():
-    import sys
-    sys.setrecursionlimit(10 ** 7)
+def rec_dfs(s0, n0, near0):
+    dist = [-1] * n0
+    path = [-1] * n0
+    flag = [0] * n0
+    dist[s0], path[s0] = 0, 's'
+    flag[s0] = 1
+    stack = [s0]
+    near_it = [iter(ni) for ni in near0]
 
-    # 始点, 頂点数, 隣接リスト
-    def __init__(self, S, N, NEAR):
-        self.flag = [0] * N
-        self.flag[S] = 1
-        self.near = NEAR
-
-    def recdfs(self, p):
-        for i in self.near[p]:
-            if self.flag[i]:
+    while stack:
+        q = stack[-1]
+        for i in near_it[q]:
+            if flag(i):
                 continue
-            self.flag[i] = 1
-            self.recdfs(i)
+            flag[i] = 1
+            stack.append(i)
+            break
+        else:
+            stack.pop()
+    return
 
 
 # 二部グラフ判定 # 始点, 頂点数, 隣接リスト
