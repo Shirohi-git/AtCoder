@@ -17,13 +17,23 @@ sys.setrecursionlimit(10 ** 7)
 # 割り算するところを掛け算できるので先にmodが取れる
 
 
-def ceil(X, Y):  # 天井関数 ceil(X/Y) Y>1
+def ceil(X, Y):  # 天井関数 ceil(X/Y) (Y>1)
     return (X + Y - 1) // Y
 
 
 def lcm(X, Y):  # 最小公倍数
     from math import gcd
     return (X * Y) // gcd(X, Y)
+
+
+def quotient(x, y): # 有理数クラス
+    from math import gcd
+    if x == y == 0:
+        return (0, 0)
+    if (y < 0) or (y == 0 and x < 0):
+        x, y = -x, -y
+    t = gcd(x, y)
+    return (x//t, y//t)
 
 
 def bitcount(N):  # 立ってるbitの数
@@ -236,6 +246,26 @@ def mat_powlst(cnt, mat):
 def rad_to_deg(rad):
     from math import pi as PI
     return (((rad) / 2 / PI) * 360)
+
+
+# 偏角ソート
+def arg_sort(points, ymax=10**20):
+    
+    def sub_sort(sub_p):
+        if (not sub_p) or (sub_p[0][0] == 0):
+            return sub_p
+        res = sorted(sub_p, key=lambda p: p[1] * ymax // p[0])
+        return res
+
+    group = [[], [], [], [], []]
+    for xi, yi in points:
+        if yi < 0:
+            group[2 + (xi >= 0) + (xi > 0)].append((xi, yi))
+        elif yi >= 0:
+            group[(xi <= 0) + (xi < 0)].append((xi, yi))
+
+    res = sum([sub_sort(gi) for gi in group], [])
+    return res
 
 
 # 凸包

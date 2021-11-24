@@ -52,8 +52,8 @@ def dfs(s0, n0, near0):
     return
 
 
-# 深優先探索(再帰)
-def rec_dfs(s0, n0, near0):
+# 深優先探索(帰り)
+def back_dfs(s0, n0, near0):
     dist = [-1] * n0
     path = [-1] * n0
     flag = [0] * n0
