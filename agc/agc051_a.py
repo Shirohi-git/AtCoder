@@ -8,6 +8,7 @@ def cmb(N, R):
         inv = (inv * i) % MOD9
     return fact * pow(inv, MOD9 - 2, MOD9) % MOD9
 
+
 d = int(input())
 MOD9 = 998244353
 

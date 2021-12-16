@@ -1,3 +1,18 @@
+# 座標圧縮
+class Compression():
+
+    def __init__(self, *ite):
+        ite = sum(map(list, ite), [])
+        self.lst = sorted(set(ite))
+        self.dic = {k: i for i, k in enumerate(self.lst)}
+
+    def zip(self, key):
+        return self.dic[key]
+    
+    def unzip(self, idx):
+        return self.lst[idx]
+
+
 # Fenwicktree # 0-indexed
 class Fenwicktree():
 

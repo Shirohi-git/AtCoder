@@ -235,7 +235,7 @@ class Unionfind():
 
 
 # 強連結成分分解
-class strongly_conected_component():
+class Strongly_Conected_Component():
 
     # near0:有向辺隣接リスト, rv_near: 逆向き枝, order: 帰りがけ順
     def __init__(self, n0, near0):
