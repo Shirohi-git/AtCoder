@@ -33,6 +33,31 @@ def bfs(s0, n0, near0):
     return
 
 
+# grid幅優先探索 # 始点, 縦, 横
+def grid_bfs(s0, h0, w0):
+    from collections import deque
+
+    sx, sy = s0
+    dist = [[-1] * w0 for _ in range(h0)]
+    path = [[-1] * w0 for _ in range(h0)]
+    flag = [[0] * w0 for _ in range(h0)]
+    dist[sx][sy], path[sx][sy], flag[sx][sy] = 0, 's', 1
+    que = deque([s0])
+
+    near = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+
+    while que:
+        qx, qy = que.popleft()
+        for dx, dy in near:
+            px, py = qx+dx, qy+dy
+            if 0 <= px < h0 and 0 <= py < w0:
+                if flag[px][py]:
+                    continue
+                flag[px][py] = 1
+                que.append((px, py))
+    return
+
+
 # 深優先探索  # スタック # 始点, 頂点数, 隣接リスト
 def dfs(s0, n0, near0):
     dist = [-1] * n0
