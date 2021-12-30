@@ -26,7 +26,7 @@ def lcm(X, Y):  # 最小公倍数
     return (X * Y) // gcd(X, Y)
 
 
-def quotient(x, y): # 有理数クラス
+def quotient(x, y): # 有理数クラス(y/x)
     from math import gcd
     if x == y == 0:
         return (0, 0)
@@ -34,13 +34,6 @@ def quotient(x, y): # 有理数クラス
         x, y = -x, -y
     t = gcd(x, y)
     return (x//t, y//t)
-
-
-def bitcount(N):  # 立ってるbitの数
-    bitcnt = [0]
-    for _ in range(N):
-        bitcnt += [i + 1 for i in bitcnt]
-    return bitcnt
 
 
 def extgcd(a, b):  # 拡張互除法
@@ -109,6 +102,24 @@ class Eratosthenes():
         return PRIME
 
 
+# 立ってるbitの数リスト
+def bitcount(N):
+    bitcnt = [0]
+    for _ in range(N):
+        bitcnt += [i + 1 for i in bitcnt]
+    return bitcnt
+
+
+# bitの部分集合 sum(0~2^N) = O(3^N)
+def bitsubset(num):
+    ini = num
+    res = [num]
+    while num > 0:
+        num = (num-1) & ini
+        res.append(num)
+    return res
+
+
 # nCr(mod p) #n<=10**6
 class Combination():
     # cmbの前処理(階乗, 各iの逆元, 階乗の逆元)
@@ -131,7 +142,8 @@ class Combination():
         return self.FACT[N] * div % self.mod
 
 
-def bigcmb(N, R, MOD):  # nCr(mod p) #n>=10**7,r<=10**6 #前処理不要
+# nCr(mod p) #n>=10**7,r<=10**6 #前処理不要
+def bigcmb(N, R, MOD):
     if (R < 0) or (N < R):
         return 0
     R = min(R, N - R)
@@ -140,86 +152,6 @@ def bigcmb(N, R, MOD):  # nCr(mod p) #n>=10**7,r<=10**6 #前処理不要
         fact = (fact * (N - i + 1)) % MOD
         inv = (inv * i) % MOD
     return fact * pow(inv, MOD - 2, MOD) % MOD
-
-
-# 二分探索
-def binary(ok, ng):
-    def is_OK():
-        return True
-
-    while abs(ng - ok) > 1:
-        mid = (ok + ng) // 2
-        if is_OK(mid):
-            ok = mid
-        else:
-            ng = mid
-    return ok
-
-
-def knapsack(N, W, ITEM):  # ナップザック問題 # 典型dp
-    # 個数,上限重さ,itemリスト
-    dp = [[0] * (W + 1)] + [[-float("inf")] * (W + 1) for _ in range(N)]
-    # dp = [[-float("inf")]*(W+1)] + [[-float("inf")]*(W+1) for _ in range(n)]
-    # dp[0][0] = 0
-    # 重さwぴったり、を求めるとき
-    wei, val = 0, 1
-
-    for i in range(N):
-        for j in range(W + 1):
-            tmp = dp[i][j]
-            if ITEM[i][wei] <= j:
-                tmp = dp[i][j - ITEM[i][wei]] + ITEM[i][val]
-            dp[i + 1][j] = max(dp[i][j], tmp)
-    return dp[N][W]
-
-
-def memodp(DP, NEAR, x):
-    if True:  # 条件式
-        return DP[x]
-
-    for i in NEAR[x]:
-        DP[x] += memodp(DP, NEAR, i)
-        # 漸化式
-    return DP[x]
-
-
-# 最長部分増加列 長さidxの最小の数を保存
-def LIS(L):
-    from bisect import bisect_left
-
-    dp = []
-    for ai in L:
-        idx = bisect_left(dp, ai)
-        if len(dp) <= idx:
-            dp.append(ai)
-        dp[idx] = ai
-    return len(dp)
-
-
-# 巡回セールスマン問題
-class TSP():
-    def __init__(self, n):
-        self.n = n
-        self.memo = [[-1] * (1 << n) for _ in range(n)]
-        self.dist = [[0] * n for _ in range(n)]
-        # 頂点間の距離の入力
-
-    # s: 現在地, bit: 訪問済み
-    def tspdp(self, s, bit):
-        if bit == (1 << self.n) - 1:
-            self.memo[s][bit] = self.dist[s][0]
-            return self.dist[s][0]
-
-        res = float('inf')
-        for t in range(self.n):
-            if (bit >> t) & 1:
-                continue
-            nxt = bit + (1 << t)
-            if self.memo[t][bit] == -1:
-                self.memo[t][bit] = self.tspdp(t, nxt)
-            tmp = self.dist[s][t] + self.memo[t][bit]
-            res = min(res, tmp)
-        return res
 
 
 # 行列積
@@ -323,7 +255,6 @@ def convolve(a, b):
 
     len_ab = len(a) + len(b) - 1
     n = 1 << len_ab.bit_length()
-
     a += [0] * (n-len(a))
     b += [0] * (n-len(b))
 
@@ -350,7 +281,7 @@ def convolve_MOD(a, b):
                 res[i], res[j] = res[j], res[i]
 
         for i in range(n_lenbit):
-            w =1
+            w = 1
             wp = Winv[e-2-i] if inv else W[e-2-i]
             pow2i = (1 << i)
             
