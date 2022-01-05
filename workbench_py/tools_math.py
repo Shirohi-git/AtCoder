@@ -17,8 +17,8 @@ sys.setrecursionlimit(10 ** 7)
 # 割り算するところを掛け算できるので先にmodが取れる
 
 
-def ceil(X, Y):  # 天井関数 ceil(X/Y) (Y>1)
-    return (X + Y - 1) // Y
+def ceil(x, y):  # 天井関数 ceil(X/Y) (Y>1)
+    return (x + y - 1) // y
 
 
 def lcm(X, Y):  # 最小公倍数
