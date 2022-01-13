@@ -23,6 +23,13 @@ using vecs = vector<string>;
 #define rad_to_deg(rad) (((rad) / 2 / M_PI) * 360)
 #define coutdeci cout << fixed << setprecision(15)
 
+template <typename T>
+void coutitr(const T& itr) {
+    for (auto& id : itr) cout << id << ' ';
+    cout << '\n';
+    return;
+}
+
 ll N;
 vecll A;
 

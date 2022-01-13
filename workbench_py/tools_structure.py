@@ -96,7 +96,7 @@ class Segtree():
 # SparseTable # 構築 O(nlogn) クエリ O(1)
 class SparseTable():
 
-    # 区間にしたい操作 ex) max, min, gcd,lcm
+    # 区間にしたい操作 ex) max, min, gcd, lcm
     def stfunc(self, x, y):
         return min(x, y)
 
