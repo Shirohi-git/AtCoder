@@ -115,7 +115,7 @@ def is_bipartite(S, N, NEAR):
     return True
 
 
-# ダイクストラ法:単一始点最短経路 O((n+e)*logn) # NEAR:隣接リスト
+# ダイクストラ法:単一始点最短経路 O((V+E)*logV) # NEAR:隣接リスト
 def dijkstra(S, N, NEAR):
     from heapq import heappop, heappush
     DIST, prev = [pow(10, 10)] * N, [-1] * N
@@ -135,7 +135,19 @@ def dijkstra(S, N, NEAR):
     return DIST
 
 
-# ワーシャルフロイド法:全頂点対最短経路 O(n**3) # lst0:隣接行列
+# ベルマンフォード法:単一始点最短経路(負閉路有) O(VE) # edge0:辺リスト
+def bellmanford(s0, n0, edge0, inf=10**18):
+    res = [inf] * n0
+    res[s0] = 0
+
+    for i in range(n0 * 2):
+        for a, b, d in edge0:
+            if res[a-1] + d < res[b-1]:
+                res[b-1] = (res[a-1] + d if i < n0 else -inf)
+    return res
+
+
+# ワーシャルフロイド法:全頂点対最短経路 O(V**3) # lst0:隣接行列
 def warshallfloyd(n0, lst0):
     res = [li[:] for li in lst0]
     for k in range(n0):
