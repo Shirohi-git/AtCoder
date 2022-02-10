@@ -23,6 +23,8 @@ using vecs = vector<string>;
 #define rad_to_deg(rad) (((rad) / 2 / M_PI) * 360)
 #define coutdeci cout << fixed << setprecision(15)
 
+// 大文字変換
+char ToUpper(char c) { return toupper(c); }
 
 // is all true?
 bool f_all(const vecll vec0, const vecll vec1) {

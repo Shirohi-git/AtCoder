@@ -116,12 +116,12 @@ def is_bipartite(S, N, NEAR):
 
 
 # ダイクストラ法:単一始点最短経路 O((V+E)*logV) # NEAR:隣接リスト
-def dijkstra(S, N, NEAR):
+def dijkstra(s0, n0, NEAR):
     from heapq import heappop, heappush
-    DIST, prev = [pow(10, 10)] * N, [-1] * N
-    DIST[S], prev[S] = 0, 's'
+    DIST, prev = [pow(10, 10)] * n0, [-1] * n0
+    DIST[s0], prev[s0] = 0, 's'
 
-    que = [(DIST[S], S)]
+    que = [(DIST[s0], s0)]
     while que:
         d, q = heappop(que)
         if DIST[q] < d:
