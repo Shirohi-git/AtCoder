@@ -57,14 +57,10 @@ def solve(edg):
 
         nxt = []
         while one:
-            t = None
-            if two:
-                _, t = heappop(two)
-                nxt.append(t)
-
-            if t is None:
+            if not two:
                 break
-            s = one.pop()
+            s, (_, t) = one.pop(), heappop(two)
+            nxt.append(t)
             res.append((edg[s].pop(), edg[t].pop()))
         div_one_two(nxt)
     return res

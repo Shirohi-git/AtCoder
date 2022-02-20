@@ -90,7 +90,7 @@ def back_dfs(s0, n0, near0):
     while stack:
         q = stack[-1]
         for i in near_it[q]:
-            if flag(i):
+            if flag[i]:
                 continue
             flag[i] = 1
             stack.append(i)
