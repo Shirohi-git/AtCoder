@@ -32,13 +32,13 @@
 	"inputvector": {
 		"prefix": "pvec",
 		"body": [
-			"[input() for _ in range(${1:n})]"
+			"[input() for _ in range(${1:N})]"
 		],
 	},
 	"inputmatrix": {
 		"prefix": "pmat",
 		"body": [
-			"[list(map(int, input().split())) for _ in range(${1:n})]"
+			"[list(map(int, input().split())) for _ in range(${1:N})]"
 		],
 	},
 	"printYesNo": {
@@ -50,16 +50,16 @@
 	"ceil": {
 		"prefix": "pceil",
 		"body": [
-			"def ceil(X, Y):",
-			"\treturn (X + Y - 1) // Y"
+			"def ceil(x, y):",
+			"\treturn (x + y - 1) // y"
 		],
 	},
 	"lcm": {
 		"prefix": "plcm",
 		"body": [
 			"from math import gcd\n\n",
-			"def lcm(X, Y):",
-			"\treturn (X * Y) // gcd(X, Y)"
+			"def lcm(x, y):",
+			"\treturn (x * y) // gcd(x, y)"
 		],
 	},
 	"nearlist": {
