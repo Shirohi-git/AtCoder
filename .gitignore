@@ -1,3 +1,6 @@
 .DS_Store
 c_cpp_properties.json
-workbench_py/ahc008
+ahc008/*
+!ahc008/*.gif
+!ahc008/*.py
+!ahc008/*.sh
