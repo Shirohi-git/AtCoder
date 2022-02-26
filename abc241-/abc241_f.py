@@ -3,17 +3,19 @@ from collections import defaultdict
 
 
 class Block:
-    def __init__(self):
+    def __init__(self, is_col):
+        self.is_col = is_col
         self.block = defaultdict(list)
 
     def add(self, x, y):
+        if self.is_col:
+            x, y = y, x
         self.block[x-1].append(y-1)
         return
 
-    def stop(self, x, y, dir=False):
-        if dir:
+    def stop(self, x, y):
+        if self.is_col:
             x, y = y, x
-
         res = []
         if not self.block[x]:
             return res
@@ -22,15 +24,15 @@ class Block:
             res += [(x, self.block[x][id-1]+1)]
         if id < len(self.block[x]):
             res += [(x, self.block[x][id]-1)]
-        if dir:
+        if self.is_col:
             res = [ri[::-1] for ri in res]
         return res
 
 
 def main():
     def search_stop(x, y):
-        res = H_block.stop(x, y, False)
-        res += W_block.stop(x, y, True)
+        res = H_block.stop(x, y)
+        res += W_block.stop(x, y)
         return res
 
     def grid_bfs(s0, h0, w0):
@@ -48,16 +50,13 @@ def main():
                     que.append((px, py))
         return flag
 
-    H_block, W_block = Block(), Block()
+    H_block, W_block = Block(False), Block(True)
     for x, y in sorted(XY):
-        H_block.add(x, y), W_block.add(y, x)
+        H_block.add(x, y), W_block.add(x, y)
 
     s, g = (SX-1, SY-1), (GX-1, GY-1)
     dist = grid_bfs(s, H, W)
-
-    ans = -1
-    if g in dist:
-        ans = dist[g]
+    ans = dist[g] if (g in dist) else -1
     return print(ans)
 
 
