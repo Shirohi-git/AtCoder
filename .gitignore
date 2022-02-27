@@ -1,4 +1,5 @@
 .DS_Store
+git_push.command
 c_cpp_properties.json
 ahc008/*
 !ahc008/*.gif
