@@ -342,7 +342,8 @@ class Strongly_Conected_Component():
         return graph
 
 
-# Dinic法:最大流問題, 最小カット問題
+# Dinic法:最大流問題, 最小カット問題 O(m n^2) など 
+# https://misawa.github.io/others/flow/dinic_time_complexity.html
 class Dinic():
     def __init__(self, n0):
         self.N, self.INF = n0, 10**10

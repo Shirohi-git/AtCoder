@@ -1,26 +1,30 @@
-def is_black(x, y):
-    if not (0 <= x < N and 0 <= y < N):
-        return -6
-    return (S[x][y] == '#')
+def is_connect(x, y):
+    
+    def is_black(p, q):
+        if not (0 <= p < N and 0 <= q < N):
+            return -INF
+        return (S[p][q] == '#')
+
+    res = [0, 0, 0, 0]
+    for i in range(6):
+        res[0] += is_black(x+i, y)
+        res[1] += is_black(x, y+i)
+        res[2] += is_black(x+i, y+i)
+        res[3] += is_black(x+i, y-i)
+    return max(res)
 
 
 def main():
     res = 0
-    for i in range(N):
-        if res:
-            continue
-        for j in range(N):
-            res |= (sum(is_black(i, y) for y in range(j, j+6)) > 3)
-            res |= (sum(is_black(x, j) for x in range(i, i+6)) > 3)
-            res |= (sum(is_black(x, y)
-                    for x, y in zip(range(i, i+6), range(j, j+6))) > 3)
-            res |= (sum(is_black(x, y)
-                    for x, y in zip(range(i, i+6), range(j, j-6, -1))) > 3)
+    for x in range(N):
+        for y in range(N):
+            res |= (is_connect(x, y) >= 4)
     return print('Yes' if res else 'No')
 
 
 if __name__ == '__main__':
     N = int(input())
     S = [input() for _ in range(N)]
+    INF = 6
 
     main()
