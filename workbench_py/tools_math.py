@@ -224,7 +224,7 @@ def convex_hull(point_lst):
 
 
 # 畳み込み
-def convolve(a, b):
+def convolve(x, y):
     
     from math import pi as PI, cos, sin
 
@@ -253,6 +253,7 @@ def convolve(a, b):
             res = [ri / n for ri in res]
         return res
 
+    a, b = x[:], y[:]
     len_ab = len(a) + len(b) - 1
     n = 1 << len_ab.bit_length()
     a += [0] * (n-len(a))
@@ -264,50 +265,55 @@ def convolve(a, b):
 
 
 # 畳み込み(MOD)
-def convolve_MOD(a, b):
-    mod = 998244353
-    g, e = pow(3, 119, mod), 24
-    ginv = pow(g, mod-2, mod)
-    # 998244353 = 119 * 2**23 + 1
+class Convolve_MOD:
+    def __init__(self):
+        self.mod = mod = 998244353
+        self.g, self.e = g, e = pow(3, 119, mod), 24
+        self.ginv = ginv = pow(g, mod-2, mod)
+        # 998244353 = 119 * 2**23 + 1, 原始根 = 3
+
+        self.W, self.Winv = [g], [ginv]
+        for _ in range(e):
+            self.W.append(self.W[-1]**2 % mod)
+            self.Winv.append(self.Winv[-1]**2 % mod)
 
     # 高速剰余変換 O(nlogn)
-    def FMT(lst, inv=False):
+    def FMT(self, lst, inv=False):
         res = lst[:]
-        for i in range(n):
+        for i in range(self.n):
             j = 0
-            for k in range(n_lenbit):
-                j |= ((i >> k) & 1) << (n_lenbit - 1 - k)
+            for k in range(self.n_lenbit):
+                j |= ((i >> k) & 1) << (self.n_lenbit - 1 - k)
             if (i < j):
                 res[i], res[j] = res[j], res[i]
 
-        for i in range(n_lenbit):
-            w = 1
-            wp = Winv[e-2-i] if inv else W[e-2-i]
+        for i in range(self.n_lenbit):
+            w, wp = 1, self.W[self.e - 2 - i]
+            if inv:
+                wp = self.Winv[self.e - 2 - i]
             pow2i = (1 << i)
-            
+
             for j in range(pow2i):
-                for k in range(1 << (n_lenbit-i-1)):
+                for k in range(1 << (self.n_lenbit - i-1)):
                     idx = k * pow2i*2 + j
                     s, t = res[idx], res[idx + pow2i] * w
-                    res[idx], res[idx + pow2i] = (s + t) % mod, (s - t) % mod
-                w = (w * wp) % mod
+                    res[idx] = (s + t) % self.mod
+                    res[idx + pow2i] = (s - t) % self.mod
+                w = (w * wp) % self.mod
 
         if (inv):
-            n_inv = pow(n, mod-2, mod)
-            res = [ri * n_inv % mod for ri in res]
+            n_inv = pow(self.n, self.mod-2, self.mod)
+            res = [ri * n_inv % self.mod for ri in res]
         return res
 
+    def convolve(self, x, y):
+        a, b = x[:], y[:]
+        len_ab = len(a) + len(b) - 1
+        self.n = n = 1 << len_ab.bit_length()
+        self.n_lenbit = (n-1).bit_length()
+        a += [0] * (n-len(a))
+        b += [0] * (n-len(b))
 
-    W, Winv = [g], [ginv]
-    for _ in range(e):
-        W.append(W[-1]**2 % mod)
-        Winv.append(Winv[-1]**2 % mod)
-    len_ab = len(a) + len(b) - 1
-    n = 1 << len_ab.bit_length()
-    n_lenbit = (n-1).bit_length()
-    a += [0] * (n-len(a))
-    b += [0] * (n-len(b))
-
-    res = [ai * bi % mod for ai, bi in zip(FMT(a), FMT(b))]
-    res = FMT(res, inv=True)[:len_ab]
-    return res
+        res = [ai * bi % self.mod for ai, bi in zip(self.FMT(a), self.FMT(b))]
+        res = self.FMT(res, inv=True)[:len_ab]
+        return res
