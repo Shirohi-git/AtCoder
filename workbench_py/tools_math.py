@@ -16,17 +16,29 @@ sys.setrecursionlimit(10 ** 7)
 # pow(a, p-1, p) == 1 (mod_p) <=> pow(a, p-2, p) == a**(-1) (mod_p)
 # 割り算するところを掛け算できるので先にmodが取れる
 
+# 天井関数 ceil(X/Y) (Y>1)
 
-def ceil(x, y):  # 天井関数 ceil(X/Y) (Y>1)
+
+def ceil(x, y):
     return (x + y - 1) // y
 
 
-def lcm(X, Y):  # 最小公倍数
+# 高精度 X**0.5
+def int_sqrt(num):
+    res = int(num**0.5)-1
+    while (res+1)**2 <= num:
+        res += 1
+    return res
+
+
+# 最小公倍数
+def lcm(X, Y):
     from math import gcd
     return (X * Y) // gcd(X, Y)
 
 
-def quotient(x, y): # 有理数クラス(y/x)
+# 有理数クラス(y/x)
+def quotient(x, y):
     from math import gcd
     if x == y == 0:
         return (0, 0)
@@ -36,28 +48,54 @@ def quotient(x, y): # 有理数クラス(y/x)
     return (x//t, y//t)
 
 
-def extgcd(a, b):  # 拡張互除法
+# 拡張互除法 output: z, x, y subject to: ax + by = z
+# where z = gcd(a, b)
+def extgcd(a, b):
+    is_mn_a, is_mn_b = 0, 0
+    if a < 0:
+        a, is_mn_a = abs(a), 1
+    if b < 0:
+        b, is_mn_b = abs(b), 1
+
     x, y, u, v = 1, 0, 0, 1
     while b:
         q, a, b = a // b, b, a % b
         x, u = u, x - q * u
         y, v = v, y - q * v
+
+    x -= 2 * is_mn_a * x
+    y -= 2 * is_mn_b * y
     return a, x, y
 
 
-def factorize(N):  # 素因数分解
-    p, PRIME = 2, []
-    while p * p <= N:
-        while N % p == 0:
-            N //= p
-            PRIME.append(p)
+# 中国剰余定理
+def crt(num_mod):
+    res, mod = num_mod[0]
+    for ai, mi in num_mod:
+        g, x, y = extgcd(mod, mi)
+        if (res - ai) % g:
+            return 0, -1
+        mod = mod * mi // g
+        div = (res - ai) // g
+        res = (div * y * mi + ai) % mod
+    return res, mod
+
+
+# 素因数分解 O(X**0.5)
+def factorize(n0):
+    p, res = 2, []
+    while p * p <= n0:
+        while n0 % p == 0:
+            n0 //= p
+            res.append(p)
         p += 1
-    if N > 1:
-        PRIME.append(N)
-    return PRIME
+    if n0 > 1:
+        res.append(n0)
+    return res
 
 
-def makedivisor(n0):  # 約数列挙
+# 約数列挙 O(X**0.5)
+def makedivisor(n0):
     p, upper, lower = 1, [], []
     while p * p <= n0:
         if n0 % p == 0:
@@ -102,27 +140,27 @@ class Eratosthenes():
         return PRIME
 
 
-# 立ってるbitの数リスト
-def bitcount(N):
+# 立ってるbitの数リスト O(2**N)
+def bitcount(n0):
     bitcnt = [0]
-    for _ in range(N):
+    for _ in range(n0):
         bitcnt += [i + 1 for i in bitcnt]
     return bitcnt
 
 
 # bitの部分集合 sum(0~2^N) = O(3^N)
-def bitsubset(num):
-    ini = num
-    res = [num]
-    while num > 0:
-        num = (num-1) & ini
-        res.append(num)
+def bitsubset(n0):
+    ini = n0
+    res = [n0]
+    while n0 > 0:
+        n0 = (n0-1) & ini
+        res.append(n0)
     return res
 
 
-# nCr(mod p) #n<=10**6
-class Combination():
-    # cmbの前処理(階乗, 各iの逆元, 階乗の逆元)
+# 数え上げなど # N<=10**6
+class Enumeration:
+    # 前処理(各i の 階乗, 逆元, 階乗の逆元)
     def __init__(self, N, MOD):
         self.mod = MOD
         self.FACT = [1, 1]
@@ -133,8 +171,8 @@ class Combination():
             self.INV.append(pow(i, self.mod - 2, self.mod))
             self.FACTINV.append((self.FACTINV[-1] * self.INV[-1]) % self.mod)
 
-    # nCr(mod p) #前処理必要
-    def count(self, N, R):
+    # nCr(mod p)
+    def combination(self, N, R):
         if (R < 0) or (N < R):
             return 0
         R = min(R, N - R)
@@ -182,7 +220,7 @@ def rad_to_deg(rad):
 
 # 偏角ソート
 def arg_sort(points, ymax=10**20):
-    
+
     def sub_sort(sub_p):
         if (not sub_p) or (sub_p[0][0] == 0):
             return sub_p
@@ -202,7 +240,7 @@ def arg_sort(points, ymax=10**20):
 
 # 凸包
 def convex_hull(point_lst):
-    
+
     # 時計回りか # 一直線上で高々2点の場合 ">="
     def is_CW(ax, ay, bx, by, cx=0, cy=0):
         res = (bx-cx) * (ay-cy) - (by-cy) * (ax-cx)
@@ -225,7 +263,7 @@ def convex_hull(point_lst):
 
 # 畳み込み
 def convolve(x, y):
-    
+
     from math import pi as PI, cos, sin
 
     # 高速フーリエ変換 O(nlogn)
@@ -270,7 +308,6 @@ class Convolve_MOD:
         self.mod = mod = 998244353
         self.g, self.e = g, e = pow(3, 119, mod), 24
         self.ginv = ginv = pow(g, mod-2, mod)
-        # 998244353 = 119 * 2**23 + 1, 原始根 = 3
 
         self.W, self.Winv = [g], [ginv]
         for _ in range(e):
