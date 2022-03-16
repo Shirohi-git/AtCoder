@@ -34,6 +34,13 @@ int nearlist(const matll& lst, const ll n) {
     return 0;
 }
 
+// grid の内部か
+bool is_ingrid(ll x, ll y, const ll h, const ll w) {
+    if (x < 0 || h <= x) return false;
+    if (y < 0 || w <= y) return false;
+    return true;
+}
+
 // 幅優先探索
 vecll bfs(const ll& s0, const ll& n0, const matll& near0) {
     vecll res(n0, -1);

@@ -1,3 +1,9 @@
+from tools_graph import*
+from tools_math import*
+from tools_string import*
+from tools_structure import*
+
+
 # 二分探索
 def binary(ok, ng):
     def is_OK():
@@ -37,6 +43,16 @@ def memodp(DP, NEAR, x):
         DP[x] += memodp(DP, NEAR, i)
         # 漸化式
     return DP[x]
+
+
+# 転倒数 O(NlogN)
+def inversion_number(n0, lst):
+    res = 0
+    bit = Fenwicktree(n0)
+    for li in lst:
+        bit.update(li, 1)
+        res += bit.query(li+1, n0+1)
+    return res
 
 
 # 最長部分増加列 長さidxの最小の数を保存

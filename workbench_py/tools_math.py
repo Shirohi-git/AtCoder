@@ -16,9 +16,8 @@ sys.setrecursionlimit(10 ** 7)
 # pow(a, p-1, p) == 1 (mod_p) <=> pow(a, p-2, p) == a**(-1) (mod_p)
 # 割り算するところを掛け算できるので先にmodが取れる
 
+
 # 天井関数 ceil(X/Y) (Y>1)
-
-
 def ceil(x, y):
     return (x + y - 1) // y
 

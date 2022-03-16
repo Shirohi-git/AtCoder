@@ -35,10 +35,9 @@ bool f_all(const vecll vec0, const vecll vec1) {
 
 // bool print
 void bool_print(bool res) {
-    if (res)
-        cout << "No" << endl;
-    else
-        cout << "Yes" << endl;
+    string yn = "No";
+    if (res) yn = "Yes";
+    cout << yn << endl;
     return;
 }
 
