@@ -1,6 +1,5 @@
 # 座標圧縮
 class Compression():
-
     def __init__(self, *ite):
         ite = sum(map(list, ite), [])
         self.lst = sorted(set(ite))
@@ -15,7 +14,6 @@ class Compression():
 
 # Fenwicktree # 0-indexed
 class Fenwicktree():
-
     def __init__(self, n):
         self.n = n
         self.tree = [0] * n
@@ -42,7 +40,6 @@ class Fenwicktree():
 
 # Segtree
 class Segtree():
-
     # 区間にしたい操作 ex) max,min,gcd,lcm,sum,product
     def segfunc(self, x, y):
         return max(x, y)
@@ -95,7 +92,6 @@ class Segtree():
 
 # SparseTable # 構築 O(nlogn) クエリ O(1)
 class SparseTable():
-
     # 区間にしたい操作 ex) max, min, gcd, lcm
     def stfunc(self, x, y):
         return min(x, y)
@@ -120,7 +116,6 @@ class SparseTable():
 
 # 遅延Segtree RMQ and (RUQ or RAQ)
 class LazySegtree():
-
     # 区間にしたい操作 ex) max,min
     def segfunc(self, x, y):
         return min(x, y)

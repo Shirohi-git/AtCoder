@@ -51,7 +51,7 @@ def inversion_number(n0, lst):
     bit = Fenwicktree(n0)
     for li in lst:
         bit.update(li, 1)
-        res += bit.query(li+1, n0+1)
+        res += bit.query(li+1, n0)
     return res
 
 
