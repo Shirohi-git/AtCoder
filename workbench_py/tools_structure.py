@@ -89,6 +89,11 @@ class Segtree():
         for i in range(self.num - 1, 0, -1):
             self.tree[i] = self.segfunc(self.tree[2 * i], self.tree[2 * i + 1])
 
+    # print用 各indexの値がいくつになっているか
+    def __str__(self):
+        res = [str(self.tree[self.num + i]) for i in range(self.n)]
+        return ' '.join(res)
+
 
 # SparseTable # 構築 O(nlogn) クエリ O(1)
 class SparseTable():
