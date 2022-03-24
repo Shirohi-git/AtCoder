@@ -46,7 +46,8 @@ class Segtree():
 
     # LIST: 配列の初期値, ELE: 単位元
     def __init__(self, LIST, ELE):
-        n, self.ide_ele = len(LIST), ELE
+        self.n, self.ide_ele = len(LIST), ELE
+        n = self.n
         self.num = 1 << (n - 1).bit_length()
         self.tree = [ELE] * 2 * self.num
         for i in range(n):

@@ -66,11 +66,11 @@
 		"prefix": "pnearlist",
 		"body": [
 			"def nearlist(N, LIST):",
-			"\tNEAR = [set() for _ in range(N)]",
+			"\tres = [[] for _ in range(N)]",
 			"\tfor a, b in LIST:",
-			"\t\tNEAR[a - 1].add(b - 1)",
-			"\t\tNEAR[b - 1].add(a - 1)",
-			"\treturn NEAR"
+			"\t\tres[a - 1].append(b - 1)",
+			"\t\tres[b - 1].append(a - 1)",
+			"\treturn res"
 		],
 	},
 }
