@@ -1,3 +1,22 @@
+# 2次元累積和
+class Accumulate_2d:
+    def __init__(self, n0, m0, lst_2d):
+        self.acc_2d = [[0] * (m0+1)]
+        for i in range(n0):
+            acc_1d = [0]
+            for lij in lst_2d[i]:
+                acc_1d += [acc_1d[-1] + lij]
+            self.acc_2d.append(acc_1d)
+            for j in range(m0+1):
+                self.acc_2d[i+1][j] += self.acc_2d[i][j]
+
+    def query(self, sx, tx, sy, ty):
+        ac2d = self.acc_2d
+        res = ac2d[tx-1][ty-1] + ac2d[sx-1][sy-1]
+        res -= ac2d[sx-1][ty-1] + ac2d[tx-1][sy-1]
+        return res
+
+
 # 座標圧縮
 class Compression():
     def __init__(self, *ite):

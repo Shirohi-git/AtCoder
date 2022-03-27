@@ -46,21 +46,21 @@ def memodp(DP, NEAR, x):
 
 
 # 転倒数 O(NlogN)
-def inversion_number(n0, lst):
+def inversion_number(n0, lst0):
     res = 0
     bit = Fenwicktree(n0)
-    for li in lst:
+    for li in lst0:
         bit.update(li, 1)
         res += bit.query(li+1, n0)
     return res
 
 
-# 最長部分増加列 長さidxの最小の数を保存
-def LIS(L):
+# 最長部分増加列 長さidxの最小の数を保存 O(NlogN)
+def LIS(lst0):
     from bisect import bisect_left
 
     dp = []
-    for ai in L:
+    for ai in lst0:
         idx = bisect_left(dp, ai)
         if len(dp) <= idx:
             dp.append(ai)
@@ -68,27 +68,31 @@ def LIS(L):
     return len(dp)
 
 
-# 巡回セールスマン問題
-class TSP():
-    def __init__(self, n):
-        self.n = n
-        self.memo = [[-1] * (1 << n) for _ in range(n)]
-        self.dist = [[0] * n for _ in range(n)]
-        # 頂点間の距離の入力
+# TSP or ハミルトン経路 lst0:隣接行列 O(N**2 * 2**N)
+def tsp_hamilton(n0, lst0, inf=10**10, tsp=True):
+    dist = [[inf] * n0 for _ in range(2**n0)]
+    dist[1 << 0][0] = 0
+    que = [(1 << 0, 0)]
+    if not tsp:
+        for i in range(n0):
+            dist[1 << i][i] = 0
+        que = [(1 << i, i) for i in range(n0)]
 
-    # s: 次訪問地, bit: 未訪問=1   # どうして...こうなった...
-    def tspdp(self, s=0, bit=1):
-        if bit == (1 << self.n) - 1:
-            self.memo[s][bit] = self.dist[s][0]
-            return self.dist[s][0]
-
-        res = float('inf')
-        for t in range(self.n):
-            if (bit >> t) & 1:
+    for bit, q in que:
+        for i in range(n0):
+            if (bit >> i) & 1:
                 continue
-            nxt = bit + (1 << t)
-            if self.memo[t][bit] == -1:
-                self.memo[t][bit] = self.tspdp(t, nxt)
-            tmp = self.dist[s][t] + self.memo[t][bit]
-            res = min(res, tmp)
-        return res
+            nxt = bit | (1 << i)
+            if lst0[q][i] > 0:
+                d_nqi = dist[bit][q] + lst0[q][i]
+                if dist[nxt][i] == inf:
+                    dist[nxt][i] = d_nqi
+                    que.append((nxt, i))
+                dist[nxt][i] = min(dist[nxt][i], d_nqi)
+
+    if tsp:
+        goal = [inf] * n0
+        for i, d in enumerate(dist[-1]):
+            goal[i] = d + lst0[i][0]
+        dist.append(goal)
+    return min(dist[-1])
