@@ -68,18 +68,19 @@ class Segtree():
         self.n, self.ide_ele = len(LIST), ELE
         n = self.n
         self.num = 1 << (n - 1).bit_length()
-        self.tree = [ELE] * 2 * self.num
+        tree = self.tree = [ELE] * 2 * self.num
         for i in range(n):
-            self.tree[self.num + i] = LIST[i]
+            tree[self.num + i] = LIST[i]
         for i in range(self.num - 1, 0, -1):
-            self.tree[i] = self.segfunc(self.tree[2 * i], self.tree[2 * i + 1])
+            tree[i] = self.segfunc(tree[2 * i], tree[2 * i + 1])
 
     # k番目の値をxに更新
     def update(self, k, x):
+        tree = self.tree
         k += self.num
-        self.tree[k] = x
+        tree[k] = x
         while k > 1:
-            self.tree[k >> 1] = self.segfunc(self.tree[k], self.tree[k ^ 1])
+            tree[k >> 1] = self.segfunc(tree[k], tree[k ^ 1])
             k >>= 1
 
     # [l, r)のsegfuncしたものを得る
@@ -106,8 +107,9 @@ class Segtree():
         self.tree[self.num + k] = x
 
     def all_update(self):
+        tree = self.tree
         for i in range(self.num - 1, 0, -1):
-            self.tree[i] = self.segfunc(self.tree[2 * i], self.tree[2 * i + 1])
+            tree[i] = self.segfunc(tree[2 * i], tree[2 * i + 1])
 
     # print用 各indexの値がいくつになっているか
     def __str__(self):

@@ -4,15 +4,11 @@ def main():
 
     for i in range(1, N):
         if dp_a[i-1]:
-            if abs(A[i-1] - A[i]) <= K:
-                dp_a[i] = 1
-            if abs(A[i-1] - B[i]) <= K:
-                dp_b[i] = 1
+            dp_a[i] |= (abs(A[i-1] - A[i]) <= K)
+            dp_b[i] |= (abs(A[i-1] - B[i]) <= K)
         if dp_b[i-1]:
-            if abs(B[i-1] - A[i]) <= K:
-                dp_a[i] = 1
-            if abs(B[i-1] - B[i]) <= K:
-                dp_b[i] = 1
+            dp_a[i] |= (abs(B[i-1] - A[i]) <= K)
+            dp_b[i] |= (abs(B[i-1] - B[i]) <= K)
     res = (dp_a[-1] | dp_b[-1])
     return print('Yes' if res else 'No')
 
