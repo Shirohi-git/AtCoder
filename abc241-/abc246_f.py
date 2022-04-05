@@ -6,13 +6,14 @@ def main():
         return bitcnt
 
     ans = 0
+    pm = [-1, 1]
     cnt = bitcount(N)
     for bit in range(1, 1 << N):
         str = set(Alp)
         for i in range(N):
             if (bit >> i) & 1:
                 str &= S[i]
-        ans += pow(len(str), L, MOD9) * (cnt[bit] % 2 * 2 - 1)
+        ans += pow(len(str), L, MOD9) * pm[cnt[bit] % 2]
     return print(ans % MOD9)
 
 

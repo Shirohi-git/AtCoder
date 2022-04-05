@@ -18,21 +18,22 @@ def binary(ok, ng):
     return ok
 
 
-def knapsack(N, W, ITEM):  # ナップザック問題 # 典型dp
+# ナップザック問題 # 典型dp
+def knapsack(n0, w0, ITEM, inf=10**18):
     # 個数,上限重さ,itemリスト
-    dp = [[0] * (W + 1)] + [[-float("inf")] * (W + 1) for _ in range(N)]
-    # dp = [[-float("inf")]*(W+1)] + [[-float("inf")]*(W+1) for _ in range(n)]
+    dp = [[0] * (w0 + 1)] + [[-inf] * (w0 + 1) for _ in range(n0)]
+    # dp = [[-inf] * (w0+1)] + [[-inf] * (w0+1) for _ in range(n0)]
     # dp[0][0] = 0
     # 重さwぴったり、を求めるとき
     wei, val = 0, 1
 
-    for i in range(N):
-        for j in range(W + 1):
+    for i in range(n0):
+        for j in range(w0 + 1):
             tmp = dp[i][j]
             if ITEM[i][wei] <= j:
                 tmp = dp[i][j - ITEM[i][wei]] + ITEM[i][val]
             dp[i + 1][j] = max(dp[i][j], tmp)
-    return dp[N][W]
+    return dp[n0][w0]
 
 
 def memodp(DP, NEAR, x):
