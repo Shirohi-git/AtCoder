@@ -20,7 +20,8 @@ def bfs(s0, n0, near0):
     dist = [-1] * n0
     path = [-1] * n0
     flag = [0] * n0
-    dist[s0], path[s0], flag[s0] = 0, 's', 1
+    dist[s0], path[s0] = 0, 's'
+    flag[s0] = 1
     que = deque([s0])
 
     while que:
