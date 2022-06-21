@@ -1,4 +1,5 @@
-def nearlist(n0, lst0):  # 隣接リスト
+# 隣接リスト
+def nearlist(n0, lst0):
     res = [[] for _ in range(n0)]
     for a, b in lst0:
         res[a - 1].append(b - 1)
@@ -6,7 +7,8 @@ def nearlist(n0, lst0):  # 隣接リスト
     return res
 
 
-def weighted_nearlist(n0, lst0):  # 重み付き隣接リスト
+# 重み付き隣接リスト
+def weighted_nearlist(n0, lst0):
     res = [set() for _ in range(n0)]
     for a, b, w in lst0:
         res[a - 1].add((b - 1, w))
@@ -103,7 +105,7 @@ def back_dfs(s0, n0, near0):
 
 # 二部グラフ判定 # 始点, 頂点数, 隣接リスト
 def is_bipartite(S, N, NEAR):
-    color = [0 for i in range(N)]
+    color = [0 for _ in range(N)]
     stack = [(S, 1)]
     while stack:
         q, c = stack.pop()
@@ -116,10 +118,10 @@ def is_bipartite(S, N, NEAR):
     return True
 
 
-# ダイクストラ法:単一始点最短経路 O((V+E)*logV) # NEAR:隣接リスト
-def dijkstra(s0, n0, NEAR):
+# ダイクストラ法:単一始点最短経路 O((V+E)*logV) # near0:隣接リスト
+def dijkstra(s0, n0, near0, inf=10**18):
     from heapq import heappop, heappush
-    DIST, prev = [pow(10, 10)] * n0, [-1] * n0
+    DIST, prev = [inf] * n0, [-1] * n0
     DIST[s0], prev[s0] = 0, 's'
 
     que = [(DIST[s0], s0)]
@@ -127,7 +129,7 @@ def dijkstra(s0, n0, NEAR):
         d, q = heappop(que)
         if DIST[q] < d:
             continue
-        for i, d_qi in NEAR[q]:
+        for i, d_qi in near0[q]:
             tmp = d + d_qi
             if DIST[i] > tmp:
                 DIST[i] = tmp
@@ -158,13 +160,13 @@ def warshallfloyd(n0, lst0):
     return res
 
 
-# トポロジカルソート:DAGに適用可, near0:有向辺隣接リスト
-def topological(N, near0):
+# トポロジカルソート:DAGに適用可, edge0:有向辺リスト
+def topological(N, edge0):
     from collections import deque
 
     incnt = [0] * N
     child = [set() for _ in range(N)]
-    for a, b in near0:
+    for a, b in edge0:
         child[a - 1].add(b - 1)
         incnt[b - 1] += 1
 
@@ -298,6 +300,10 @@ class Strongly_Conected_Component():
             if not self.flag_rdfs[i]:
                 self.rdfs(i)
                 self.cnt += 1
+
+        self.grp_v = [[] for _ in range(self.cnt)]
+        for i in range(self.n):
+            self.grp_v[self.idx[i]].append(i)
         return
 
     def dfs(self, v):
