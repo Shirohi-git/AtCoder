@@ -47,39 +47,6 @@ def quotient(x, y):
     return (x//t, y//t)
 
 
-# 拡張互除法 output: z, x, y subject to: ax + by = z
-# where z = gcd(a, b)
-def extgcd(a, b):
-    is_mn_a, is_mn_b = 0, 0
-    if a < 0:
-        a, is_mn_a = abs(a), 1
-    if b < 0:
-        b, is_mn_b = abs(b), 1
-
-    x, y, u, v = 1, 0, 0, 1
-    while b:
-        q, a, b = a // b, b, a % b
-        x, u = u, x - q * u
-        y, v = v, y - q * v
-
-    x -= 2 * is_mn_a * x
-    y -= 2 * is_mn_b * y
-    return a, x, y
-
-
-# 中国剰余定理
-def crt(num_mod):
-    res, mod = num_mod[0]
-    for ai, mi in num_mod:
-        g, x, y = extgcd(mod, mi)
-        if (res - ai) % g:
-            return 0, -1
-        mod = mod * mi // g
-        div = (res - ai) // g
-        res = (div * y * mi + ai) % mod
-    return res, mod
-
-
 # 素因数分解 O(X**0.5)
 def factorize(n0):
     p, res = 2, []
@@ -147,6 +114,17 @@ def bitcount(n0):
     return bitcnt
 
 
+# 立ってるbitの数 O(1) num < 2**64
+def popcount(num):
+    res = (num & 0x5555555555555555) + ((num >> 1) & 0x5555555555555555)
+    res = (res & 0x3333333333333333) + ((res >> 2) & 0x3333333333333333)
+    res = (res & 0x0f0f0f0f0f0f0f0f) + ((res >> 4) & 0x0f0f0f0f0f0f0f0f)
+    res = (res & 0x00ff00ff00ff00ff) + ((res >> 8) & 0x00ff00ff00ff00ff)
+    res = (res & 0x0000ffff0000ffff) + ((res >> 16) & 0x0000ffff0000ffff)
+    res = (res & 0x00000000ffffffff) + ((res >> 32) & 0x00000000ffffffff)
+    return res
+
+
 # bitの部分集合 sum(0~2^N) = O(3^N)
 def bitsubset(n0):
     ini = n0
@@ -155,6 +133,39 @@ def bitsubset(n0):
         n0 = (n0-1) & ini
         res.append(n0)
     return res
+
+
+# 拡張互除法 output: z, x, y subject to: ax + by = z
+# where z = gcd(a, b)
+def extgcd(a, b):
+    is_mn_a, is_mn_b = 0, 0
+    if a < 0:
+        a, is_mn_a = abs(a), 1
+    if b < 0:
+        b, is_mn_b = abs(b), 1
+
+    x, y, u, v = 1, 0, 0, 1
+    while b:
+        q, a, b = a // b, b, a % b
+        x, u = u, x - q * u
+        y, v = v, y - q * v
+
+    x -= 2 * is_mn_a * x
+    y -= 2 * is_mn_b * y
+    return a, x, y
+
+
+# 中国剰余定理
+def crt(num_mod):
+    res, mod = num_mod[0]
+    for ai, mi in num_mod:
+        g, x, y = extgcd(mod, mi)
+        if (res - ai) % g:
+            return 0, -1
+        mod = mod * mi // g
+        div = (res - ai) // g
+        res = (div * y * mi + ai) % mod
+    return res, mod
 
 
 # 数え上げなど # N<=10**6
