@@ -228,6 +228,11 @@ def rad_to_deg(rad):
     return (((rad) / 2 / PI) * 360)
 
 
+def deg_to_rad(deg):
+    from math import pi as PI
+    return deg * PI / 180
+
+
 # 偏角ソート
 def arg_sort(points, ymax=10**20):
 
