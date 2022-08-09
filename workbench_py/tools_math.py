@@ -169,7 +169,7 @@ def crt(num_mod):
 
 
 # 数え上げなど # N<=10**6
-class Enumeration:
+class Enumeration():
     # 前処理(各i の 階乗, 逆元, 階乗の逆元)
     def __init__(self, N, MOD):
         self.mod = MOD
@@ -318,7 +318,7 @@ def convolve(x, y):
 
 
 # 畳み込み(MOD)
-class Convolve_MOD:
+class Convolve_MOD():
     def __init__(self):
         self.mod = mod = 998244353
         self.g, self.e = g, e = pow(3, 119, mod), 24

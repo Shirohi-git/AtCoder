@@ -1,5 +1,5 @@
 # 2次元累積和
-class Accumulate_2d:
+class Accumulate_2d():
     def __init__(self, n0, m0, lst_2d):
         self.acc_2d = [[0] * (m0+1)]
         for i in range(n0):
@@ -29,6 +29,328 @@ class Compression():
     
     def unzip(self, idx):
         return self.lst[idx]
+
+
+# 非再帰AVL-tree
+# https://stnkien.hatenablog.com/entry/avl-tree
+class AVL_Tree():
+    class Node:
+        """ノード
+
+        Attributes:
+            key (any): ノードのキー。比較可能なものであれば良い。(1, 4)などタプルも可。
+            val (any): ノードの値。
+            l_node (Node): 左の子ノード。
+            r_node (Node): 右の子ノード。
+            bias (int): 平衡度。(左部分木の高さ)-(右部分木の高さ)。
+            size (int): 自分を根とする部分木の大きさ
+
+        """
+
+        def __init__(self, key, val):
+            self.key, self.val = key, val
+            self.l_node = self.r_node = None
+            self.bias, self.size = 0, 1
+
+    def __init__(self):
+        self.root = None
+
+    def __rotate_left(self, v):
+        u = v.r_node
+        u.size = v.size
+        v.size -= 1 + (u.r_node.size if u.r_node is not None else 0)
+        v.r_node, u.l_node = u.l_node, v
+        if u.bias == -1:
+            u.bias = v.bias = 0
+        else:
+            u.bias, v.bias = 1, -1
+        return u
+
+    def __rotate_right(self, v):
+        u = v.l_node
+        u.size = v.size
+        v.size -= 1 + (u.l_node.size if u.l_node is not None else 0)
+        v.l_node, u.r_node = u.r_node, v
+        if u.bias == 1:
+            u.bias = v.bias = 0
+        else:
+            u.bias, v.bias = -1, 1
+        return u
+
+    def __update_bias_double(self, v):
+        if v.bias == 1:
+            v.r_node.bias = -1
+            v.l_node.bias = 0
+        elif v.bias == -1:
+            v.r_node.bias = 0
+            v.l_node.bias = 1
+        else:
+            v.r_node.bias = 0
+            v.l_node.bias = 0
+        v.bias = 0
+        return None
+
+    def __rotate_LR(self, v):
+        u, t = v.l_node, v.l_node.r_node
+        t.size = v.size
+        v.size -= u.size - (t.r_node.size if t.r_node is not None else 0)
+        u.size -= 1 + (t.r_node.size if t.r_node is not None else 0)
+        u.r_node, t.l_node = t.l_node, u
+        v.l_node, t.r_node = t.r_node, v
+        self.__update_bias_double(t)
+        return t
+
+    def __rotate_RL(self, v):
+        u, t = v.r_node, v.r_node.l_node
+        t.size = v.size
+        v.size -= u.size - (t.l_node.size if t.l_node is not None else 0)
+        u.size -= t.l_node.size + 1 if t.l_node is not None else 1
+        u.l_node, t.r_node = t.r_node, u
+        v.r_node, t.l_node = t.l_node, v
+        self.__update_bias_double(t)
+        return t
+
+    def __rotate(self, v):
+        if v.bias == 2:
+            if v.l_node.bias == -1:
+                new_v = self.__rotate_LR(v)
+            else:
+                new_v = self.__rotate_right(v)
+
+        elif v.bias == -2:
+            if v.r_node.bias == 1:
+                new_v = self.__rotate_RL(v)
+            else:
+                new_v = self.__rotate_left(v)
+        return new_v
+
+    def __set_child(self, v, vdir, c):
+        if vdir == 1:
+            v.l_node = c
+        else:  # vdir == -1:
+            v.r_node = c
+        return
+
+    def __get_node(self, key):
+        v = self.root
+        self.history = []
+        while v is not None:
+            if key == v.key:
+                return v
+            elif key < v.key:
+                self.history.append((v, 1))
+                v = v.l_node
+            elif v.key < key:
+                self.history.append((v, -1))
+                v = v.r_node
+        return None
+
+    def insert(self, key, val=0):
+        """挿入
+
+        指定したkeyに値valを挿入する。
+        その後、平衡を保つように回転を行う。
+
+        Args:
+            key (any): キー。
+            val (any): 値。
+
+        Note:
+            同じキーがあった場合に上書きする。
+
+        """
+        if self.root is None:
+            self.root = self.Node(key, val)
+            return
+
+        v = self.__get_node(key)
+        if v is not None:
+            v.val = val
+            return
+
+        history = self.history
+        p, pdir = history[-1]
+        self.__set_child(p, pdir, self.Node(key, val))
+
+        while history:
+            v, direction = history.pop()
+            v.bias += direction
+            v.size += 1
+
+            new_v = None
+            if v.bias in [2, -2]:
+                new_v = self.__rotate(v)
+            elif v.bias == 0:
+                break
+
+            if new_v is not None:
+                if len(history) == 0:
+                    self.root = new_v
+                    return
+                p, pdir = history.pop()
+                p.size += 1
+                self.__set_child(p, pdir, new_v)
+                break
+
+        while history:
+            p, pdir = history.pop()
+            p.size += 1
+        return
+
+    def delete(self, key):
+        """削除
+
+        指定したkeyの要素を削除する。
+        その後、平衡を保つように回転を行う。
+
+        Args:
+            key (any): キー。
+
+        Return:
+            bool: 指定したキーが存在するならTrue、しないならFalse。
+
+        """
+        v = self.__get_node(key)
+        if v is None:
+            return False
+
+        history = self.history
+        if v.l_node is not None:
+            history.append((v, 1))
+            lmax = v.l_node
+            while lmax.r_node is not None:
+                history.append((lmax, -1))
+                lmax = lmax.r_node
+            v.key, v.val = lmax.key, lmax.val
+            v = lmax
+
+        c = v.l_node if v.l_node is not None else v.r_node
+        if history:
+            p, pdir = history[-1]
+            self.__set_child(p, pdir, c)
+        else:
+            self.root = c
+            return True
+
+        while history:
+            p, pdir = history.pop()
+            p.bias -= pdir
+            p.size -= 1
+
+            new_p = None
+            if p.bias in [2, -2]:
+                new_p = self.__rotate(p)
+            elif p.bias != 0:
+                break
+
+            if new_p is not None:
+                if len(history) == 0:
+                    self.root = new_p
+                    return True
+                gp, gpdir = history[-1]
+                self.__set_child(gp, gpdir, new_p)
+                if new_p.bias != 0:
+                    break
+
+        while history:
+            p, pdir = history.pop()
+            p.size -= 1
+        return True
+
+    def get(self, key):
+        """値の取り出し
+
+            指定したkeyの値を返す。
+            keyが存在しない場合はNoneを返す。
+
+            Args:
+                key (any): キー。
+
+            Return:
+                any: 指定したキーが存在するならその値、存在しないならNone。
+
+        """
+        v = self.root
+        while v is not None:
+            if key == v.key:
+                return v.val
+            elif key < v.key:
+                v = v.l_node
+            elif v.key < key:
+                v = v.r_node
+        return None
+
+    def lower_bound(self, key):
+        """下限つき探索
+
+        指定したkey以上で最小のキーを見つける。
+
+        Args:
+            key (any): キーの下限。
+
+        Return:
+            any: 条件を満たすようなキー。そのようなキーが一つも存在しないならNone。
+
+        """
+        #res = float('inf')
+        res = None
+        v = self.root
+        while v is not None:
+            if v.key >= key:
+                if res is None or res > v.key:
+                    res = v.key
+                v = v.l_node
+            else:
+                v = v.r_node
+        return res
+
+    def upper_bound(self, key):
+        """上限つき探索
+
+        指定したkey未満で最大のキーを見つける。
+
+        Args:
+            key (any): キーの上限。
+
+        Return:
+            any: 条件を満たすようなキー。そのようなキーが一つも存在しないならNone。
+
+        """
+        #res = -float('inf')
+        res = None
+        v = self.root
+        while v is not None:
+            if v.key < key:
+                if res is None or res < v.key:
+                    res = v.key
+                v = v.r_node
+            else:
+                v = v.l_node
+        return res
+
+    def find_Kth_element(self, k):
+        """小さい方からk番目の要素を見つける
+
+        Args:
+            k (int): 何番目の要素か(0オリジン)。
+        """
+        v = self.root
+        s = 0
+        while v is not None:
+            t = s + (v.l_node.size if v.l_node is not None else 0)
+            if t == k:
+                return v.key
+            elif t < k:
+                s = t + 1
+                v = v.r_node
+            else:
+                v = v.l_node
+        return None
+
+    def __getitem__(self, key): return self.get(key)
+    def __setitem__(self, key, val): return self.insert(key, val)
+    def __bool__(self): return self.root is not None
+    def __len__(self): return self.root.size if self.root is not None else 0
 
 
 # Fenwicktree # 0-indexed
@@ -123,10 +445,10 @@ class SparseTable():
     def stfunc(self, x, y):
         return min(x, y)
 
-    def __init__(self, lst0):
+    def __init__(self, lst0, ini):
         n = len(lst0)
         num = n.bit_length()
-        table = [lst0] + [[-1] * n for _ in range(num - 1)]
+        table = [lst0] + [[ini] * n for _ in range(num - 1)]
         bfo = table[0]
         for i in range(1, num):
             pow2 = (1 << (i - 1))

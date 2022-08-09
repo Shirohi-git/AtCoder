@@ -14,7 +14,7 @@ def Z_algo(S):  # 最長共通接頭辞 S:文字列
     return z
 
 
-def lcs(S, T):  # 最長共通部分列  # S,T:文字列
+def LCS(S, T):  # 最長共通部分列  # S,T:文字列
     ls, lt = len(S), len(T)
     dp = [[0] * (lt + 1) for _ in range(ls + 1)]
     dp[0][0], dp[1][0], dp[0][1] = 0, 0, 0

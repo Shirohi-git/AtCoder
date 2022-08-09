@@ -70,7 +70,7 @@ def LIS(lst0):
 
 
 # TSP or ハミルトン経路 lst0:隣接行列 O(N**2 * 2**N)
-def tsp_hamilton(n0, lst0, inf=10**10, tsp=True):
+def TSP_hamilton(n0, lst0, inf=10**10, tsp=True):
     dist = [[inf] * n0 for _ in range(2**n0)]
     dist[1 << 0][0] = 0
     que = [(1 << 0, 0)]
@@ -97,3 +97,49 @@ def tsp_hamilton(n0, lst0, inf=10**10, tsp=True):
             goal[i] = d + lst0[i][0]
         dist.append(goal)
     return min(dist[-1])
+
+
+# 最小共通祖先(SparseTable(min))
+class LCA():
+    def __init__(self, n0, edge, inf=10**7):
+        near = self.nearlist(n0, edge)
+        order = self.back_dfs(0, n0, near)
+        self.idx = [-1] * n0
+        for i, (_, v) in [*enumerate(order)][::-1]:
+            self.idx[v] = i
+        self.spt = SparseTable(order, (inf, inf))
+        return
+
+    def nearlist(self, n0, lst0):
+        res = [[] for _ in range(n0)]
+        for a, b in lst0:
+            res[a - 1].append(b - 1)
+            res[b - 1].append(a - 1)
+        return res
+
+    def back_dfs(self, s0, n0, near0):
+        dist = [-1] * n0
+        dist[s0] = 0
+        stack = [s0]
+        near_it = [iter(ni) for ni in near0]
+
+        res = []
+        while stack:
+            q = stack[-1]
+            res.append((dist[q], q))
+            for i in near_it[q]:
+                if dist[i] > -1:
+                    continue
+                dist[i] = dist[q] + 1
+                stack.append(i)
+                break
+            else:
+                stack.pop()
+        return res
+
+    def query(self, s, t):
+        l, r = self.idx[s-1], self.idx[t-1]
+        if l > r:
+            l, r = r, l
+        depth, idx = self.spt.query(l, r+1)
+        return idx+1
