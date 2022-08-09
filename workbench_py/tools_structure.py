@@ -159,8 +159,9 @@ class AVL_Tree():
             同じキーがあった場合に上書きする。
 
         """
+        new = self.Node(key, val)
         if self.root is None:
-            self.root = self.Node(key, val)
+            self.root = new
             return
 
         v = self.__get_node(key)
@@ -169,12 +170,11 @@ class AVL_Tree():
             return
 
         history = self.history
-        p, pdir = history[-1]
-        self.__set_child(p, pdir, self.Node(key, val))
+        self.__set_child(*history[-1], new)
 
         while history:
-            v, direction = history.pop()
-            v.bias += direction
+            v, v_dir = history.pop()
+            v.bias += v_dir
             v.size += 1
 
             new_v = None
@@ -187,13 +187,11 @@ class AVL_Tree():
                 if len(history) == 0:
                     self.root = new_v
                     return
-                p, pdir = history.pop()
-                p.size += 1
-                self.__set_child(p, pdir, new_v)
+                self.__set_child(*history[-1], new_v)
                 break
 
         while history:
-            p, pdir = history.pop()
+            p, _ = history.pop()
             p.size += 1
         return
 
@@ -226,34 +224,32 @@ class AVL_Tree():
 
         c = v.l_node if v.l_node is not None else v.r_node
         if history:
-            p, pdir = history[-1]
-            self.__set_child(p, pdir, c)
+            self.__set_child(*history[-1], c)
         else:
             self.root = c
             return True
 
         while history:
-            p, pdir = history.pop()
-            p.bias -= pdir
-            p.size -= 1
+            v, v_dir = history.pop()
+            v.bias -= v_dir
+            v.size -= 1
 
-            new_p = None
-            if p.bias in [2, -2]:
-                new_p = self.__rotate(p)
-            elif p.bias != 0:
+            new_v = None
+            if v.bias in [2, -2]:
+                new_v = self.__rotate(v)
+            elif v.bias != 0:
                 break
 
-            if new_p is not None:
+            if new_v is not None:
                 if len(history) == 0:
-                    self.root = new_p
+                    self.root = new_v
                     return True
-                gp, gpdir = history[-1]
-                self.__set_child(gp, gpdir, new_p)
-                if new_p.bias != 0:
+                self.__set_child(*history[-1], new_v)
+                if new_v.bias != 0:
                     break
 
         while history:
-            p, pdir = history.pop()
+            p, _ = history.pop()
             p.size -= 1
         return True
 
