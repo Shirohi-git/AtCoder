@@ -7,11 +7,11 @@ using ld = long double;
 using vecs = vector<string>;
 
 #define rep(i, n) for (ll i = 0; i < ll(n); i++)
-#define repitr(id, itr) for (auto& id : itr)
+#define repitr(id, itr) for (auto& id : (itr))
 #define repr(i, a, b) for (ll i = ll(a); i < ll(b); i++)
-#define reprs(i, a, b, s) for (ll i = ll(a); i < ll(b); i += s)
-#define reprms(i, a, b, s) for (ll i = ll(a); i > ll(b); i += s)
-#define repdic(key, val, dic) for (const auto& [key, val] : dic)
+#define reprs(i, a, b, s) for (ll i = ll(a); i < ll(b); i += (s))
+#define reprms(i, a, b, s) for (ll i = ll(a); i > ll(b); i += (s))
+#define repdic(key, val, dic) for (const auto& [key, val] : (dic))
 #define sort_all(v) (sort((v).begin(), (v).end()))
 #define itr_add(v1, v2) ((v1).insert((v1).end(), (v2).begin(), (v2).end()))
 #define min_val(v) (*min_element((v).begin(), (v).end()))
