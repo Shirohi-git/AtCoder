@@ -470,11 +470,17 @@ class LazySegtree():
     # RUQ or RAQ
     def ruq_or_raq(self, k, x):
         # RUQ
+        # """
         self.lazy[k] = x
         self.data[k] = x
+        # """
         # RAQ
-        # self.lazy[k] += x
-        # self.data[k] += x
+        """
+        if self.lazy[k] is None:
+            self.lazy[k] = 0
+        self.lazy[k] += x
+        self.data[k] += x
+        """
 
     # 伝搬する対象の区間 伝搬する対象の区間, 伝搬する必要のある最大の左閉区間 lm と右閉区間 rm
     def gindex(self, l, r):

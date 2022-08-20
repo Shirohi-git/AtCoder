@@ -224,6 +224,7 @@ class Unionfind():
     # find:グループの根, unite:グループの併合, same:同じグループか否か
     def __init__(self, n0):
         self.n = n0
+        self.len = n0
         self.parents = [-1] * n0
 
     def find(self, x):
@@ -244,14 +245,12 @@ class Unionfind():
             x, y = y, x
         self.parents[x] += self.parents[y]
         self.parents[y] = x
+        self.len -= 1
 
     def same(self, x, y):
         return self.find(x) == self.find(y)
 
-    # roots_cnt:根の数, roots:根のリスト
-    def roots_cnt(self):
-        return sum(x < 0 for x in self.parents)
-
+    # roots:根のリスト
     def roots(self):
         return [i for i, x in enumerate(self.parents) if x < 0]
 
