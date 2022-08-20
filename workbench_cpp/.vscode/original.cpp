@@ -1,9 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
+using str = string;
 using ll = long long;
 using vecll = vector<ll>;
 using matll = vector<vector<ll>>;
 using ld = long double;
+using vecc = vector<char>;
 using vecs = vector<string>;
 
 #define rep(i, n) for (ll i = 0; i < ll(n); i++)
@@ -13,6 +15,9 @@ using vecs = vector<string>;
 #define reprms(i, a, b, s) for (ll i = ll(a); i > ll(b); i += (s))
 #define repdic(key, val, dic) for (const auto& [key, val] : (dic))
 #define sort_all(v) (sort((v).begin(), (v).end()))
+#define unique_sort(v)            \
+    sort((v).begin(), (v).end()); \
+    ((v).erase(unique((v).begin(), (v).end()), (v).end()))
 #define itr_add(v1, v2) ((v1).insert((v1).end(), (v2).begin(), (v2).end()))
 #define min_val(v) (*min_element((v).begin(), (v).end()))
 #define max_val(v) (*max_element((v).begin(), (v).end()))

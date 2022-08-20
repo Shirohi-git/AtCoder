@@ -113,6 +113,26 @@ class mod_Combination {
     }
 };
 
+template <typename T>
+class Compression {
+   public:
+    ll len = 0;
+    map<T, ll> dic;
+    vector<T> vec = {};
+
+    Compression(const vector<T>& itr) {
+        vec.resize(itr.size());
+        copy(itr.begin(), itr.end(), vec.begin());
+        unique_sort(vec);
+        len = vec.size();
+        rep(i, len) dic[vec[i]] = i;
+    }
+
+    ll zip(T key) { return dic[key]; }
+
+    T unzip(ll idx) { return vec[idx]; }
+};
+
 // Fenwicktree(BinaryIndexedTree) 0-indexed
 class Fenwicktree {
    private:

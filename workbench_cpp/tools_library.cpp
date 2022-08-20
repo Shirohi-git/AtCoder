@@ -4,6 +4,8 @@ using ll = long long;
 using vecll = vector<ll>;
 using matll = vector<vector<ll>>;
 using ld = long double;
+using str = string;
+using vecc = vector<char>;
 using vecs = vector<string>;
 
 #define rep(i, n) for (ll i = 0; i < ll(n); i++)
@@ -24,6 +26,9 @@ using vecs = vector<string>;
 #define deg_to_rad(deg) (((deg) / 360) * 2 * M_PI)
 #define rad_to_deg(rad) (((rad) / 2 / M_PI) * 360)
 #define coutdeci cout << fixed << setprecision(15)
+
+str ALPb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+str ALPs = "abcdefghijklmnopqrstuvwxyz";
 
 // 大文字変換
 char ToUpper(char c) { return toupper(c); }
@@ -54,9 +59,10 @@ vecll ll_to_vec(ll num) {
 }
 
 // counter
-vecll counter(const vecll& vec0, ll max_v) {
-    vecll res(max_v + 1, 0);
-    repitr(num, vec0) res[num]++;
+template <typename T>
+map<T, ll> counter(const vector<T>& vec0) {
+    map<T, ll> res;
+    for (auto& key : vec0) res[key]++;
     return res;
 }
 

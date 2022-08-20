@@ -23,10 +23,11 @@ class Compression():
         ite = sum(map(list, ite), [])
         self.lst = sorted(set(ite))
         self.dic = {k: i for i, k in enumerate(self.lst)}
+        self.len = len(self.lst)
 
     def zip(self, key):
         return self.dic[key]
-    
+
     def unzip(self, idx):
         return self.lst[idx]
 
@@ -372,6 +373,7 @@ class Fenwicktree():
 
     # 区間和[i ,j)
     def query(self, i, j):
+        j = min(self.n, j)
         return self.accsum(j - 1) - self.accsum(i - 1)
 
 
