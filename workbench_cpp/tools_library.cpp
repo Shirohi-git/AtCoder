@@ -27,8 +27,9 @@ using vecs = vector<string>;
 #define rad_to_deg(rad) (((rad) / 2 / M_PI) * 360)
 #define coutdeci cout << fixed << setprecision(15)
 
-str ALPb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-str ALPs = "abcdefghijklmnopqrstuvwxyz";
+const str ALPb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const str ALPs = "abcdefghijklmnopqrstuvwxyz";
+const ll INF = 100000000;
 
 // 大文字変換
 char ToUpper(char c) { return toupper(c); }
