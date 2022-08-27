@@ -169,7 +169,7 @@ def crt(num_mod):
 
 
 # 数え上げなど # N<=10**6
-class Enumeration():
+class Enumeration:
     # 前処理(各i の 階乗, 逆元, 階乗の逆元)
     def __init__(self, N, MOD):
         self.mod = MOD
