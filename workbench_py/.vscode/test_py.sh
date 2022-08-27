@@ -10,4 +10,4 @@ if [ ! -e ${test_dir}/${problem_name} ]; then
     oj dl -d ${test_dir}/${problem_name} $url
 fi
 
-oj t -c "/usr/bin/python3 ${problem_name}.py" -d ${test_dir}/${problem_name}
+oj t -N -c "/usr/bin/python3 ${problem_name}.py" -d ${test_dir}/${problem_name}
