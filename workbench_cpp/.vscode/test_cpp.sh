@@ -11,4 +11,4 @@ if [ ! -e ${test_dir}/${problem_name} ]; then
 fi
 
 g++-10 -std=gnu++17 ${problem_name}.cpp -o ${test_dir}/${problem_name}.out
-oj t -c "${test_dir}/${problem_name}.out" -d ${test_dir}/${problem_name}
+oj t -N -c "${test_dir}/${problem_name}.out" -d ${test_dir}/${problem_name}
