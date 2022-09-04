@@ -2,8 +2,8 @@
 def nearlist(n0, lst0):
     res = [[] for _ in range(n0)]
     for a, b in lst0:
-        res[a - 1].append(b - 1)
-        res[b - 1].append(a - 1)
+        res[a-1].append(b-1)
+        res[b-1].append(a-1)
     return res
 
 
@@ -11,7 +11,7 @@ def nearlist(n0, lst0):
 def weighted_nearlist(n0, lst0):
     res = [set() for _ in range(n0)]
     for a, b, w in lst0:
-        res[a - 1].add((b - 1, w))
+        res[a-1].add((b-1, w))
     return res
 
 

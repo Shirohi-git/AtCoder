@@ -65,9 +65,9 @@
 	"nearlist": {
 		"prefix": "pnearlist",
 		"body": [
-			"def nearlist(N, LIST):",
-			"\tres = [[] for _ in range(N)]",
-			"\tfor a, b in LIST:",
+			"def nearlist(n0, lst):",
+			"\tres = [[] for _ in range(n0)]",
+			"\tfor a, b in lst:",
 			"\t\tres[a - 1].append(b - 1)",
 			"\t\tres[b - 1].append(a - 1)",
 			"\treturn res"
