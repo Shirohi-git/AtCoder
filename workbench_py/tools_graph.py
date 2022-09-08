@@ -15,8 +15,26 @@ def weighted_nearlist(n0, lst0):
     return res
 
 
-# 幅優先探索 # キュー # 始点, 頂点数, 隣接リスト
+# 幅優先探索 # 始点, 頂点数, 隣接リスト
 def bfs(s0, n0, near0):
+    dist = [-1] * n0
+    path = [-1] * n0
+    flag = [0] * n0
+    dist[s0], path[s0] = 0, 's'
+    flag[s0] = 1
+    que = [s0]
+
+    for q in que:
+        for i in near0[q]:
+            if flag[i]:
+                continue
+            flag[i] = 1
+            que.append(i)
+    return
+
+
+# que幅優先探索 # 始点, 頂点数, 隣接リスト
+def que_bfs(s0, n0, near0):
     from collections import deque
 
     dist = [-1] * n0

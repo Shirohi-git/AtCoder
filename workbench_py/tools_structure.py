@@ -352,9 +352,12 @@ class AVL_Tree():
 
 # Fenwicktree # 0-indexed
 class Fenwicktree():
-    def __init__(self, n):
+    def __init__(self, n, ini=None):
         self.n = n
         self.tree = [0] * n
+        if ini:
+            for i, ni in enumerate(ini):
+                self.update(i, ni)
 
     # 区間和[0, i]
     def accsum(self, i):
@@ -375,6 +378,15 @@ class Fenwicktree():
     def query(self, i, j):
         j = min(self.n, j)
         return self.accsum(j - 1) - self.accsum(i - 1)
+
+    def __setitem__(self, key, val):
+        return self.update(key, val - self.query(key, key+1))
+
+    def __getitem__(self, key): return self.query(key, key+1)
+
+    def __str__(self):
+        res = [str(self.query(k, k+1)) for k in range(self.n)]
+        return "FenwickTree " + '[' + ', '.join(res) + ']'
 
 
 # Segtree
