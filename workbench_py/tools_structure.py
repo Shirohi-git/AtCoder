@@ -376,6 +376,8 @@ class Fenwicktree():
 
     # 区間和[i ,j)
     def query(self, i, j):
+        if i >= self.n:
+            raise IndexError
         j = min(self.n, j)
         return self.accsum(j - 1) - self.accsum(i - 1)
 

@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 # ランダムケース入力
-from random import randint, choice, shuffle
+from random import randint, choice, choices, shuffle
 
 
 # 木構造
@@ -17,6 +17,7 @@ def tree():
         j = choice(flag)
         flag.append(i)
         print(j, i)
+
 
 if __name__ == '__main__':
     pass
