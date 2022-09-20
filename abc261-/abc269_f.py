@@ -1,8 +1,8 @@
 def main():
     def calculate(a, b, c, d):
-        stt, t, y = (a-1)*M + c, (b-a+2)//2, (d-c+2)//2
+        stt, x, y = (a-1)*M + c, (b-a+2)//2, (d-c+2)//2
         stt = y * (stt + (y-1))
-        return t * (M*(t-1)*y + stt) % MOD9
+        return x * (stt + M*(x-1)*y) % MOD9
 
     ans = []
     for a, b, c, d in ABCD:

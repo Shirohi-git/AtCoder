@@ -72,7 +72,8 @@ def makedivisor(n0):
     return lower + upper[::-1]
 
 
-def totient(N):  # オイラーのトーシェント関数
+# オイラーのトーシェント関数
+def totient(N):
     p, phi = 2, N
     while p * p <= N:
         if N % p == 0:
