@@ -17,6 +17,12 @@
 			"ALP_s = \"abcdefghijklmnopqrstuvwxyz\""
 		],
 	},
+	"input_all": {
+		"prefix": "pinputall",
+		"body": [
+			"map(int, open(0).read().split())"
+		],
+	},
 	"intinput": {
 		"prefix": "pint",
 		"body": [
