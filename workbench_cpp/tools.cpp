@@ -47,6 +47,22 @@ ll binary_search(ll ng, ll ok) {
     return left;
 }
 
+// 約数列挙
+vecll makedivisor(ll num) {
+    ll p = 1;
+    vecll upper(0), lower(0);
+    while (p * p <= num) {
+        if (num % p == 0) {
+            lower.push_back(p);
+            if (p * p != num) upper.push_back(num / p);
+        }
+        p += 1;
+    }
+    reverse(upper.begin(), upper.end());
+    lower.insert(lower.end(), upper.begin(), upper.end());
+    return lower;
+}
+
 // 組合せ数
 class Combination {
    public:
