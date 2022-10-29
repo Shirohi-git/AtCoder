@@ -238,7 +238,7 @@ def kruskal(k_uf, near0):
 
 
 # Unionfind
-class Unionfind():
+class Unionfind:
     # find:グループの根, unite:グループの併合, same:同じグループか否か
     def __init__(self, n0):
         self.n = n0
@@ -292,7 +292,7 @@ class Unionfind():
 
 
 # 強連結成分分解
-class Strongly_Conected_Component():
+class Strongly_Conected_Component:
 
     # near0:有向辺隣接リスト, rv_near: 逆向き枝, order: 帰りがけ順
     def __init__(self, n0, near0):
@@ -368,7 +368,7 @@ class Strongly_Conected_Component():
 
 # Dinic法:最大流問題, 最小カット問題 O(m n^2) など 
 # https://misawa.github.io/others/flow/dinic_time_complexity.html
-class Dinic():
+class Dinic:
     def __init__(self, n0):
         self.N, self.INF = n0, 10**10
         self.edge_cnt = 0
