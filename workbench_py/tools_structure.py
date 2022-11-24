@@ -1,5 +1,5 @@
 # 2次元累積和
-class Accumulate_2d():
+class Accumulate_2d:
     def __init__(self, n0, m0, lst_2d):
         self.acc_2d = [[0] * (m0+1)]
         for i in range(n0):
@@ -18,7 +18,7 @@ class Accumulate_2d():
 
 
 # 座標圧縮
-class Compression():
+class Compression:
     def __init__(self, *ite):
         ite = sum(map(list, ite), [])
         self.lst = sorted(set(ite))
@@ -34,7 +34,7 @@ class Compression():
 
 # 非再帰AVL-tree
 # https://stnkien.hatenablog.com/entry/avl-tree
-class AVL_Tree():
+class AVL_Tree:
     class Node:
         """ノード
 
@@ -351,7 +351,7 @@ class AVL_Tree():
 
 
 # Fenwicktree # 0-indexed
-class Fenwicktree():
+class Fenwicktree:
     def __init__(self, n, ini=None):
         self.n = n
         self.tree = [0] * n
@@ -392,7 +392,7 @@ class Fenwicktree():
 
 
 # Segtree
-class Segtree():
+class Segtree:
     # 区間にしたい操作 ex) max,min,gcd,lcm,sum,product
     def segfunc(self, x, y):
         return max(x, y)
@@ -452,7 +452,7 @@ class Segtree():
 
 
 # SparseTable # 構築 O(nlogn) クエリ O(1)
-class SparseTable():
+class SparseTable:
     # 区間にしたい操作 ex) max, min, gcd, lcm
     def stfunc(self, x, y):
         return min(x, y)
@@ -476,7 +476,7 @@ class SparseTable():
 
 
 # 遅延Segtree RMQ and (RUQ or RAQ)
-class LazySegtree():
+class LazySegtree:
     # 区間にしたい操作 ex) max,min
     def segfunc(self, x, y):
         return min(x, y)

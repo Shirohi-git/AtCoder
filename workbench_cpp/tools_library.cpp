@@ -35,7 +35,7 @@ const ll INF = 100000000;
 char ToUpper(char c) { return toupper(c); }
 
 // is all true?
-bool f_all(const vecll vec0, const vecll vec1) {
+bool is_all(const vecll vec0, const vecll vec1) {
     ll n = vec0.size();
     rep(i, n) if (vec0[i] != vec1[i]) return false;
     return true;
