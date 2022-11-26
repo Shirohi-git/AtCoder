@@ -18,6 +18,26 @@ def binary(ok, ng):
     return ok
 
 
+# 三分探索
+def ternary(ok, ng):
+    # 下凸な関数
+    def func(x):
+        return x**2
+
+    def is_OK(m1, m2):
+        return func(m1) >= func(m2)
+
+    while abs(ng - ok) > 2:
+        mid1 = (2 * ok + ng) // 3
+        mid2 = (ok + 2 * ng) // 3
+
+        if is_OK(mid1, mid2):
+            ok = mid1
+        else:
+            ng = mid2
+    return ok, ng
+
+
 # ナップザック問題 # 典型dp
 def knapsack(n0, w0, ITEM, inf=10**18):
     # 個数,上限重さ,itemリスト
