@@ -285,9 +285,9 @@ class Unionfind:
         return [i for i in range(self.n) if self.find(i) == root]
 
     def all_members(self):
-        group = {i: set() for i, x in enumerate(self.parents) if x < 0}
+        group = {i:[] for i, x in enumerate(self.parents) if x < 0}
         for i in range(self.n):
-            group[self.find(i)].add(i)
+            group[self.find(i)].append(i)
         return group
 
 
