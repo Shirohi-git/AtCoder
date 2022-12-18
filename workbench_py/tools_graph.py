@@ -122,12 +122,14 @@ def back_dfs(s0, n0, near0):
 
 
 # 二部グラフ判定 # 始点, 頂点数, 隣接リスト
-def is_bipartite(S, N, NEAR):
-    color = [0 for _ in range(N)]
-    stack = [(S, 1)]
+def is_bipartite(s, n0, near0):
+    color = [0 for _ in range(n0)]
+    color[s] = 1
+    stack = [(s, 1)]
+
     while stack:
         q, c = stack.pop()
-        for i in NEAR[q]:
+        for i in near0[q]:
             if color[i] == c:
                 return False
             if color[i] == 0:
