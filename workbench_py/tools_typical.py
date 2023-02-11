@@ -89,33 +89,52 @@ def LIS(lst0):
     return len(dp)
 
 
-# TSP or ハミルトン経路 lst0:隣接行列 O(N**2 * 2**N)
-def TSP_hamilton(n0, lst0, inf=10**10, tsp=True):
-    dist = [[inf] * n0 for _ in range(2**n0)]
-    dist[1 << 0][0] = 0
-    que = [(1 << 0, 0)]
-    if not tsp:
-        for i in range(n0):
-            dist[1 << i][i] = 0
-        que = [(1 << i, i) for i in range(n0)]
+# TSP lst0:隣接行列 O(N**2 * 2**N)
+def TSP(n0, lst0, inf=10**10):
+    n1 = n0-1
+    dist = [[inf] * n1 for _ in range(1 << n1)]
+    for i in range(n1):
+        dist[1 << i][i] = lst0[-1][i]
 
-    for bit, q in que:
-        for i in range(n0):
-            if (bit >> i) & 1:
+    for bit in range(1 << n1):
+        for q in range(n1):
+            if ((bit >> q) & 1) == 0:
                 continue
-            nxt = bit | (1 << i)
-            if lst0[q][i] > 0:
-                d_nqi = dist[bit][q] + lst0[q][i]
-                if dist[nxt][i] == inf:
-                    dist[nxt][i] = d_nqi
-                    que.append((nxt, i))
-                dist[nxt][i] = min(dist[nxt][i], d_nqi)
+            for i in range(n1):
+                if (bit >> i) & 1:
+                    continue
+                nxt = bit | (1 << i)
+                if lst0[q][i] >= 0:
+                    d_nqi = dist[bit][q] + lst0[q][i]
+                    if dist[nxt][i] == inf:
+                        dist[nxt][i] = d_nqi
+                    dist[nxt][i] = min(dist[nxt][i], d_nqi)
 
-    if tsp:
-        goal = [inf] * n0
-        for i, d in enumerate(dist[-1]):
-            goal[i] = d + lst0[i][0]
-        dist.append(goal)
+    goal = [inf] * n0
+    for i, d in enumerate(dist[-1]):
+        goal[i] = d + lst0[i][-1]
+    return min(goal)
+
+
+# ハミルトン経路 lst0:隣接行列 O(N**2 * 2**N)
+def hamilton(n0, lst0, inf=10**10):
+    dist = [[inf] * n0 for _ in range(1 << n0)]
+    for i in range(n0):
+        dist[1 << i][i] = 0
+
+    for bit in range(1 << n0):
+        for q in range(n0):
+            if ((bit >> q) & 1) == 0:
+                continue
+            for i in range(n0):
+                if (bit >> i) & 1:
+                    continue
+                nxt = bit | (1 << i)
+                if lst0[q][i] >= 0:
+                    d_nqi = dist[bit][q] + lst0[q][i]
+                    if dist[nxt][i] == inf:
+                        dist[nxt][i] = d_nqi
+                    dist[nxt][i] = min(dist[nxt][i], d_nqi)
     return min(dist[-1])
 
 
