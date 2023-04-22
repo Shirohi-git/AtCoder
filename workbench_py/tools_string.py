@@ -41,3 +41,18 @@ def levenshtein(S, T):  # レーベンシュタイン距離  # S,T:文字列
                            dp[i][j - 1] + 1,         # deletion
                            dp[i - 1][j - 1] + cost)  # replacement
     return dp[ls][lt]
+
+
+class RollingHash():  # ローリングハッシュ
+    def __init__(self, s, base=37, mod=10**9+7):
+        ord_A = ord('A')
+        self.mod = mod
+        self.pow_b = pow_b = [1] * (len(s)+1)
+        self.rh = rh = [0] * (len(s)+1)
+
+        for i in range(len(s)):
+            rh[i+1] = (rh[i] * base + ord(s[i]) - ord_A) % mod
+            pow_b[i+1] = pow_b[i] * base % mod
+
+    def get(self, lft, rgt):
+        return (self.rh[rgt] - self.rh[lft] * self.pow_b[rgt-lft]) % self.mod
