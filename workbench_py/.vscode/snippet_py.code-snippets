@@ -11,8 +11,14 @@
 			"MOD9 = 998244353"
 		],
 	},
+	"alphabet_big": {
+		"prefix": "big_alphabet",
+		"body": [
+			"ALP_b = \"ABCDEFGHIJKLMNOPQRSTUVWXYZ\""
+		],
+	},
 	"alphabet_small": {
-		"prefix": "alphabet",
+		"prefix": "small_alphabet",
 		"body": [
 			"ALP_s = \"abcdefghijklmnopqrstuvwxyz\""
 		],
