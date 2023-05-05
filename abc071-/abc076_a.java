@@ -3,10 +3,10 @@ import java.util.*;
 class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int N = sc.nextInt();
+        int R = sc.nextInt(), G = sc.nextInt();
         sc.close();
 
-        int ans = N;
+        int ans = G * 2 - R;
         System.out.println(ans);
     }
 }
