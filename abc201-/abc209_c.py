@@ -1,8 +1,7 @@
 def main():
-    ans, num = 1, 0
+    ans = 1
     for i, ci in enumerate(C):
-        ans = ans * max(ci-num, 0) % MOD1
-        num = min(max(num, ci), i+1)
+        ans = ans * max(ci-i, 0) % MOD1
     return print(ans)
 
 

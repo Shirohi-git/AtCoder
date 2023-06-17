@@ -1,7 +1,6 @@
 def main():
-    a = [ai-(i % 2) for i, ai in enumerate(A)]
-    res = (sum(a) <= X)
-    return print('Yes' if res else 'No')
+    res = sum(A) - N//2
+    return print('Yes' if res <= X else 'No')
 
 
 if __name__ == '__main__':

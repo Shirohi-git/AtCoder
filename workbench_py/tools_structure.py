@@ -380,6 +380,16 @@ class Fenwicktree:
             raise IndexError
         j = min(self.n, j)
         return self.accsum(j - 1) - self.accsum(i - 1)
+    
+    # a0 + ... + ai >= x となる最小のi
+    def lower_bound(self, x):
+        idx, cnt = 0, 0
+        for i in range((self.n-1).bit_length()+1)[::-1]:
+            k = idx + (1 << i)
+            if k <= self.n and cnt+self.tree[k-1] < x:
+                cnt += self.tree[k-1]
+                idx += 1 << i
+        return idx
 
     def __setitem__(self, key, val):
         return self.update(key, val - self.query(key, key+1))

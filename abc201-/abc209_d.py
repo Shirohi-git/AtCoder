@@ -13,17 +13,17 @@ def bfs(s0, n0, near0):
 
 
 def main():
-    def nearlist(n0):
+    def nearlist(n0, lst):
         res = [[] for _ in range(n0)]
-        for a, b in AB:
+        for a, b in lst:
             res[a - 1].append(b - 1)
             res[b - 1].append(a - 1)
         return res
 
-    near = nearlist(N)
+    near = nearlist(N, AB)
     dist = bfs(0, N, near)
     for c, d in CD:
-        res = (dist[c-1]-dist[d-1])%2
+        res = (dist[c-1] - dist[d-1]) % 2
         print('Road' if res else 'Town')
 
 
